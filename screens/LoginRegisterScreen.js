@@ -30,7 +30,7 @@ async function loginWithFacebook() {
   }
 }
 
-export default function fbScreen() {
+export default function LoginRegisterScreen() {
   const { navigate } = useNavigation();
   const loginAndNavigate = () => {
     loginWithFacebook()

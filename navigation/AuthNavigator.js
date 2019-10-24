@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import { createStackNavigator} from 'react-navigation';
-import fbScreen from '../screens/LoginRegisterScreen';
+//Authorize Screen contains Login and Register
+import AuthScreen from '../screens/LoginRegisterScreen'; 
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -9,7 +10,7 @@ const config = Platform.select({
 
 const authStack = createStackNavigator(
   {
-    Auth: fbScreen,
+    Auth: AuthScreen,
   },
   config
 );

@@ -4,7 +4,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { useNavigation } from 'react-navigation-hooks';
 
 const styles = StyleSheet.create({
   container: {
