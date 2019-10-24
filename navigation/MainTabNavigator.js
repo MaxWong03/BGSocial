@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import fbScreen from '../screens/facebookScreen';
-import authScreen from '../screens/authScreen'; //setting this to setting for now to debug, but need to import the actaul authScreen after I find where the bug is 
+import authScreen from '../screens/authScreen'; //kept for debugging screen component 
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -72,7 +72,7 @@ SettingsStack.path = '';
 const facebookStack = createStackNavigator(
   {
     FB: fbScreen,
-    Auth: authScreen 
+    // Auth: authScreen kept for debugging new screen components
   },
   config
 )

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { createStackNavigator, createSwitchNavigator, createAppContainer } from 'react-navigation';
 import { useNavigation } from 'react-navigation-hooks';
 
 const styles = StyleSheet.create({

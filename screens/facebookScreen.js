@@ -39,11 +39,6 @@ export default function fbScreen() {
         title="Login with facebook"
       >
       </Button>
-      <Button
-        onPress={() => navigate('Auth')}
-        title="authScreen"
-      >
-      </Button>
     </View>
   );
 }
