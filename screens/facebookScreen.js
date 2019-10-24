@@ -5,6 +5,7 @@ import {
   Button,
   Alert
 } from 'react-native';
+import { useNavigation } from 'react-navigation-hooks';
 
 async function loginWithFacebook() {
   try {
@@ -30,11 +31,17 @@ async function loginWithFacebook() {
 }
 
 export default function fbScreen() {
+  const { navigate } = useNavigation();
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button
         onPress={() => loginWithFacebook()}
         title="Login with facebook"
+      >
+      </Button>
+      <Button
+        onPress={() => navigate('Auth')}
+        title="authScreen"
       >
       </Button>
     </View>
