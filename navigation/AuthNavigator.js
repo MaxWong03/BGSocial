@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { createStackNavigator} from 'react-navigation';
-import fbScreen from '../screens/facebookScreen';
+import fbScreen from '../screens/LoginRegisterScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },

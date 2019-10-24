@@ -1,8 +1,11 @@
-import React from 'react';
+/**
+ * Don't Delete / Comment import React in Line 4, It Will Break The App
+ */
+import React from 'react'; 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import AuthNavigator from './AuthNavigator';
 import MainTabNavigator from './MainTabNavigator';
-import AuthLoadingScreen from '../screens/authLoadingScreen'
+// import AuthLoadingScreen from '../screens/AuthLoadingScreen'
 
 export default createAppContainer(
   createSwitchNavigator({
