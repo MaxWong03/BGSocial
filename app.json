@@ -25,9 +25,6 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
-    "facebookScheme": "fb561305434657781",
-    "facebookAppId": "561305434657781",
-    "facebookDisplayName": "BGSocial"
+    }
   }
 }

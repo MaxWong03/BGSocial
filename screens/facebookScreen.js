@@ -2,42 +2,37 @@ import * as Facebook from 'expo-facebook';
 import React from 'react';
 import {
   View,
-  Button
+  Button,
+  Alert
 } from 'react-native';
 
-import Firebase from '../Firebase';
-
-
-// Listen for authentication state to change.
-Firebase.auth().onAuthStateChanged((user) => {
-  if (user != null) {
-    console.log("We are authenticated now!");
-  }
-
-  // Do other things
-});
-
 async function loginWithFacebook() {
-  const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-    '561305434657781',
-    { permissions: ['public_profile'] }
-  );
-
-  if (type === 'success') {
-    // Build Firebase credential with the Facebook access token.
-    const credential = Firebase.auth.FacebookAuthProvider.credential(token);
-
-    // Sign in with credential from the Facebook user.
-    Firebase.auth().signInWithCredential(credential).catch((error) => {
-      // Handle Errors here.
+  try {
+    const {
+      type,
+      token,
+      expires,
+      permissions,
+      declinedPermissions,
+    } = await Facebook.logInWithReadPermissionsAsync('561305434657781', {
+      permissions: ['public_profile'],
     });
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+      Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
+    } else {
+      // type === 'cancel'
+    }
+  } catch ({ message }) {
+    alert(`Facebook Login Error: ${message}`);
   }
 }
 
 export default function fbScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Button 
+      <Button
         onPress={() => loginWithFacebook()}
         title="Login with facebook"
       >
