@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  AsyncStorage,
-  Button,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
@@ -16,16 +15,9 @@ const styles = StyleSheet.create({
 });
 
 export default function authScreen() {
-  const { navigate } = useNavigation();
-  _signInAsync = async () => {
-    await AsyncStorage.setItem('userToken', 'abc');
-    // this.props.navigation.navigate('Main');
-    navigate('Main');
-  };
-
   return(
     <View style={styles.container}>
-    <Button title="Sign in!" onPress={() => _signInAsync()} />
+      <Text> Replace This Text Container To Test Out Components</Text>
   </View>
   );
 };

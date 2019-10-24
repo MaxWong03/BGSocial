@@ -32,14 +32,14 @@ async function loginWithFacebook() {
 
 export default function fbScreen() {
   const { navigate } = useNavigation();
-  const loginAndRender = () => {
+  const loginAndNavigate = () => {
     loginWithFacebook()
       .then(() => navigate('Main'));
   }
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button
-        onPress={() => loginAndRender()}
+        onPress={() => loginAndNavigate()}
         title="Login with facebook"
       >
       </Button>
