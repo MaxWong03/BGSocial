@@ -6,7 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import fbScreen from '../screens/facebookScreen';
+import TestScreen from '../screens/TestScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -68,27 +68,27 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
-const facebookStack = createStackNavigator(
+const TestStack = createStackNavigator(
   {
-    FB: fbScreen
+    Tests: TestScreen,
   },
   config
 )
 
-facebookStack.navigationOptions = {
-  tabBarLabel: 'FB',
+TestStack.navigationOptions = {
+  tabBarLabel: 'TEST',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
 };
 
-facebookStack.path = '';
+TestStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  facebookStack
+  TestStack
 });
 
 tabNavigator.path = '';
