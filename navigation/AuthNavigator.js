@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { createStackNavigator} from 'react-navigation';
 //Authorize Screen contains Login and Register
-import AuthScreen from '../screens/LoginRegisterScreen'; 
+import AuthScreen from '../screens/AuthScreen'; 
 
 const config = Platform.select({
   web: { headerMode: 'screen' },

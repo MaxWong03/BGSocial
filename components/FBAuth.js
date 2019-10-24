@@ -1,7 +1,6 @@
 import * as Facebook from 'expo-facebook';
 import React from 'react';
 import {
-  View,
   Button,
   Alert
 } from 'react-native';
@@ -31,20 +30,16 @@ async function loginWithFacebook() {
   }
 }
 
-export default function LoginRegisterScreen() {
+export default function FBAuth(props) {
   const { navigate } = useNavigation();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then((type) => type === "success" ? navigate('Main') : 'Do Nothing' );
+      .then((type) => type === "success" ? navigate('Main') : 'Do Nothing');
   }
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Button
-        onPress={() => loginAndNavigate()}
-        title="Login with facebook"
-      >
-      </Button>
-    </View>
+    <Button
+      onPress={() => loginAndNavigate()}
+      title={props.title}
+    />
   );
 }
-
