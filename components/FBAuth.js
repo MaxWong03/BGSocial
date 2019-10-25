@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
+import axios from 'axios';
 
 async function loginWithFacebook() {
   try {
@@ -20,14 +21,12 @@ async function loginWithFacebook() {
     });
     if (type === 'success') {
       // Get the user's name using Facebook's Graph API
-      const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-      const { name, id } = await response.json();
+      const basicInfo = await axios.get(`https://graph.facebook.com/me?access_token=${token}`);
+      const { name, id } = basicInfo.data;
       console.log('Token @ Auth:', token);
-      // const graph = await fetch(`https://graph.facebook.com/${id}?fields=id,name,email&access_token=${token}`);
       console.log('Name @ Auth:', name, 'ID @ Auth:', id);
-      const { url: profilePicture } = await fetch(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
-      console.log(profilePicture);
-      // Alert.alert(`User: ${(await response.json()).name}`);
+      const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
+      const {responseURL: profilePicture} = profileResponse.request;
       return [type, id, profilePicture]
     } else {
       return type;
