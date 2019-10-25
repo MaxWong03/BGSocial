@@ -26,13 +26,18 @@ async function loginWithFacebook() {
       console.log('Token @ Auth:', token);
       console.log('Name @ Auth:', name, 'ID @ Auth:', id);
       const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
+      console.log("real stupid");
       const {responseURL: profilePicture} = profileResponse.request;
+      console.log("proPic", profilePicture);
+      // const userData = await axios.get(`http://localhost:8080/api/users/${id}`);
+      const userData = await axios.get(`http://192.168.88.78:8080/api/users/${id}`);
+      console.log('userData:', userData);
       return [type, id, profilePicture]
-    } else {
+    } else { //type === 'cancel', user doesn't wanna login
       return type;
     }
-  } catch ({ message }) {
-    alert(`Facebook Login Error: ${message}`);
+  } catch (err) {
+    console.log(`Facebook Login Error: ${err} \n ${err.message}`);
   }
 }
 
