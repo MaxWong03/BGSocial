@@ -16,6 +16,9 @@ import {
   StackedBarChart,
  } from "react-native-chart-kit";
 
+import { useNavigation } from 'react-navigation-hooks';
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,6 +28,9 @@ const styles = StyleSheet.create({
 });
 
 export default function testScreen() {
+  const {dangerouslyGetParent} = useNavigation();
+  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
+  console.log('@TestsScreen:', id, profilePicture);
   const [data, setData] = useState(              
   [
     Math.random() * 100,

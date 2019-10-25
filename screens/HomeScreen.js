@@ -11,10 +11,11 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { useNavigation } from 'react-navigation-hooks';
 
 export default function HomeScreen() {
-  const { id, profilePicture } = useNavigationParam('userInfo');
+  const { dangerouslyGetParent } = useNavigation();
+  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
   console.log('@HomeScreen:', id, profilePicture);
   return (
     <View style={styles.container}>

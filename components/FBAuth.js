@@ -44,12 +44,12 @@ export default function FBAuth(props) {
       .then(([type, id, profilePicture]) => {
         if (type === "success") {
           const userInfo = { id, profilePicture };
-          const setParmasAction = NavigationActions.setParams({
-            parmas: { userInfo },
-            key: 'Links'
-          });
-          dispatch(setParmasAction);
-          navigate('Home', { userInfo }); //navigate to home screen passing userInfo as params
+          navigate('Main', { userInfo }); //navigate to home screen passing userInfo as params
+          // const setParmasAction = NavigationActions.setParams({
+          //   parmas: { userInfo },
+          //   key: 'LinksStack'
+          // });
+          // dispatch(setParmasAction);
         }//else do nothing
       });
   }
