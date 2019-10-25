@@ -1,8 +1,12 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
+import { useNavigationParam } from 'react-navigation-hooks';
 
 export default function LinksScreen() {
+  console.log('@LinksScreen:', useNavigationParam('userInfo'));
+  // const {id, profilePicture} = useNavigationParam('userInfo');
+  // console.log('@LinksScreen:', id, profilePicture);
   return (
     <ScrollView style={styles.container}>
       {/**

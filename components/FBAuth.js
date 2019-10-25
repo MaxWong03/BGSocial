@@ -5,6 +5,7 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
+import { NavigationActions } from 'react-navigation';
 
 async function loginWithFacebook() {
   try {
@@ -21,13 +22,13 @@ async function loginWithFacebook() {
       // Get the user's name using Facebook's Graph API
       const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
       const { name, id } = await response.json();
-      console.log(token);
+      console.log('Token @ Auth:', token);
       // const graph = await fetch(`https://graph.facebook.com/${id}?fields=id,name,email&access_token=${token}`);
-      console.log('Name:', name, 'ID:', id);
-      const {url: profilePicture} = await fetch(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
+      console.log('Name @ Auth:', name, 'ID @ Auth:', id);
+      const { url: profilePicture } = await fetch(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
       console.log(profilePicture);
       // Alert.alert(`User: ${(await response.json()).name}`);
-      return type;
+      return [type, id, profilePicture]
     } else {
       return type;
     }
@@ -37,10 +38,20 @@ async function loginWithFacebook() {
 }
 
 export default function FBAuth(props) {
-  const { navigate } = useNavigation();
+  const { navigate, dispatch } = useNavigation();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then((type) => type === "success" ? navigate('Main') : 'Do Nothing');
+      .then(([type, id, profilePicture]) => {
+        if (type === "success") {
+          const userInfo = { id, profilePicture };
+          const setParmasAction = NavigationActions.setParams({
+            parmas: { userInfo },
+            key: 'Links'
+          });
+          dispatch(setParmasAction);
+          navigate('Home', { userInfo }); //navigate to home screen passing userInfo as params
+        }//else do nothing
+      });
   }
   return (
     <Button

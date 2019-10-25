@@ -11,14 +11,21 @@ import {
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import { useNavigationParam } from 'react-navigation-hooks';
 
 export default function HomeScreen() {
+  const { id, profilePicture } = useNavigationParam('userInfo');
+  console.log('@HomeScreen:', id, profilePicture);
   return (
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
+          <Image
+            style={{ width: 350, height: 250 }}
+            source={{ uri: `${profilePicture}` }}
+          />
           <Image
             source={
               __DEV__

@@ -14,7 +14,7 @@ export default createAppContainer(
     
     // AuthLoading: AuthLoadingScreen, If I en able this the app will just be loading
     Main: MainTabNavigator,
-    Auth: AuthNavigator
+    Auth: AuthNavigator,
   },
   {
     initialRouteName: 'Auth', 
