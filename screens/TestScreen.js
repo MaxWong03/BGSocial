@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Dimensions
+  Dimensions,
+  Image
 } from 'react-native';
 
 import {
@@ -50,7 +51,10 @@ export default function testScreen() {
   // }, [data]);
   return(
     <View style={styles.container}>
-      <Text> Replace This Text Container To Test Out Components</Text>
+      <Image 
+       style={{width: 350, height: 250}}
+      source={{uri: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=921623601546635&height=350&width=250&ext=1574562652&hash=AeQvzdgfz_mcRB1s'}}
+      />
       <LineChart
         data={{
           // the month
