@@ -25,8 +25,7 @@ async function loginWithFacebook() {
       const { name, id } = basicInfo.data;
       const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
       const {responseURL: profilePicture} = profileResponse.request;
-      const userData = await axios.get(`https://48a342f6.ngrok.io/api/users/${id}`);
-      console.log('userData:', userData);
+      const userData = await axios.get(`http://192.168.88.78:8080/api/users/${id}`);
       return [type, id, profilePicture]
     } else { //type === 'cancel', user doesn't wanna login
       return type;
