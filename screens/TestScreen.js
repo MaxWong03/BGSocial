@@ -1,10 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
+import { SearchBar } from 'react-native-elements';
+import { ListItem } from 'react-native-elements'
+import { useNavigation } from 'react-navigation-hooks';
+import AttendenceList from '../components/AttendenceList';
+
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
-  Image
+  ScrollView
 } from 'react-native';
 
 import {
@@ -16,12 +21,10 @@ import {
   StackedBarChart,
  } from "react-native-chart-kit";
 
-import { useNavigation } from 'react-navigation-hooks';
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -54,49 +57,261 @@ export default function testScreen() {
   //     })
   //   }, 500);
   // }, [data]);
+
+
+  
   return(
-    <View style={styles.container}>
-      <Image 
-       style={{width: 350, height: 250}}
-      source={{uri: 'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=921623601546635&height=350&width=250&ext=1574562652&hash=AeQvzdgfz_mcRB1s'}}
-      />
-      <LineChart
-        data={{
-          // the month
-          labels: ['January', 'February', 'March', 'April'],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                34,
-              ],
+    <Fragment>
+
+
+
+
+
+
+    <View 
+    style= {styles.container}
+    >
+      {/* <SearchBar
+        placeholder="Type Here..."
+        // onChangeText={(event) => {setSearch(event)}}
+        // value={search}
+      /> */}
+      <AttendenceList />
+        <LineChart
+          data={{
+            // the month
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [
+              {
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  34,
+                ],
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 16} // from react-native
+          height={220}
+          yAxisLabel={'Rs'}
+          chartConfig={{
+            backgroundColor: '#1cc910',
+            backgroundGradientFrom: '#eff3ff',
+            backgroundGradientTo: '#efefef',
+            decimalPlaces: 2, // optional, defaults to 2dp
+            // shape color
+            color: (opacity = 255) => `#FF0000`,
+            style: {
+              borderRadius: 16,
             },
-          ],
-        }}
-        width={Dimensions.get('window').width - 16} // from react-native
-        height={220}
-        yAxisLabel={'Rs'}
-        chartConfig={{
-          backgroundColor: '#1cc910',
-          backgroundGradientFrom: '#eff3ff',
-          backgroundGradientTo: '#efefef',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          // shape color
-          color: (opacity = 255) => `#FF0000`,
-          style: {
+          }}
+          bezier
+          style={{
+            width: '70%',
+            marginVertical: 8,
             borderRadius: 16,
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
+          }}
+        />
     </View>
+
+<View 
+style= {styles.container}
+>
+  {/* <SearchBar
+    placeholder="Type Here..."
+    // onChangeText={(event) => {setSearch(event)}}
+    // value={search}
+  /> */}
+  <AttendenceList />
+    <LineChart
+      data={{
+        // the month
+        labels: ['January', 'February', 'March', 'April'],
+        datasets: [
+          {
+            data: [
+              Math.random() * 100,
+              Math.random() * 100,
+              Math.random() * 100,
+              Math.random() * 100,
+              Math.random() * 100,
+              34,
+            ],
+          },
+        ],
+      }}
+      width={Dimensions.get('window').width - 16} // from react-native
+      height={220}
+      yAxisLabel={'Rs'}
+      chartConfig={{
+        backgroundColor: '#1cc910',
+        backgroundGradientFrom: '#eff3ff',
+        backgroundGradientTo: '#efefef',
+        decimalPlaces: 2, // optional, defaults to 2dp
+        // shape color
+        color: (opacity = 255) => `#FF0000`,
+        style: {
+          borderRadius: 16,
+        },
+      }}
+      bezier
+      style={{
+        width: '70%',
+        marginVertical: 8,
+        borderRadius: 16,
+      }}
+    />
+</View>
+
+<View 
+    style= {styles.container}
+    >
+      {/* <SearchBar
+        placeholder="Type Here..."
+        // onChangeText={(event) => {setSearch(event)}}
+        // value={search}
+      /> */}
+      <AttendenceList />
+        <LineChart
+          data={{
+            // the month
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [
+              {
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  34,
+                ],
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 16} // from react-native
+          height={220}
+          yAxisLabel={'Rs'}
+          chartConfig={{
+            backgroundColor: '#1cc910',
+            backgroundGradientFrom: '#eff3ff',
+            backgroundGradientTo: '#efefef',
+            decimalPlaces: 2, // optional, defaults to 2dp
+            // shape color
+            color: (opacity = 255) => `#FF0000`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          bezier
+          style={{
+            width: '70%',
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+    </View>
+
+    <View 
+    style= {styles.container}
+    >
+      {/* <SearchBar
+        placeholder="Type Here..."
+        // onChangeText={(event) => {setSearch(event)}}
+        // value={search}
+      /> */}
+      <AttendenceList />
+        <LineChart
+          data={{
+            // the month
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [
+              {
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  34,
+                ],
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 16} // from react-native
+          height={220}
+          yAxisLabel={'Rs'}
+          chartConfig={{
+            backgroundColor: '#1cc910',
+            backgroundGradientFrom: '#eff3ff',
+            backgroundGradientTo: '#efefef',
+            decimalPlaces: 2, // optional, defaults to 2dp
+            // shape color
+            color: (opacity = 255) => `#FF0000`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          bezier
+          style={{
+            width: '70%',
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+    </View>
+
+    <View 
+    style= {styles.container}
+    >
+      {/* <SearchBar
+        placeholder="Type Here..."
+        // onChangeText={(event) => {setSearch(event)}}
+        // value={search}
+      /> */}
+      <AttendenceList />
+        <LineChart
+          data={{
+            // the month
+            labels: ['January', 'February', 'March', 'April'],
+            datasets: [
+              {
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  34,
+                ],
+              },
+            ],
+          }}
+          width={Dimensions.get('window').width - 16} // from react-native
+          height={220}
+          yAxisLabel={'Rs'}
+          chartConfig={{
+            backgroundColor: '#1cc910',
+            backgroundGradientFrom: '#eff3ff',
+            backgroundGradientTo: '#efefef',
+            decimalPlaces: 2, // optional, defaults to 2dp
+            // shape color
+            color: (opacity = 255) => `#FF0000`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          bezier
+          style={{
+            width: '70%',
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+    </View>
+    </Fragment>
   );
 };
