@@ -5,9 +5,8 @@ import { useNavigation } from 'react-navigation-hooks';
 
 
 export default function LinksScreen() {
-  const {dangerouslyGetParent} = useNavigation();
-  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
-  console.log('@LinksScreen:', id, profilePicture);
+  const { dangerouslyGetParent } = useNavigation();
+  const { fbID, profilePicture, userData } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
 
   return (
     <ScrollView style={styles.container}>

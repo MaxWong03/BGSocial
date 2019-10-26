@@ -31,9 +31,9 @@ const styles = StyleSheet.create({
 });
 
 export default function testScreen() {
-  const {dangerouslyGetParent} = useNavigation();
-  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
-  console.log('@TestsScreen:', id, profilePicture);
+  const { dangerouslyGetParent } = useNavigation();
+  const { fbID, profilePicture, userData } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
+
   const [data, setData] = useState(              
   [
     Math.random() * 100,
