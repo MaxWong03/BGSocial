@@ -1,8 +1,14 @@
 import React from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
+import { useNavigation } from 'react-navigation-hooks';
+
 
 export default function LinksScreen() {
+  const {dangerouslyGetParent} = useNavigation();
+  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
+  console.log('@LinksScreen:', id, profilePicture);
+
   return (
     <ScrollView style={styles.container}>
       {/**

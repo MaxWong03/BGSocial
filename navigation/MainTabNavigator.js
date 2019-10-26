@@ -7,6 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import TestScreen from '../screens/TestScreen';
+import CreateEventScreen from '../screens/CreateEvent';
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -84,13 +86,33 @@ TestStack.navigationOptions = {
 
 TestStack.path = '';
 
+
+const CreateEvent = createStackNavigator(
+  {
+    CreateEvents: CreateEventScreen,
+  },
+  config
+)
+
+CreateEvent.navigationOptions = {
+  tabBarLabel: 'Create',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+  ),
+};
+
+CreateEvent.path = '';
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
-  TestStack
+  TestStack,
+  CreateEvent
 });
 
 tabNavigator.path = '';
+
+
 
 export default tabNavigator;
