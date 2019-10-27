@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Overlay, Button } from 'react-native-elements';
 import { Text, StyleSheet } from 'react-native'
+import { Overlay, Button, SearchBar } from 'react-native-elements';
+import  FriendSearchBar  from '../components/FriendSearchBar';
 
 export default function InviteFriends(props) {
   const [visible, setVisible] = useState(true);
@@ -13,12 +14,17 @@ export default function InviteFriends(props) {
   return (
     <Overlay
       isVisible={visible}
-    >
-      <Button
-        buttonStyle={styles.container}
-        onPress={goBack}
-      > style</Button>
-    </Overlay>
+      children={
+        <>
+          <FriendSearchBar />
+          <Button
+            buttonStyle={styles.container}
+            onPress={goBack}
+          />
+        </>
+      }
+    />
+
   )
 }
 

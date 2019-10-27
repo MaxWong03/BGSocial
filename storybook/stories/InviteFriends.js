@@ -9,7 +9,7 @@ storiesOf('InviteFriends', module)
     <InviteFriends
     />
   ))
-  .add('InviteFriends have a search bar', () => (
+  .add('InviteFriends search bar placeholder text changes with input', () => (
     <InviteFriends
     />
   ))
