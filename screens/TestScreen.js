@@ -75,7 +75,7 @@ export default function testScreen() {
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -124,7 +124,7 @@ style= {styles.container}
     // onChangeText={(event) => {setSearch(event)}}
     // value={search}
   /> */}
-  <AttendenceList />
+  <AttendanceList />
     <LineChart
       data={{
         // the month
@@ -173,7 +173,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -222,7 +222,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -271,7 +271,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month

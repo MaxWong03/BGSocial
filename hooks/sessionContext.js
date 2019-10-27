@@ -5,9 +5,10 @@ const sessionContext = createContext('session');
 
 const initializeUserinfoState = () => {
   const [userInfo, setUserInfo] = useState({
-    id: undefined,
-    facebookId: undefined,
-    profilePicture: undefined
+    userData: undefined, // from our API
+    fbID: undefined,
+    profilePicture: undefined,
+    name: undefined
   });
   return [sessionContext, { userInfo, setUserInfo }];
 };

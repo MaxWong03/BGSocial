@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
+import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 
 import { getUserInfoContext } from './../hooks/sessionContext';
@@ -24,11 +25,12 @@ async function loginWithFacebook() {
     if (type === 'success') {
       // Get the user's name using Facebook's Graph API
       const basicInfo = await axios.get(`https://graph.facebook.com/me?access_token=${token}`);
-      const { name, id } = basicInfo.data;
-      const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
+      const { name, id: fbID } = basicInfo.data;
+      const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbID}/picture?height=350&width=350`)
       const { responseURL: profilePicture } = profileResponse.request;
-      const userData = await axios.get(`http://192.168.1.69:8080/api/users/facebook/${id}`);
-      return {type, id, profilePicture}
+      const { data: userData } = await axios.get(`${API_HOST}/users/facebook/${fbID}`);
+
+      return {type, fbID, profilePicture, name, userData}
     } else { //type === 'cancel', user doesn't wanna login
       return {type};
     }
@@ -43,9 +45,14 @@ export default function FBAuth(props) {
   const { setUserInfo } = getUserInfoContext();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then(({type, id, profilePicture}) => {
+      .then(({type, fbID, profilePicture, name, userData}) => {
         if (type === "success") {
-          const userInfo = { id, profilePicture };
+          const userInfo = {
+            fbID,
+            name,
+            profilePicture,
+            userData //object
+          };
           setUserInfo(userInfo);
           navigate('Main');
         }

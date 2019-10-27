@@ -45,9 +45,9 @@ const list = [
   }
 ];
 
-export default function AttendenceList(props) {
+export default function AttendanceList(props) {
 
-    const attendence = list.map((l, i) => (
+    const attendance = list.map((l, i) => (
       <ListItem
         key={i}
         leftAvatar={{ source: { uri: l.avatar_url } }}
@@ -58,7 +58,7 @@ export default function AttendenceList(props) {
     return (
       <ScrollView
         style={styles.scrollField}>
-        {attendence}
+        {attendance}
       </ScrollView>
     )
 }
