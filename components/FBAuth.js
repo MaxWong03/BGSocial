@@ -6,7 +6,10 @@ import {
 } from 'react-native';
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
+import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
+
+import { getUserInfoContext } from './../hooks/sessionContext';
 
 async function loginWithFacebook() {
   try {
@@ -25,11 +28,11 @@ async function loginWithFacebook() {
       const { name, id: fbID } = basicInfo.data;
       const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbID}/picture?height=350&width=350`)
       const { responseURL: profilePicture } = profileResponse.request;
-      const { data: userData } = await axios.get(`http://192.168.88.78:8080/api/users/facebook/${fbID}`);
+      const { data: userData } = await axios.get(`${API_HOST}/users/facebook/${fbID}`);
 
-      return [type, fbID, profilePicture, name, userData]
+      return {type, fbID, profilePicture, name, userData}
     } else { //type === 'cancel', user doesn't wanna login
-      return type;
+      return {type};
     }
   } catch (err) {
     console.log(`Facebook Login Error: ${err} \n ${err.message}`);
@@ -37,19 +40,26 @@ async function loginWithFacebook() {
 }
 
 export default function FBAuth(props) {
-  const { navigate } = useNavigation();
+  const { navigate, dispatch } = useNavigation();
+  // Only interested in the part of the context related to SET the state (userInfo) value.
+  const { setUserInfo } = getUserInfoContext();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then(([type, fbID, profilePicture, name, userData]) => {
+      .then(({type, fbID, profilePicture, name, userData}) => {
         if (type === "success") {
           const userInfo = {
             fbID,
+            name,
             profilePicture,
             userData //object
           };
-          navigate('Main', { userInfo });
-        }//else do nothing
-      });
+          setUserInfo(userInfo);
+          navigate('Main');
+        }
+        else {
+          console.log('Failed to login:', type, id, profilePicture);
+        }
+      }).catch(e => console.log(e));
   }
   return (
     <Button
