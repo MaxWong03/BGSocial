@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import { SearchBar } from 'react-native-elements';
 import { ListItem } from 'react-native-elements'
-import AttendenceList from '../components/AttendenceList';
+import AttendanceList from '../components/AttendanceList';
 import { getUserInfo } from './../hooks/sessionContext';
 
 import {
