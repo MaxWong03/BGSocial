@@ -2,7 +2,7 @@ import React, {useEffect, useState, Fragment} from 'react';
 import { SearchBar } from 'react-native-elements';
 import { ListItem } from 'react-native-elements'
 import { useNavigation } from 'react-navigation-hooks';
-import AttendenceList from '../components/AttendenceList';
+import AttendanceList from '../components/AttendanceList';
 
 import {
   StyleSheet,
@@ -76,7 +76,7 @@ export default function testScreen() {
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -125,7 +125,7 @@ style= {styles.container}
     // onChangeText={(event) => {setSearch(event)}}
     // value={search}
   /> */}
-  <AttendenceList />
+  <AttendanceList />
     <LineChart
       data={{
         // the month
@@ -174,7 +174,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -223,7 +223,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -272,7 +272,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
