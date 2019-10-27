@@ -15,8 +15,8 @@ import { useNavigation } from 'react-navigation-hooks';
 
 export default function HomeScreen() {
   const { dangerouslyGetParent } = useNavigation();
-  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
-  console.log('@HomeScreen:', id, profilePicture);
+  const { fbID, profilePicture, userData } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
+
   return (
     <View style={styles.container}>
       <ScrollView
