@@ -7,6 +7,7 @@ import './rn-addons';
 configure(() => {
   require('./stories');
   require('./stories/InviteFriends');
+  require('./stories/SelectGames');
 }, module);
 
 // Refer to https://github.com/storybookjs/storybook/tree/master/app/react-native#start-command-parameters

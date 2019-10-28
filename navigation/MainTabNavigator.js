@@ -48,7 +48,7 @@ const EventsStack = createStackNavigator(
 EventsStack.navigationOptions = {
   tabBarLabel: 'Events',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   ),
 };
 

@@ -67,7 +67,6 @@ export default function InviteFriendsModal({ goBack }) {
         }
       </ScrollView>
       <Button
-        buttonStyle={styles.buttonContainer}
         onPress={inviteAction}
         title={"Invite"}
       />

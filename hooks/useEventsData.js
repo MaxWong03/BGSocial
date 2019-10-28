@@ -8,7 +8,7 @@ import reduceState from "../reducers/events";
 export function useEventsData() {
 
   const [state, dispatchState] = useReducer(reduceState, {
-    events: {}
+    events: []
   });
 
   // function bookInterview(id, interview) {
@@ -51,10 +51,8 @@ export function useEventsData() {
   }
 
   async function loadEvents() {
-    console.log('Before loading events');
-    const event  = await api.get("/events/1");
-    console.log('After loading events', event);
-    dispatchState({ value: {[event.id]: event}, type: "setEvents" });
+    const event  = await api.get("/events");
+    dispatchState({ value: event.data, type: "setEvents" });
   }
 
   useEffect(() => {
