@@ -1,23 +1,20 @@
 import React from 'react';
 import { ListItem, CheckBox } from 'react-native-elements';
 
-
-
-export default function FriendListItem(props) {
-
+export default function FriendListItem({ friend, onSelect }) {
   return (
-        <ListItem
-          leftAvatar={{ source: { uri: props.friend['friend_avatar'] } }}
-          title={props.friend['friend_name']}
-          subtitle={"Skill Level:"}
-          bottomDivider
-          rightElement={
-            <CheckBox
-              checked={props.friend['invited']}
-              onPress={() => props.onSelect(props.friend['friend_id'])}
-            />
-          }
+    <ListItem
+      leftAvatar={{ source: { uri: friend['friend_avatar'] } }}
+      title={friend['friend_name']}
+      subtitle={"Skill Level:"}
+      bottomDivider
+      rightElement={
+        <CheckBox
+          checked={friend['invited']}
+          onPress={() => onSelect(friend['friend_id'])}
         />
+      }
+    />
   );
 }
 

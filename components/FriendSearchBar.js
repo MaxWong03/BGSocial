@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import { Text } from 'react-native';
+import React from 'react';
 import { SearchBar } from 'react-native-elements';
-import { setRecoveryProps } from 'expo/build/ErrorRecovery/ErrorRecovery';
-
-
 
 export default function FriendSearchBar(props) {
   return (
