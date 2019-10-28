@@ -1,3 +1,4 @@
+
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import {
@@ -15,7 +16,7 @@ import { getUserInfo } from './../hooks/sessionContext';
 
 export default function HomeScreen() {
   const { id, profilePicture } = getUserInfo();
-  console.log('@HomeScreen:', id, profilePicture);
+  // console.log('@HomeScreen:', id, profilePicture);
   return (
     <View style={styles.container}>
       <ScrollView

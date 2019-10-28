@@ -1,5 +1,5 @@
-import { ListItem, List } from 'react-native-elements'
-import React, { Fragment } from 'react';
+import { ListItem, Tooltip } from 'react-native-elements'
+import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 // sample data
 const list = [
@@ -48,23 +48,37 @@ const list = [
 export default function AttendanceList(props) {
 
     const attendance = list.map((l, i) => (
-      <ListItem
-        key={i}
-        leftAvatar={{ source: { uri: l.avatar_url } }}
-        style={styles.container}
-      />
+      <Tooltip key={i} popover={<Text>{l.name}</Text>}>
+        <ListItem
+          key={i}
+          // topDivider
+          // bottomDivider
+          leftAvatar={{ source: { uri: l.avatar_url }, size:'small' }}
+          containerStyle={ { height: 'auto', width: 40, padding: 3 } }
+        />
+      </Tooltip>
+
     ))
 
     return (
       <ScrollView
-        style={styles.scrollField}>
+        style={{
+          flex: 1,
+          width: 40,
+          marginVertical: 5,
+        }}
+        contentContainerStyle={{flexGrow : 1, justifyContent : 'center', width: 40,}}
+        >
         {attendance}
+        {/* <Tooltip popover={<Text>Info here</Text>}>
+          <Text>Press me</Text>
+        </Tooltip> */}
       </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '30%'
+    width: 0
   },
 });

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, ListItem, Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
+import AttendanceList from '../components/AttendanceList';
 
 export default function EventsScreen() {
 
@@ -25,6 +26,7 @@ export default function EventsScreen() {
             return (
               // <Card key={i} containerStyle={styles.card}>
               <View key={i} style={styles.flexParent}>
+                <AttendanceList containerStyle={  }/>
                 <View style={styles.imageContainer}>
                   <Image
                     style={styles.image}
@@ -42,7 +44,7 @@ export default function EventsScreen() {
                     title='View more info'
                     type='outline'
                     iconRight={true}
-                    icon={
+                    icon={ // definite the button here
                       <Icon
                         size={20}
                         name='info'
@@ -58,7 +60,6 @@ export default function EventsScreen() {
         })
       }
     </ScrollView>
-
   );
 }
 
@@ -67,6 +68,18 @@ EventsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
+  attendanceSideBar: {
+    // margin: 10,
+    // flexDirection: "row",
+    // borderRadius: 10,
+    // backgroundColor: '#fafafa',
+    // overflow: 'hidden',
+    // height: 150,
+    // alignItems: 'stretch',
+    // borderColor: '#eee',
+    width: 20,
+    backgroundColor: '#FFFFFF'
+  },
   flexParent: {
     margin: 10,
     flexDirection: "row",
@@ -76,13 +89,13 @@ const styles = StyleSheet.create({
     height: 150,
     alignItems: 'stretch',
     borderColor: '#eee',
-    borderWidth: 1
+    borderWidth: 1 // the border length
   },
   imageContainer: {
-    flex: 1,
+    flex: 2,
   },
   textContainer: {
-    flex: 1,
+    flex: 2,
     padding: 20,
     justifyContent: 'space-between'
   },

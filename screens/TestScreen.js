@@ -1,359 +1,103 @@
-import React, {useEffect, useState, Fragment} from 'react';
-import { SearchBar } from 'react-native-elements';
-import { ListItem } from 'react-native-elements'
+import React from 'react';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { useEventsData } from './../hooks/useEventsData';
+import { ButtonGroup, ListItem, Button, Icon } from 'react-native-elements';
+import { formatDateWithTime } from './../utils'
 import AttendanceList from '../components/AttendanceList';
-import { getUserInfo } from './../hooks/sessionContext';
 
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ScrollView
-} from 'react-native';
+export default function EventsScreen() {
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
- } from "react-native-chart-kit";
+  const {
+    state,
+    dispatchState
+  } = useEventsData();
+
+  const buttons = ['My Events', 'Pending Events', 'Explore']
+
+  return (
+    <ScrollView >
+      <ButtonGroup
+        buttons={buttons} // the top buttons
+        containerStyle={styles.ButtonGroup}
+      />
+      {
+        state.events.map((event, i) => {
+          if (event.chosen_event_date.date) {
+            return (
+              // <Card key={i} containerStyle={styles.card}>
+              <View key={i} style={styles.flexParent}>
+
+                <AttendanceList/>
+                <View style={styles.imageContainer}>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: event.event_games[0].image }}
+                  />
+                </View>
+                <View style={styles.textContainer}>
+                  <View>
+                    <Text style={styles.name}>{formatDateWithTime(event.chosen_event_date.date)}</Text>
+                    <Text style={styles.attendanceCount}>Attendants: 4</Text>
+
+                  </View>
+                  <Button
+                    buttonStyle={styles.button}
+                    title='View more info'
+                    type='outline'
+                    iconRight={true}
+                    icon={
+                      <Icon
+                        size={20}
+                        name='info'
+                        type='material-icons'
+                        color='#bdbdbd'
+                      />
+                    } />
+                </View>
+              </View>
+              // </Card>
+            );
+          }
+        })
+      }
+    </ScrollView>
+
+  );
+}
+
+EventsScreen.navigationOptions = {
+  title: 'Events',
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+  flexParent: {
+    margin: 10,
+    flexDirection: "row",
+    borderRadius: 10,
+    backgroundColor: '#fafafa',
+    overflow: 'hidden',
+    height: 150,
+    alignItems: 'stretch',
+    borderColor: '#eee',
+    borderWidth: 1
   },
+  imageContainer: {
+    flex: 3,
+  },
+  textContainer: {
+    flex: 3,
+    padding: 20,
+    justifyContent: 'space-between'
+  },
+  image: {
+    aspectRatio: 1,
+    resizeMode: 'cover',
+  },
+  button: {
+    justifyContent: 'space-around'
+  },
+  ButtonGroup: {
+    backgroundColor: '#fafafa',
+    height: 50
+  }
 });
-
-export default function testScreen() {
-  const { id, profilePicture } = getUserInfo();
-  console.log('@TestsScreen:', id, profilePicture);
-  const [data, setData] = useState(              
-  [
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    Math.random() * 100,
-    34,
-  ]);
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     setData(() => {
-  //       [
-  //         Math.random() * 100,
-  //         Math.random() * 100,
-  //         Math.random() * 100,
-  //         Math.random() * 100,
-  //         Math.random() * 100,
-  //         Math.random() * 100,
-  //       ]
-  //     })
-  //   }, 500);
-  // }, [data]);
-
-
-  
-  return(
-    <Fragment>
-      <View 
-      style= {styles.container}
-      >
-        {/* <SearchBar
-          placeholder="Type Here..."
-          // onChangeText={(event) => {setSearch(event)}}
-          // value={search}
-        /> */}
-        <AttendanceList />
-          <LineChart
-            data={{
-              // the month
-              labels: ['January', 'February', 'March', 'April'],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    34,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width - 16} // from react-native
-            height={220}
-            yAxisLabel={'Rs'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              // shape color
-              color: (opacity = 255) => `#FF0000`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            bezier
-            style={{
-              width: '70%',
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-      </View>
-
-  <View 
-  style= {styles.container}
-  >
-    {/* <SearchBar
-      placeholder="Type Here..."
-      // onChangeText={(event) => {setSearch(event)}}
-      // value={search}
-    /> */}
-    <AttendanceList />
-      <LineChart
-        data={{
-          // the month
-          labels: ['January', 'February', 'March', 'April'],
-          datasets: [
-            {
-              data: [
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                Math.random() * 100,
-                34,
-              ],
-            },
-          ],
-        }}
-        width={Dimensions.get('window').width - 16} // from react-native
-        height={220}
-        yAxisLabel={'Rs'}
-        chartConfig={{
-          backgroundColor: '#1cc910',
-          backgroundGradientFrom: '#eff3ff',
-          backgroundGradientTo: '#efefef',
-          decimalPlaces: 2, // optional, defaults to 2dp
-          // shape color
-          color: (opacity = 255) => `#FF0000`,
-          style: {
-            borderRadius: 16,
-          },
-        }}
-        bezier
-        style={{
-          width: '70%',
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-  </View>
-
-  <View 
-      style= {styles.container}
-      >
-        {/* <SearchBar
-          placeholder="Type Here..."
-          // onChangeText={(event) => {setSearch(event)}}
-          // value={search}
-        /> */}
-        <AttendanceList />
-          <LineChart
-            data={{
-              // the month
-              labels: ['January', 'February', 'March', 'April'],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    34,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width - 16} // from react-native
-            height={220}
-            yAxisLabel={'Rs'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              // shape color
-              color: (opacity = 255) => `#FF0000`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            bezier
-            style={{
-              width: '70%',
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-      </View>
-
-      <View 
-      style= {styles.container}
-      >
-        {/* <SearchBar
-          placeholder="Type Here..."
-          // onChangeText={(event) => {setSearch(event)}}
-          // value={search}
-        /> */}
-        <AttendanceList />
-          <LineChart
-            data={{
-              // the month
-              labels: ['January', 'February', 'March', 'April'],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    34,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width - 16} // from react-native
-            height={220}
-            yAxisLabel={'Rs'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              // shape color
-              color: (opacity = 255) => `#FF0000`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            bezier
-            style={{
-              width: '70%',
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-      </View>
-
-      <View 
-      style= {styles.container}
-      >
-        {/* <SearchBar
-          placeholder="Type Here..."
-          // onChangeText={(event) => {setSearch(event)}}
-          // value={search}
-        /> */}
-        <AttendanceList />
-          <LineChart
-            data={{
-              // the month
-              labels: ['January', 'February', 'March', 'April'],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    34,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width - 16} // from react-native
-            height={220}
-            yAxisLabel={'Rs'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              // shape color
-              color: (opacity = 255) => `#FF0000`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            bezier
-            style={{
-              width: '70%',
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-      </View>
-
-      <View 
-      style= {styles.container}
-      >
-        {/* <SearchBar
-          placeholder="Type Here..."
-          // onChangeText={(event) => {setSearch(event)}}
-          // value={search}
-        /> */}
-        <AttendanceList />
-          <LineChart
-            data={{
-              // the month
-              labels: ['January', 'February', 'March', 'April'],
-              datasets: [
-                {
-                  data: [
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    Math.random() * 100,
-                    34,
-                  ],
-                },
-              ],
-            }}
-            width={Dimensions.get('window').width - 16} // from react-native
-            height={220}
-            yAxisLabel={'Rs'}
-            chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
-              decimalPlaces: 2, // optional, defaults to 2dp
-              // shape color
-              color: (opacity = 255) => `#FF0000`,
-              style: {
-                borderRadius: 16,
-              },
-            }}
-            bezier
-            style={{
-              width: '70%',
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-          />
-      </View>
-    </Fragment>
-  );
-};
