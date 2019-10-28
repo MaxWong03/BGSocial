@@ -50,6 +50,8 @@ export function useEventsData() {
 
   }
 
+  
+
   async function loadEvents() {
     const event  = await api.get("/events");
     dispatchState({ value: event.data, type: "setEvents" });
