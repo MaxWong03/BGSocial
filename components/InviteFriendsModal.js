@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, ScrollView } from 'react-native'
-import { Button } from 'react-native-elements';
+import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import { Button, Header, Icon } from 'react-native-elements';
 import FriendSearchBar from '../components/FriendSearchBar';
 import FriendListItem from './FriendListItem';
+import { whileStatement } from '@babel/types';
 
-export default function InviteFriendsModal({goBack}) {
+export default function InviteFriendsModal({ goBack }) {
   const [friendInviteList, setFriendInviteList] = useState(friendsArray);
   const [search, setSearch] = useState('');
 
@@ -36,6 +37,19 @@ export default function InviteFriendsModal({goBack}) {
 
   return (
     <>
+      <View
+        style={styles.headerContainer}
+      >
+        <Icon
+          name="arrow-left"
+          color="black"
+          type='font-awesome'
+          onPress={goBack}
+          style={styles.backIcon}
+        />
+        <Text style={styles.headerText}>Invite Friends</Text>
+      </View>
+
       <FriendSearchBar
         search={search}
         updateSearch={updateSearch}
@@ -52,34 +66,29 @@ export default function InviteFriendsModal({goBack}) {
           ))
         }
       </ScrollView>
-      <View style={styles.footerContainer}>
-        <Button
-          buttonStyle={styles.buttonContainer}
-          onPress={goBack}
-          title={"Go back"}
-        />
-        <Button
-          buttonStyle={styles.buttonContainer}
-          onPress={inviteAction}
-          title={"Invite"}
-        />
-      </View>
+      <Button
+        buttonStyle={styles.buttonContainer}
+        onPress={inviteAction}
+        title={"Invite"}
+      />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: 50,
-    height: 200
+  headerContainer: {
+    height:'6%',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  buttonContainer: {
-    width: 100,
-    height: 35
+  backIcon: {
+    width: '30%',
   },
-  footerContainer: {
-    flex: 1,
-    flexDirection: 'row'
+  headerText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+    width: '70%'
   },
   friendListContainer: {
     height: '75%'
