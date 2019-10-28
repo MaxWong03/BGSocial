@@ -14,7 +14,7 @@ export default function FriendListItem(props) {
           rightElement={
             <CheckBox
               checked={props.friend['invited']}
-              onPress={() => props.onInvite(props.friend['friend_id'])}
+              onPress={() => props.onSelect(props.friend['friend_id'])}
             />
           }
         />

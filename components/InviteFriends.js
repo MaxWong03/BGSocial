@@ -22,16 +22,24 @@ export default function InviteFriends(props) {
    * the array item is an object, so it has to be rewritten as well using immutable data pattern
    */
 
-  const inviteAction = (friend_id) => {
+  const onSelect = (friend_id) => {
     console.log(friend_id)
     const updatedList = friendInviteList.map((friend) => {
       if (friend['friend_id'] === friend_id) {
-        return { ...friend, invited: true };
+        return { ...friend, invited: !friend['invited'] };
       } else {
         return friend;
       }
     });
     setFriendInviteList(updatedList);
+  };
+
+  const inviteAction = () => {
+    const inviteList = [];
+    friendInviteList.forEach((friend) => {
+      friend['invited'] && inviteList.push(friend['friend_id']);
+    });
+    console.log(inviteList);
   };
 
   return (
@@ -46,7 +54,7 @@ export default function InviteFriends(props) {
                 <FriendListItem
                   key={index}
                   friend={friend}
-                  onInvite={inviteAction}
+                  onSelect={onSelect}
                 />
               ))
             }
