@@ -4,6 +4,7 @@ import { ListItem, CheckBox } from 'react-native-elements';
 
 
 export default function FriendListItem(props) {
+
   return (
         <ListItem
           leftAvatar={{ source: { uri: props.friend['friend_avatar'] } }}
@@ -12,7 +13,8 @@ export default function FriendListItem(props) {
           bottomDivider
           rightElement={
             <CheckBox
-              checked={true}
+              checked={props.friend['invited']}
+              onPress={() => props.onInvite(props.friend['friend_id'])}
             />
           }
         />

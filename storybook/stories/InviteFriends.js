@@ -31,6 +31,7 @@ storiesOf('InviteFriends', module)
   ))
   .add('InviteFriends can select friends from list', () => (
     <InviteFriends
+      
     />
   ))
   .add('InviteFriends can unselect friends from list', () => (
