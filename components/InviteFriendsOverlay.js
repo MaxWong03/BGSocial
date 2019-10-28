@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Text } from 'react-native'
 import { Overlay } from 'react-native-elements';
 import InviteFriendsModal from './InviteFriends';
 
@@ -16,7 +17,9 @@ export default function InviteFriends(props) {
           goBack={goBack}
         />
       }
-    />
+    >
+      <Text>I am max</Text>
+    </Overlay>
 
   )
 }

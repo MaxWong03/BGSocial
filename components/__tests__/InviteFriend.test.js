@@ -1,18 +1,35 @@
 import React from 'react';
+import { Text, View } from 'react-native'
 import { render } from '@testing-library/react-native'
 
 
 import InviteFriendsOverlay from '../InviteFriendsOverlay';
 
 describe('<InviteFriendsOverlay />', () => {
-  it("renders without crashing", () => {
-    render(<InviteFriendsOverlay/>);
-  });
+  // it("renders without crashing", () => {
+  //   render(<InviteFriendsOverlay />);
+  // });
 
-  it("close via button press", () => {
-    const Overlay = render(<InviteFriendsOverlay/>)
-    console.log(Overlay);
-  });
+  // it("close via button press", () => {
+  //   const { debug, container, getByText } = render(<InviteFriendsOverlay />);
+  //   const button = getByText(container, 'I am max');
+  //   debug(container);
+  //   // debug();
+  // });
+
+  it("Example", () => {
+    const { getByText, getByTestId } = render(
+      <View>
+        <View testID="not-empty">
+          <Text testID="empty" />
+        </View>
+        <Text testID="visible">Text Example</Text>
+      </View>,
+    );
+    // expect(getByTestId('not-empty')).not.toBeEmpty();
+    // expect(getByTestId('empty')).toBeEmpty();
+    expect(getByText('Visible Example')).toHaveTextContent('Text Example');
+  })
 });
 
 const friendsArray = [

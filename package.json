@@ -45,9 +45,13 @@
     "@storybook/addons": "^5.2.5",
     "@storybook/react-native": "^5.2.5",
     "@storybook/react-native-server": "^5.2.5",
+    "@testing-library/jest-native": "^3.0.2",
     "babel-loader": "^8.0.6",
     "babel-preset-expo": "^7.0.0",
-    "jest-expo": "^35.0.0"
+    "jest-expo": "^35.0.0",
+    "jest-native": "^3.0.0",
+    "react-dom": "16.8.3",
+    "react-test-renderer": "16.8.3"
   },
   "private": true
 }
