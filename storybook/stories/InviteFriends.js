@@ -1,48 +1,48 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react-native';
 import CenterView from './CenterView';
-import InviteFriends from '../../components/InviteFriends';
+import InviteFriendsOverlay from '../../components/InviteFriendsOverlay';
 
 storiesOf('InviteFriends', module)
   .addDecorator(getStory => <CenterView>{getStory()}</CenterView>)
   .add('InviteFriends can be closed via a button', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends search bar placeholder text changes with input', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends render user friends avatar and their name', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends filter users friends by name', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends filter users friends by skill level', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends can be opened via a button', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add('InviteFriends can select friends from list', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
       
     />
   ))
   .add('InviteFriends can unselect friends from list', () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add("InviteFriends closes on valid invitation", () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
   .add("InviteFriends stays open on invalid invitation", () => (
-    <InviteFriends
+    <InviteFriendsOverlay
     />
   ))
