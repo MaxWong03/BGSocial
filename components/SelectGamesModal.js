@@ -50,6 +50,7 @@ export default function SelectGameModal({ goBack }) {
       <ScrollView style={styles.gameListContainer}>
         {
           gameSelectList.map((game, index) => (
+            game['name'].includes(search) &&
             <GameListItem
               key={index}
               game={game}
