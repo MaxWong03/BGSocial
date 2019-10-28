@@ -1,15 +1,17 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
-import ReactDOM from "react-dom";
+import { render } from '@testing-library/react-native'
 
 
 import InviteFriendsOverlay from '../InviteFriendsOverlay';
 
 describe('<InviteFriendsOverlay />', () => {
-  console.log('123');
   it("renders without crashing", () => {
-    const Overlay = renderer.create(<InviteFriendsOverlay/>).toJSON();
-    expect(Overlay).toMatchSnapshot();
+    render(<InviteFriendsOverlay/>);
+  });
+
+  it("close via button press", () => {
+    const Overlay = render(<InviteFriendsOverlay/>)
+    console.log(Overlay);
   });
 });
 
