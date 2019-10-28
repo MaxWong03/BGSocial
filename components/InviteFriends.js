@@ -7,10 +7,11 @@ import FriendListItem from './FriendListItem';
 export default function InviteFriends(props) {
   const [visible, setVisible] = useState(true);
   const [friendInviteList, setFriendInviteList] = useState(friendsArray);
+  const [search, setSearch] = useState('');
+  const updateSearch = (userInput) => {
+    setSearch(userInput);
+  };
 
-  const goBack = () => {
-    setVisible(false);
-  }
 
   /**
    * 
@@ -42,15 +43,23 @@ export default function InviteFriends(props) {
     console.log(inviteList);
   };
 
+  const goBack = () => {
+    setVisible(false);
+  }
+
   return (
     <Overlay
       isVisible={visible}
       children={
         <>
-          <FriendSearchBar />
+          <FriendSearchBar
+            search={search}
+            updateSearch={updateSearch}
+          />
           <ScrollView style={{ height: '80%' }}>
             {
               friendInviteList.map((friend, index) => (
+                friend['friend_name'].includes(search) &&
                 <FriendListItem
                   key={index}
                   friend={friend}
