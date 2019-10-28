@@ -8,6 +8,7 @@ configure(() => {
   require('./stories');
   require('./stories/InviteFriends');
   require('./stories/SelectGames');
+  require('./stories/DatePicker');
 }, module);
 
 // Refer to https://github.com/storybookjs/storybook/tree/master/app/react-native#start-command-parameters
