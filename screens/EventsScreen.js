@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { ButtonGroup, ListItem, Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 
 export default function EventsScreen() {
@@ -11,9 +11,15 @@ export default function EventsScreen() {
     dispatchState
   } = useEventsData();
 
-  return (
-    <ScrollView >
+  const buttons = ['My Events', 'Pending Events', 'Explore']
 
+  return (
+
+    <ScrollView >
+      <ButtonGroup
+        buttons={buttons}
+        containerStyle={styles.ButtonGroup}
+      />
       {
         state.events.map((event, i) => {
           if (event.chosen_event_date.date) {
@@ -33,7 +39,7 @@ export default function EventsScreen() {
 
                   </View>
                   <Button
-                    buttonStyle = {styles.button}
+                    buttonStyle={styles.button}
                     title='View more info'
                     type='outline'
                     iconRight={true}
@@ -84,8 +90,12 @@ const styles = StyleSheet.create({
   image: {
     aspectRatio: 1,
     resizeMode: 'cover',
-  }, 
+  },
   button: {
     justifyContent: 'space-around'
+  },
+  ButtonGroup: {
+    backgroundColor: '#fafafa',
+    height: 50
   }
 });
