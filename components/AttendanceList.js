@@ -67,5 +67,4 @@ const styles = StyleSheet.create({
   container: {
     width: '30%'
   },
-
 });
