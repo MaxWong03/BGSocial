@@ -6,7 +6,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest",
+    "test": "jest --watchAll",
     "storybook": "start-storybook -p 7007"
   },
   "jest": {
@@ -48,7 +48,7 @@
     "babel-loader": "^8.0.6",
     "babel-preset-expo": "^7.0.0",
     "jest-expo": "^35.0.0",
-    "react-test-renderer": "^16.11.0"
+    "react-test-renderer": "16.8.3"
   },
   "private": true
 }
