@@ -9,6 +9,5 @@ storiesOf('DateTimePicker', module)
   .add('DateTimePicker', () => (
     <View>
       <DatePicker />
-      <Text>123</Text>
     </View>
   ))
