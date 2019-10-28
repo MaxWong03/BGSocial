@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, ScrollView, View } from 'react-native'
-import { Overlay, Button, ListItem, CheckBox } from 'react-native-elements';
+import { Text, StyleSheet, View, ScrollView } from 'react-native'
+import { Overlay, Button } from 'react-native-elements';
 import FriendSearchBar from '../components/FriendSearchBar';
+import FriendListItem from './FriendListItem';
 
 export default function InviteFriends(props) {
   const [visible, setVisible] = useState(true);
@@ -11,27 +12,27 @@ export default function InviteFriends(props) {
     setVisible(false);
   }
 
+  const invite = () => {
+    //get all checked friends id 
+    console.log('click')
+  };
+
+
   return (
     <Overlay
       isVisible={visible}
       children={
         <>
           <FriendSearchBar />
-          <ScrollView style={{height: '80%'}}>
-            {friendsArray.map((friend, index) => (
-              <ListItem
-                key={index}
-                leftAvatar={{ source: { uri: friend['friend_avatar'] } }}
-                title={friend['friend_name']}
-                subtitle={"Skill Level:"}
-                bottomDivider
-                rightElement={
-                  <CheckBox
-                    checked={true}
-                  />
-                }
-              />
-            ))}
+          <ScrollView style={{ height: '80%' }}>
+            {
+              friendsArray.map((friend, index) => (
+                <FriendListItem
+                  key={index}
+                  friend={friend}
+                />
+              ))
+            }
           </ScrollView>
           <View style={styles.footerContainer}>
             <Button
@@ -41,7 +42,7 @@ export default function InviteFriends(props) {
             />
             <Button
               buttonStyle={styles.buttonContainer}
-              onPress={goBack}
+              onPress={invite}
               title={"Invite"}
             />
           </View>
@@ -66,6 +67,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
 });
+
+
 
 
 
@@ -216,4 +219,3 @@ const friendsArray = [
     "friend_avatar": "https://s3.amazonaws.com/uifaces/faces/twitter/poormini/128.jpg"
   }
 ]
-
