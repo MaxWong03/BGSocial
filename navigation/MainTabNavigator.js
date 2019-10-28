@@ -41,6 +41,7 @@ HomeStack.path = '';
 const EventsStack = createStackNavigator(
   {
     Events: EventsScreen,
+    CreateEvent: CreateEventScreen 
   },
   config
 );
