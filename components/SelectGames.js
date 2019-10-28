@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 import SelectGamesModal from './SelectGamesModal';
 
 export default function SelectGames() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+
+  const showSelectGameModal = () => setVisible(true);
 
   //close SelectGame component
   const goBack = () => setVisible(false);
 
   return (
-    <Overlay
-      isVisible={visible}
-      children={
-        <SelectGamesModal
-          goBack={goBack}
-        />
-      }
-    />
+    <>
+      <Button 
+        title="Select Games"
+        onPress={showSelectGameModal}
+      />
+      <Overlay
+        isVisible={visible}
+        children={
+          <SelectGamesModal
+            goBack={goBack}
+          />
+        }
+      />
+    </>
   )
 }

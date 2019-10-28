@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { Button } from 'react-native'
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button } from 'react-native-elements';
 import InviteFriendsModal from './InviteFriendsModal';
 
 export default function InviteFriends(props) {
