@@ -3,8 +3,8 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Input, ListItem, Icon, Button } from 'react-native-elements';
 import InviteFriends from '../components/InviteFriends';
 import DatePicker from '../components/DatePicker';
-import SelectGames from '../components/SelectGames';
-import EventParticipants from '../components/Event-Participants';
+import EventGames from '../components/CreateEventGames';
+import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
   return (
@@ -42,18 +42,8 @@ export default function createEventScreen() {
           />
         ))
       }
-      <Text style={styles.SectionHeader}> Select Games</Text>
-      <ListItem
-        title={'Games:'}
-        leftIcon={
-          <Icon
-            name='videogame-asset'
-            type='material-icons'
-          />
-        }
-        rightElement={<SelectGames />}
-      />
-      <EventParticipants />
+      <EventGames />
+      <EventFriends />
     </>
   );
 }
