@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, ScrollView, Text } from 'react-native'
-import { Button, Header, Icon } from 'react-native-elements';
+import {  Header, Icon, Button } from 'react-native-elements';
 import FriendSearchBar from '../components/FriendSearchBar';
 import FriendListItem from './FriendListItem';
 import { whileStatement } from '@babel/types';
