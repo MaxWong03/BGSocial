@@ -54,7 +54,11 @@ export default function AttendanceList(props) {
           // topDivider
           // bottomDivider
           leftAvatar={{ source: { uri: l.avatar_url }, size:'small' }}
-          containerStyle={ { height: 'auto', width: 40, padding: 3 } }
+          containerStyle={{ 
+            height: 'auto', 
+            width: 40, 
+            padding: 3 
+          }}
         />
       </Tooltip>
 
@@ -64,10 +68,8 @@ export default function AttendanceList(props) {
       <ScrollView
         style={{
           flex: 1,
-          width: 40,
-          marginVertical: 5,
+          width: 40
         }}
-        contentContainerStyle={{flexGrow : 1, justifyContent : 'center', width: 40,}}
         >
         {attendance}
         {/* <Tooltip popover={<Text>Info here</Text>}>
