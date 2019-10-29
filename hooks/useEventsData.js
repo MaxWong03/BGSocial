@@ -3,13 +3,23 @@ import { useEffect, useReducer } from "react";
 import api from './../api';
 
 import reduceState from "../reducers/events";
+import Axios from "axios";
 
 
 export function useEventsData() {
 
   const [state, dispatchState] = useReducer(reduceState, {
-    events: []
+    events: [],
+    openEvents: []
   });
+
+  //third view
+  // const updateOpenEvents() {
+  //   Axios.get()
+  //     .then(events -> {
+  //       dispatchState(events, 'openEvents')
+  //     })
+  // }
 
   // function bookInterview(id, interview) {
   //   const appointment = {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
@@ -18,6 +18,13 @@ export default function EventsScreen({ navigation }) {
     userConfirmed
   } = useEventsData();
 
+//third view
+  // useEffect(()={
+  //   if (screenState == 2 ) {
+  //     updateOpenEvents();
+  //   }
+  // }, screenState );
+
   const slider = function (currentScreen) {
     setButtonGroup(currentScreen);
   };
@@ -35,6 +42,10 @@ export default function EventsScreen({ navigation }) {
   else if (screenState == 1 ) {
     eventsToShow = pendingEvents(state, userId);
   }
+  //third view
+  // else if (screenState ==2) {
+  //   eventsToShow = state.openEvents;
+  // }
 
   return (
     <View>
