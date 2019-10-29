@@ -13,7 +13,7 @@ export default function createEventScreen() {
         label={"Event Title"}
         labelStyle={styles.EventTitleLabel}
       />
-      <Text style={styles.TimeHeader}> Select Time</Text>
+      <Text style={styles.SectionHeader}> Select Time</Text>
       {
         times.map((time, index) => (
           <ListItem
@@ -30,8 +30,18 @@ export default function createEventScreen() {
           />
         ))
       }
+      <Text style={styles.SectionHeader}> Select Games</Text>
+      <ListItem
+        title={'Games:'}
+        leftIcon={
+          <Icon
+            name='videogame-asset'
+            type='material-icons'
+          />
+        }
+        rightElement={<SelectGames />}
+      />
       <InviteFriends />
-      <SelectGames />
     </>
   );
 }
@@ -55,8 +65,9 @@ const styles = StyleSheet.create({
   EventTitleLabel: {
     fontSize: 30
   },
-  TimeHeader: {
+  SectionHeader: {
     fontSize: 30,
+    fontWeight: 'bold',
     color: 'grey'
   }
 });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Overlay, Button } from 'react-native-elements';
+import { Overlay, Button, Icon } from 'react-native-elements';
 import SelectGamesModal from './SelectGamesModal';
 
 export default function SelectGames() {
@@ -13,8 +13,14 @@ export default function SelectGames() {
   return (
     <>
       <Button 
-        title="Select Games"
         onPress={showSelectGameModal}
+        icon={
+          <Icon
+          name='add'
+          type='material-icons'
+          color='white'
+          />
+        }
       />
       <Overlay
         isVisible={visible}
