@@ -29,10 +29,12 @@ export default function createEventScreen() {
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
         />
-        <EventGames 
+        <EventGames
+          gameSlots={gameSlots} 
           changeGameSlot={changeGameSlot}
         />
         <EventFriends 
+          friendSlots={friendSlots}
           changeFriendSlot={changeFriendSlot}
         />
       </ScrollView>

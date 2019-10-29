@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import InviteFriends from './InviteFriends';
+import EmptyList from './EmptyList';
 
-export default function CreateEventFriends({ changeFriendSlot }) {
+export default function CreateEventFriends({ friendSlots, changeFriendSlot }) {
   const [eventFriendList, setEventFriendList] = useState([]);
 
   const updateEventFriendList = (newEventFriendList) => {
@@ -21,6 +22,9 @@ export default function CreateEventFriends({ changeFriendSlot }) {
         getEventFriendList={getEventFriendList}
       />
       {
+        friendSlots.length === 0 ?
+        <EmptyList title={'Click to Invite Friends to Event'}/>
+        :
         eventFriendList.map((friend, index) => (
           <ListItem
             key={index}

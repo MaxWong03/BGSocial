@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import SelectGames from './SelectGames';
+import EmptyList from './EmptyList';
 
-export default function CreatEventGames({ changeGameSlot }) {
+export default function CreatEventGames({ gameSlots, changeGameSlot }) {
   const [eventGameList, setEventGameList] = useState([]);
 
   const updateEventGameList = (newEventGameList) => {
@@ -21,6 +22,9 @@ export default function CreatEventGames({ changeGameSlot }) {
         getEventGameList={getEventGameList}
       />
       {
+        gameSlots.length === 0 ?
+        <EmptyList title={'Click to Add Games For Event'}/>
+        :
         eventGameList.map((game, index) => (
           <ListItem
             key={index}
