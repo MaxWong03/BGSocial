@@ -1,46 +1,34 @@
 
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { useEventsData } from './../hooks/useEventsData';
-import { Button, Icon } from 'react-native-elements';
-import { formatDateWithTime } from './../utils'
+import { StyleSheet, View } from 'react-native';
+import EventItemDescription from './EventItemDescription';
+import EventItemImage from './EventItemImage';
 import AttendanceList from './AttendanceList';
 
-
-export default function EventItem({imageUrl, date, hosted, title }) {
+const attendanceListBackgroundColor = '#fafafa';
+// AttendanceList should show up using less space, only enough to show the icons.
+export default function EventItem({ imageUrl, chosenDate, attendants, isOwner, confirmedAssistance }) {
   return (
     <View style={styles.flexParent}>
-      <AttendanceList/>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={{ uri: `${imageUrl}` }}
-        />
+      <View style={styles.attendantsListContainer}>
+        <AttendanceList backgroundColor={attendanceListBackgroundColor} />
       </View>
-      <View style={styles.textContainer}>
-        <View>
-          <Text style={styles.name}>{date}</Text>
-          <Text style={styles.attendanceCount}>Attendants: 4</Text>
-        </View>
-        <Button
-          buttonStyle={styles.button}
-          title={`${title}`}
-          type='outline'
-          iconRight={true}
-          icon={
-            <Icon
-              size={20}
-              name='info'
-              type='material-icons'
-              color='#bdbdbd'
-            />
-          } />
-      </View>
+      <EventItemImage imageUrl={imageUrl} />
+      <EventItemDescription
+        chosenDate={chosenDate}
+        isOwner={isOwner}
+        confirmedAssistance={confirmedAssistance}
+        attendants={attendants}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  attendantsListContainer: {
+    flex: 0,
+    backgroundColor: attendanceListBackgroundColor
+  },
   flexParent: {
     margin: 10,
     flexDirection: "row",
@@ -48,24 +36,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     overflow: 'hidden',
     height: 150,
-    alignItems: 'stretch',
+    alignItems: 'flex-start',
     borderColor: '#eee',
     borderWidth: 1
-  },
-  imageContainer: {
-    flex: 3,
-    height: '100%'
-  },
-  textContainer: {
-    flex: 3,
-    padding: 20,
-    justifyContent: 'space-between'
-  },
-  image: {
-    aspectRatio: 1,
-    resizeMode: 'cover',
-  },
-  button: {
-    justifyContent: 'space-around'
   },
 });
