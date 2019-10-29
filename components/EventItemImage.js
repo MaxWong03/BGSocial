@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+
+import { StyleSheet, View, Image } from 'react-native';
+
 
 export default function EventItemImage({ imageUrl }) {
   return (
@@ -9,13 +11,12 @@ export default function EventItemImage({ imageUrl }) {
         source={{ uri: `${imageUrl}` }}
       />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   imageContainer: {
-    flex: 3,
-    height: '100%'
+    flex: 1,
   },
   image: {
     aspectRatio: 1,

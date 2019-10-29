@@ -1,28 +1,34 @@
 
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { useEventsData } from './../hooks/useEventsData';
-import { formatDateWithTime } from './../utils'
-import EventItemSide from './EventItemSide'
-import EventItemImage from './EventItemImage'
+import { StyleSheet, View } from 'react-native';
+import EventItemDescription from './EventItemDescription';
+import EventItemImage from './EventItemImage';
 import AttendanceList from './AttendanceList';
 
-export default function EventItem({ imageUrl, date, hosted, title }) {
+const attendanceListBackgroundColor = '#fafafa';
+// AttendanceList should show up using less space, only enough to show the icons.
+export default function EventItem({ imageUrl, chosenDate, attendants, isOwner, confirmedAssistance }) {
   return (
     <View style={styles.flexParent}>
-      <AttendanceList/>
-      <EventItemImage 
-        imageUrl={imageUrl}
-      />
-      <EventItemSide
-        date={date}
-        title={title}
+      <View style={styles.attendantsListContainer}>
+        <AttendanceList backgroundColor={attendanceListBackgroundColor} />
+      </View>
+      <EventItemImage imageUrl={imageUrl} />
+      <EventItemDescription
+        chosenDate={chosenDate}
+        isOwner={isOwner}
+        confirmedAssistance={confirmedAssistance}
+        attendants={attendants}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  attendantsListContainer: {
+    flex: 0,
+    backgroundColor: attendanceListBackgroundColor
+  },
   flexParent: {
     margin: 10,
     flexDirection: "row",
@@ -30,7 +36,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fafafa',
     overflow: 'hidden',
     height: 150,
-    alignItems: 'stretch',
+    alignItems: 'flex-start',
     borderColor: '#eee',
     borderWidth: 1
   },
