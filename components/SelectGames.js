@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Overlay, Button, Icon } from 'react-native-elements';
 import SelectGamesModal from './SelectGamesModal';
 
-export default function SelectGames() {
+export default function SelectGames({ updateEventGameList }) {
   const [visible, setVisible] = useState(false);
   const [gameSelectList, setGameSelectList] = useState(gamesArray['games']);
+
 
   const showSelectGameModal = () => setVisible(true);
 
@@ -28,16 +29,9 @@ export default function SelectGames() {
     gameSelectList.forEach((game) => {
       game['selected'] && gameList.push(game['id'])
     });
-    const updateList = gameSelectList.map((game) => {
-      if (game['selected']) {
-        return { ...game, selected: true }
-      } else {
-        return game;
-      }
-    });
-    setGameSelectList(updateList);
     goBack();
-    console.log(gameList)
+    const eventGameList = gamesArray['games'].filter(game => gameList.includes(game['id']))
+    updateEventGameList(eventGameList);
   }
 
   return (
