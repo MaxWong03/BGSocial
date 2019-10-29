@@ -1,8 +1,8 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import { SearchBar } from 'react-native-elements';
 import { ListItem } from 'react-native-elements'
-import { useNavigation } from 'react-navigation-hooks';
-import AttendenceList from '../components/AttendenceList';
+import AttendanceList from '../components/AttendanceList';
+import { getUserInfo } from './../hooks/sessionContext';
 
 import {
   StyleSheet,
@@ -31,8 +31,7 @@ const styles = StyleSheet.create({
 });
 
 export default function testScreen() {
-  const {dangerouslyGetParent} = useNavigation();
-  const { id, profilePicture } = dangerouslyGetParent().dangerouslyGetParent().getParam('userInfo');
+  const { id, profilePicture } = getUserInfo();
   console.log('@TestsScreen:', id, profilePicture);
   const [data, setData] = useState(              
   [
@@ -76,7 +75,7 @@ export default function testScreen() {
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -125,7 +124,7 @@ style= {styles.container}
     // onChangeText={(event) => {setSearch(event)}}
     // value={search}
   /> */}
-  <AttendenceList />
+  <AttendanceList />
     <LineChart
       data={{
         // the month
@@ -174,7 +173,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -223,7 +222,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month
@@ -272,7 +271,7 @@ style= {styles.container}
         // onChangeText={(event) => {setSearch(event)}}
         // value={search}
       /> */}
-      <AttendenceList />
+      <AttendanceList />
         <LineChart
           data={{
             // the month

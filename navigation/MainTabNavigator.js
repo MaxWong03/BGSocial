@@ -4,7 +4,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import EventsScreen from '../screens/EventsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
@@ -38,21 +38,22 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-const LinksStack = createStackNavigator(
+const EventsStack = createStackNavigator(
   {
-    Links: LinksScreen,
+    Events: EventsScreen,
+    CreateEvent: CreateEventScreen 
   },
   config
 );
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+EventsStack.navigationOptions = {
+  tabBarLabel: 'Events',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
   ),
 };
 
-LinksStack.path = '';
+EventsStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -105,7 +106,7 @@ CreateEvent.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-  LinksStack,
+  EventsStack,
   SettingsStack,
   TestStack,
   CreateEvent

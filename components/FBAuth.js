@@ -1,12 +1,12 @@
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import {
-  Button,
-  Alert,
-} from 'react-native';
+import { Button } from 'react-native-elements'
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
+import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
+
+import { getUserInfoContext } from './../hooks/sessionContext';
 
 async function loginWithFacebook() {
   try {
@@ -22,13 +22,14 @@ async function loginWithFacebook() {
     if (type === 'success') {
       // Get the user's name using Facebook's Graph API
       const basicInfo = await axios.get(`https://graph.facebook.com/me?access_token=${token}`);
-      const { name, id } = basicInfo.data;
-      const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${id}/picture?height=350&width=350`)
-      const {responseURL: profilePicture} = profileResponse.request;
-      const userData = await axios.get(`http://192.168.88.78:8080/api/users/${id}`);
-      return [type, id, profilePicture]
+      const { name, id: fbID } = basicInfo.data;
+      const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbID}/picture?height=350&width=350`)
+      const { responseURL: profilePicture } = profileResponse.request;
+      const { data: userData } = await axios.get(`${API_HOST}/users/facebook/${fbID}`);
+
+      return { type, fbID, profilePicture, name, userData }
     } else { //type === 'cancel', user doesn't wanna login
-      return type;
+      return { type };
     }
   } catch (err) {
     console.log(`Facebook Login Error: ${err} \n ${err.message}`);
@@ -37,19 +38,25 @@ async function loginWithFacebook() {
 
 export default function FBAuth(props) {
   const { navigate, dispatch } = useNavigation();
+  // Only interested in the part of the context related to SET the state (userInfo) value.
+  const { setUserInfo } = getUserInfoContext();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then(([type, id, profilePicture]) => {
+      .then(({ type, fbID, profilePicture, name, userData }) => {
         if (type === "success") {
-          const userInfo = { id, profilePicture };
-          navigate('Main', { userInfo }); //navigate to home screen passing userInfo as params
-          // const setParmasAction = NavigationActions.setParams({
-          //   parmas: { userInfo },
-          //   key: 'LinksStack'
-          // });
-          // dispatch(setParmasAction);
-        }//else do nothing
-      });
+          const userInfo = {
+            fbID,
+            name,
+            profilePicture,
+            userData //object
+          };
+          setUserInfo(userInfo);
+          navigate('Main');
+        }
+        else {
+          console.log('Failed to login:', type, id, profilePicture);
+        }
+      }).catch(e => console.log(e));
   }
   return (
     <Button
