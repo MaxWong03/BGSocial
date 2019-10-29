@@ -15,18 +15,16 @@ export default function CreatEventGames({ gameSlot, addGameSlot }) {
       <SelectGames
         updateEventGameList={updateEventGameList}
       />
-      <ScrollView>
-        {
-          eventGameList.map((game, index) => (
-            <ListItem
-              key={index}
-              leftAvatar={{ source: { uri: game['thumbnail'] } }}
-              title={game['name']}
-              bottomDivider
-            />
-          ))
-        }
-      </ScrollView>
+      {
+        eventGameList.map((game, index) => (
+          <ListItem
+            key={index}
+            leftAvatar={{ source: { uri: game['thumbnail'] } }}
+            title={game['name']}
+            bottomDivider
+          />
+        ))
+      }
     </>
   )
 }

@@ -17,24 +17,22 @@ export default function CreateEventDate({ timeSlots, addTimeSlot }) {
         onPress={addTimeSlot}
         buttonStyle={styles.buttonContainer}
       />
-      <ScrollView>
-        {
-          timeSlots.map((time, index) => (
-            <ListItem
-              key={index}
-              title={time.title}
-              leftIcon={
-                <Icon
-                  name='date-range'
-                  type='material-icons'
-                />
-              }
-              rightElement={<DatePicker />}
-              bottomDivider
-            />
-          ))
-        }
-      </ScrollView>
+      {
+        timeSlots.map((time, index) => (
+          <ListItem
+            key={index}
+            title={time.title}
+            leftIcon={
+              <Icon
+                name='date-range'
+                type='material-icons'
+              />
+            }
+            rightElement={<DatePicker />}
+            bottomDivider
+          />
+        ))
+      }
     </>
   )
 }

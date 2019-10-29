@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import EventTitle from '../components/CreateEventTitle';
 import EventDate from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
@@ -18,12 +18,14 @@ export default function createEventScreen() {
   return (
     <>
       <EventTitle />
-      <EventDate
-        timeSlots={timeSlots}
-        addTimeSlot={addTimeSlot}
-      />
-      <EventGames />
-      <EventFriends />
+      <ScrollView >
+        <EventDate
+          timeSlots={timeSlots}
+          addTimeSlot={addTimeSlot}
+        />
+        <EventGames />
+        <EventFriends />
+      </ScrollView>
     </>
   );
 }
