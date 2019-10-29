@@ -9,7 +9,7 @@ export default function DatePicker() {
 
   const getPickedDate = (date) => {
     console.log("A date has been picked: ", date);
-    closeDatePicker();
+    closeModal();
   }
 
   return (

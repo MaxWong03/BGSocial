@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
-import DatePicker from './DatePicker';
+import TimeListItem from './TimeListItem';
 export default function CreateEventDate({ timeSlots, addTimeSlot }) {
   return (
     <>
@@ -19,17 +19,9 @@ export default function CreateEventDate({ timeSlots, addTimeSlot }) {
       />
       {
         timeSlots.map((time, index) => (
-          <ListItem
+          <TimeListItem
             key={index}
             title={time.title}
-            leftIcon={
-              <Icon
-                name='date-range'
-                type='material-icons'
-              />
-            }
-            rightElement={<DatePicker />}
-            bottomDivider
           />
         ))
       }
