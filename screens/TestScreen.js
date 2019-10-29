@@ -3,8 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 // import { useEventsData } from './../hooks/useEventsData';
 import { Header, Button, Icon, Divider } from 'react-native-elements';
 // import { formatDateWithTime } from './../utils'
-import EventItem from '../components/EventItem';
-
+import OwnGameListItem from '../components/OwnGameListItem';
 export default function EventsScreen() {
 
   // const {
@@ -62,37 +61,14 @@ export default function EventsScreen() {
       
       {/* the each game part */}
       {
-        exampleData.map((event, i) => {
+        exampleData.map((event, index) => {
           return (
-            <View key={i} style={styles.flexParent}> 
-              <View style={styles.imamgContainer}>
-                <Image
-                  style={{flex: 1,
-                    width: null,
-                    height: null,
-                    resizeMode: 'contain'}}
-                  source={{uri: event.img}}
-                />
-              </View>
-      
-              <View style={styles.textContainer}>
-                <Text>{event.name}</Text>
-                <Text>{event.last_played}</Text>
-              </View>
-      
-              <View style={styles.iconContainer}>
-                <Button
-                  icon={
-                    <Icon
-                      name="arrow-right-thick"
-                      type="material-community"
-                      size={30}
-                      color="white"
-                    />
-                  }
-                />
-              </View>
-            </View>
+            <OwnGameListItem
+              key={ index }
+              imageURL = { event.img }
+              date = { event.last_played }
+              title = { event.name }
+            />
           );
         })
       }
@@ -100,39 +76,5 @@ export default function EventsScreen() {
   );
 }
 
-EventsScreen.navigationOptions = {
-  title: 'Events',
-};
-
 const styles = StyleSheet.create({
-  flexParent: {
-    margin: 10,
-    flexDirection: "row",
-    borderRadius: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-    height: 150,
-    alignItems: 'stretch', // align them to the max width
-    borderColor: '#eee',
-    borderWidth: 1
-  },
-  imamgContainer:{
-    flex: 3,
-    height: '100%',
-    width: '100%',
-    backgroundColor: 'blue'
-  },
-  textContainer:{
-    flex: 3,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  iconContainer: {
-    backgroundColor: 'yellow',
-    flex: 1,
-    padding: 'auto',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
 });
