@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import { Overlay, Button, Icon } from 'react-native-elements';
+import useVisibility from '../hooks/useVisibility';
 import InviteFriendsModal from './InviteFriendsModal';
 
-export default function InviteFriends({updateEventFriendList}) {
-  const [visible, setVisible] = useState(false);
+export default function InviteFriends({ updateEventFriendList }) {
+  const { visible, showModal, closeModal } = useVisibility(false);
   const [friendInviteList, setFriendInviteList] = useState(friendsArray);
-
-  const showInviteModal = () => setVisible(true);
-
-  //close InviteFriend Component
-  const goBack = () => setVisible(false);
 
   const onSelect = (friend_id) => {
     console.log(friend_id)
@@ -29,29 +25,29 @@ export default function InviteFriends({updateEventFriendList}) {
     friendInviteList.forEach((friend) => {
       friend['invited'] && inviteList.push(friend['friend_id']);
     });
-    goBack();
     const eventFriendList = friendsArray.filter(friend => inviteList.includes(friend['friend_id']));
     updateEventFriendList(eventFriendList);
+    closeModal();
   };
 
   return (
     <>
-      <Button 
+      <Button
         title="Invite Friends"
-        onPress={showInviteModal}
+        onPress={showModal}
         icon={
           <Icon
-          name='group-add'
-          type='material-icons'
-          color='white'
+            name='group-add'
+            type='material-icons'
+            color='white'
           />
         }
       />
-        <Overlay
+      <Overlay
         isVisible={visible}
         children={
           <InviteFriendsModal
-            goBack={goBack}
+            goBack={closeModal}
             friendInviteList={friendInviteList}
             onSelect={onSelect}
             inviteAction={inviteAction}

@@ -30,7 +30,7 @@ export default function EvenItemSide({ date, title }) {
 const styles = StyleSheet.create({
 
   textContainer: {
-    flex: 1,
+    flex: 3,
     padding: 20,
     justifyContent: 'space-between'
   },

@@ -14,7 +14,8 @@ export default function EventItemImage({ imageUrl }) {
 
 const styles = StyleSheet.create({
   imageContainer: {
-    flex: 1,
+    flex: 3,
+    height: '100%'
   },
   image: {
     aspectRatio: 1,
