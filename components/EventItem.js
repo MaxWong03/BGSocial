@@ -2,40 +2,21 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
-import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
+import EventItemSide from './EventItemSide'
+import EventItemImage from './EventItemImage'
 
-
-export default function EventItem({imageUrl, date, hosted, title }) {
+export default function EventItem({ imageUrl, date, hosted, title }) {
   return (
     <View style={styles.flexParent}>
-    <View style={styles.imageContainer}>
-      <Image
-        style={styles.image}
-        source={{ uri: `${imageUrl}` }}
+      <EventItemImage 
+        imageUrl={imageUrl}
+      />
+      <EventItemSide
+        date={date}
+        title={title}
       />
     </View>
-    <View style={styles.textContainer}>
-      <View>
-        <Text style={styles.name}>{date}</Text>
-        <Text style={styles.attendanceCount}>Attendants: 4</Text>
-
-      </View>
-      <Button
-        buttonStyle={styles.button}
-        title={`${title}`}
-        type='outline'
-        iconRight={true}
-        icon={
-          <Icon
-            size={20}
-            name='info'
-            type='material-icons'
-            color='#bdbdbd'
-          />
-        } />
-    </View>
-  </View>
   );
 };
 
@@ -50,20 +31,5 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     borderColor: '#eee',
     borderWidth: 1
-  },
-  imageContainer: {
-    flex: 1,
-  },
-  textContainer: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'space-between'
-  },
-  image: {
-    aspectRatio: 1,
-    resizeMode: 'cover',
-  },
-  button: {
-    justifyContent: 'space-around'
   },
 });
