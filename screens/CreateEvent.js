@@ -1,19 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Input, ListItem, Icon, Button } from 'react-native-elements';
-import InviteFriends from '../components/InviteFriends';
+import { ListItem, Icon, Button } from 'react-native-elements';
 import DatePicker from '../components/DatePicker';
+import EventTitle from '../components/CreateEventTitle';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
   return (
     <>
-      <Input
-        placeholder={"Enter Event Name..."}
-        label={"Event Title"}
-        labelStyle={styles.EventTitleLabel}
-      />
+      <EventTitle />
       <View style={styles.SelectTimeContainer}>
         <Text style={styles.SectionHeader}> Select Time</Text>
         <Button
