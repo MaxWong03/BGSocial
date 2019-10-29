@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { ListItem, Icon } from 'react-native-elements';
 import DatePicker from './DatePicker';
 
-export default function TimeListItem({ index, title }) {
+export default function TimeListItem({ index, title, changeTimeSlot }) {
   const [date, setDate] = useState(new Date());
   const onChangeDate = (newDate) => {
     setDate(newDate);
+    changeTimeSlot(index, newDate);
   }
   return (
     <ListItem
