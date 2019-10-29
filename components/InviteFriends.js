@@ -1,22 +1,36 @@
 import React, { useState } from 'react'
-import { Overlay } from 'react-native-elements';
+import { Overlay, Button, Icon } from 'react-native-elements';
 import InviteFriendsModal from './InviteFriendsModal';
 
 export default function InviteFriends(props) {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
+
+  const showInviteModal = () => setVisible(true);
 
   //close InviteFriend Component
   const goBack = () => setVisible(false);
 
   return (
-    <Overlay
-      isVisible={visible}
-      children={
-        <InviteFriendsModal
-          goBack={goBack}
-        />
-      }
-    />
+    <>
+      <Button 
+        onPress={showInviteModal}
+        icon={
+          <Icon
+          name='group-add'
+          type='material-icons'
+          color='white'
+          />
+        }
+      />
+        <Overlay
+        isVisible={visible}
+        children={
+          <InviteFriendsModal
+            goBack={goBack}
+          />
+        }
+      />
+    </>
 
   )
 }

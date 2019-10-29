@@ -1,9 +1,6 @@
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import {
-  Button,
-  Alert,
-} from 'react-native';
+import { Button } from 'react-native-elements'
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
 import { API_HOST } from './../settings/app.config';
@@ -30,9 +27,9 @@ async function loginWithFacebook() {
       const { responseURL: profilePicture } = profileResponse.request;
       const { data: userData } = await axios.get(`${API_HOST}/users/facebook/${fbID}`);
 
-      return {type, fbID, profilePicture, name, userData}
+      return { type, fbID, profilePicture, name, userData }
     } else { //type === 'cancel', user doesn't wanna login
-      return {type};
+      return { type };
     }
   } catch (err) {
     console.log(`Facebook Login Error: ${err} \n ${err.message}`);
@@ -45,7 +42,7 @@ export default function FBAuth(props) {
   const { setUserInfo } = getUserInfoContext();
   const loginAndNavigate = () => {
     loginWithFacebook()
-      .then(({type, fbID, profilePicture, name, userData}) => {
+      .then(({ type, fbID, profilePicture, name, userData }) => {
         if (type === "success") {
           const userInfo = {
             fbID,

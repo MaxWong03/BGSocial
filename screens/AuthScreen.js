@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  View, Button
+  View
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import FBAuth from '../components/FBAuth'
 
 function continueNotLogged(navigation) {
