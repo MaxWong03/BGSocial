@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils';
@@ -13,7 +13,9 @@ export default function EventsScreen({ navigation }) {
     state,
     dispatchState,
     confirmEvents,
-    pendingEvents
+    pendingEvents,
+    confirmAttendants,
+    userConfirmed
   } = useEventsData();
 
   const slider = function (currentScreen) {
@@ -22,55 +24,42 @@ export default function EventsScreen({ navigation }) {
 
   const buttons = ['My Events', 'Pending Events', 'Explore']
 
-  const { id } = getUserInfo();
+  const { userData } = getUserInfo();
+
+  const userId = 1;
+
+  let eventsToShow = [];
+  if ( screenState === 0 ) {
+    eventsToShow = confirmEvents(state, userId);
+  }
+  else if (screenState == 1 ) {
+    eventsToShow = pendingEvents(state, userId);
+  }
 
   return (
+    <View>
     <ScrollView>
       <ButtonGroup
         buttons={buttons}
-        containerStyle={styles.ButtonGroup}
+        containerStyle={styles.buttonGroup}
         selectedIndex={screenState}
         onPress={slider}
       />
-      {screenState === 0 &&
-        confirmEvents(state).map((event, index) => {
-          return (
-            <EventItem
-              key={index}
-              date={formatDateWithTime(event.chosen_event_date.date)}
-              imageUrl={event.event_games[0].image}
-              title="More info"
-            />
-          );
-        })
-      }
-      {screenState === 1 &&
-        pendingEvents(state).map((event, index) => {
-          return (
-            <EventItem
-              key={index}
-              hosted={id === event.owner_id}
-              date={""}
-              imageUrl={event.event_games[0].image}
-              title="Vote !"
-            />
-          );
-        })
-      }
-      {screenState === 2 &&
-        pendingEvents(state).map((event, index) => {
-          return (
-            <EventItem
-              key={index}
-              date={""}
-              hosted={id === event.owner_id}
-              imageUrl={event.event_games[0].image}
-              title="Vote"
-            />
-          );
-        })
-      }
-      <Icon
+      {eventsToShow.map((event, index) => {
+        return  (
+          <EventItem
+            key={index}
+            chosenDate={event.chosen_event_date.date}
+            imageUrl={event.event_games[0].image}
+            isOwner={userId === event.owner_id}
+            confirmedAssistance={userConfirmed(event, userId)}
+            attendants={confirmAttendants(event.event_attendants).length}
+          />
+        );
+      })}
+      
+    </ScrollView>
+    <Icon
         size={30}
         name='calendar-plus-o'
         type='font-awesome'
@@ -78,7 +67,7 @@ export default function EventsScreen({ navigation }) {
         onPress={() => navigation.navigate('CreateEvent')}
         iconStyle={styles.icon}
       />
-    </ScrollView>
+    </View>
   );
 };
 
@@ -87,38 +76,12 @@ EventsScreen.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  flexParent: {
-    margin: 10,
-    flexDirection: "row",
-    borderRadius: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-    height: 150,
-    alignItems: 'stretch',
-    borderColor: '#eee',
-    borderWidth: 1
-  },
-  imageContainer: {
-    flex: 1,
-  },
-  textContainer: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'space-between'
-  },
-  image: {
-    aspectRatio: 1,
-    resizeMode: 'cover',
-  },
-  button: {
-    justifyContent: 'space-around'
-  },
-  ButtonGroup: {
+  buttonGroup: {
     backgroundColor: '#fafafa',
     height: 50
   },
   icon: {
     margin: 20,
-    alignSelf: 'flex-end'
+    alignSelf:'flex-end'
   }
 });
