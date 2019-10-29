@@ -7,21 +7,20 @@ import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
-  const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date()}]);
+  const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date() }]);
 
 
   const addTimeSlot = () => {
-    const newTime = { id: timeSlots.length, time: new Date() }
-    setTimeSlots([...timeSlots, newTime])
+    if (timeSlots.length < 3) {
+      const newTime = { id: timeSlots.length, time: new Date() }
+      setTimeSlots([...timeSlots, newTime])
+    }
   };
 
   const changeTimeSlot = (index, newDate) => {
     const updateTimeSlot = timeSlots.map((time) => {
-      if (time.id === index) {
-        return {...time, time: newDate};
-      } else {
-        return time;
-      }
+      if (time.id === index) return { ...time, time: newDate };
+      else return time;
     });
     setTimeSlots(updateTimeSlot);
   };
