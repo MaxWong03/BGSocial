@@ -46,21 +46,23 @@ export function useEventsData() {
   //     });
   // }
 
-  function doSomething() {
+  function confirmEvents(state) {
+    return state.events.filter(event => event.chosen_event_date.date)
+  };
 
-  }
-
-  
+  function pendingEvents(state) {
+    return state.events.filter(event => !event.chosen_event_date.date)
+  };
 
   async function loadEvents() {
-    const event  = await api.get("/events");
+    const event = await api.get("/events");
     dispatchState({ value: event.data, type: "setEvents" });
-  }
+  };
 
   useEffect(() => {
     loadEvents();
   }, []);
 
-  return { state, dispatchState, doSomething };
+  return { state, dispatchState, confirmEvents, pendingEvents };
 
 };
