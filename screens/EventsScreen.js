@@ -99,10 +99,10 @@ const styles = StyleSheet.create({
     borderWidth: 1
   },
   imageContainer: {
-    flex: 1,
+    flex: 3,
   },
   textContainer: {
-    flex: 1,
+    flex: 3,
     padding: 20,
     justifyContent: 'space-between'
   },
