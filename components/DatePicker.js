@@ -4,11 +4,12 @@ import { Button, Icon } from "react-native-elements";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import useVisbility from '../hooks/useVisibility';
 
-export default function DatePicker() {
-  const {visible, showModal, closeModal} = useVisbility();
+export default function DatePicker({ date, onChangeDate }) {
+  const { visible, showModal, closeModal } = useVisbility();
 
   const getPickedDate = (date) => {
     console.log("A date has been picked: ", date);
+    onChangeDate(date)
     closeModal();
   }
 
@@ -19,15 +20,16 @@ export default function DatePicker() {
         buttonStyle={styles.buttonContainer}
         icon={
           <Icon
-          name='edit'
-          type='material-icons'
-          color='white'
+            name='edit'
+            type='material-icons'
+            color='white'
           />
         }
       />
       <DateTimePicker
         mode={'datetime'}
         isVisible={visible}
+        date={date}
         onConfirm={getPickedDate}
         onCancel={closeModal}
       />
