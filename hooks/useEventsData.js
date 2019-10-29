@@ -3,13 +3,23 @@ import { useEffect, useReducer } from "react";
 import api from './../api';
 
 import reduceState from "../reducers/events";
+import Axios from "axios";
 
 
 export function useEventsData() {
 
   const [state, dispatchState] = useReducer(reduceState, {
-    events: []
+    events: [],
+    openEvents: []
   });
+
+  //third view
+  // const updateOpenEvents() {
+  //   Axios.get()
+  //     .then(events -> {
+  //       dispatchState(events, 'openEvents')
+  //     })
+  // }
 
   // function bookInterview(id, interview) {
   //   const appointment = {
@@ -46,12 +56,21 @@ export function useEventsData() {
   //     });
   // }
 
-  function confirmEvents(state) {
-    return state.events.filter(event => event.chosen_event_date.date)
+  function confirmEvents(state, userId) {
+    return state.events.filter(event => (event.chosen_event_date.date && userConfirmed(event, userId)))
   };
 
-  function pendingEvents(state) {
-    return state.events.filter(event => !event.chosen_event_date.date)
+  function userConfirmed(event, userId) {
+    return !! event.event_attendants.find(attendant => (attendant.attendant_id === 1 && attendant.is_confirmed));
+  };
+
+  function pendingEvents(state, userId) {
+    return state.events.filter(event => !event.chosen_event_date.date || !userConfirmed(event, userId))
+  };
+
+  function confirmAttendants(event_attendants) {
+    const attendants = event_attendants.filter(attendant => attendant.is_confirmed)
+    return attendants
   };
 
   async function loadEvents() {
@@ -63,6 +82,11 @@ export function useEventsData() {
     loadEvents();
   }, []);
 
-  return { state, dispatchState, confirmEvents, pendingEvents };
+  return { state,
+     dispatchState,
+     confirmEvents,
+     pendingEvents,
+     userConfirmed,
+     confirmAttendants };
 
 };
