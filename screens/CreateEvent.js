@@ -1,83 +1,67 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Input, ListItem, Icon } from 'react-native-elements';
-import InviteFriends from '../components/InviteFriends';
-import DatePicker from '../components/DatePicker';
-import SelectGames from '../components/SelectGames';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
+import EventTitle from '../components/CreateEventTitle';
+import EventDate from '../components/CreateEventDate';
+import EventGames from '../components/CreateEventGames';
+import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
+  const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date() }]);
+
+
+  const addTimeSlot = () => {
+    if (timeSlots.length < 3) {
+      const newTime = { id: timeSlots.length, time: new Date() }
+      setTimeSlots([...timeSlots, newTime])
+    }
+  };
+
+  const changeTimeSlot = (index, newDate) => {
+    const updateTimeSlot = timeSlots.map((time) => {
+      if (time.id === index) return { ...time, time: newDate };
+      else return time;
+    });
+    setTimeSlots(updateTimeSlot);
+  };
+
+  const createEvent = () => {
+    console.log('Selected Times:', timeSlots);
+  };
+
   return (
     <>
-      <Input
-        placeholder={"Enter Event Name..."}
-        label={"Event Title"}
-        labelStyle={styles.EventTitleLabel}
-      />
-      <Text style={styles.SectionHeader}> Select Time</Text>
-      {
-        times.map((time, index) => (
-          <ListItem
-            key={index}
-            title={time.title}
-            leftIcon={
-              <Icon
-                name='date-range'
-                type='material-icons'
-              />
-            }
-            rightElement={<DatePicker />}
-            bottomDivider
-          />
-        ))
-      }
-      <Text style={styles.SectionHeader}> Select Games</Text>
-      <ListItem
-        title={'Games:'}
-        leftIcon={
+      <EventTitle />
+      <ScrollView >
+        <EventDate
+          timeSlots={timeSlots}
+          addTimeSlot={addTimeSlot}
+          changeTimeSlot={changeTimeSlot}
+        />
+        <EventGames />
+        <EventFriends />
+      </ScrollView>
+      <Button
+        title='Create Event!'
+        icon={
           <Icon
-            name='videogame-asset'
-            type='material-icons'
+            name='check-circle'
+            type='font-awesome'
+            color='white'
           />
         }
-        rightElement={<SelectGames />}
-      />
-      <Text style={styles.SectionHeader}> Invite Friends</Text>      
-      <ListItem
-        title={'Friends:'}
-        leftIcon={
-          <Icon
-            name='group'
-            type='material-icons'
-          />
-        }
-        rightElement={<InviteFriends />}
+        onPress={createEvent}
       />
     </>
   );
 }
 
-const times = [
-  {
-    id: 'time-1',
-    title: 'Time-1'
-  },
-  {
-    id: 'time-2',
-    title: 'Time-2'
-  },
-  {
-    id: 'time-3',
-    title: 'Time-3'
-  }
-]
-
 const styles = StyleSheet.create({
   EventTitleLabel: {
     fontSize: 30
   },
-  SectionHeader: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: 'grey'
+  SelectTimeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   }
 });
