@@ -6,17 +6,8 @@ import SelectGames from './SelectGames';
 export default function CreatEventGames() {
   return (
     <>
-      <Text style={styles.SectionHeader}> Select Games</Text>
-      <ListItem
-        title={'Games:'}
-        leftIcon={
-          <Icon
-            name='videogame-asset'
-            type='material-icons'
-          />
-        }
-        rightElement={<SelectGames />}
-      />
+      <SelectGames />
+      <ListItem />
     </>
   )
 }

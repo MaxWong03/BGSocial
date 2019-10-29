@@ -14,11 +14,12 @@ export default function SelectGames() {
     <>
       <Button 
         onPress={showSelectGameModal}
+        title={'Add Games'}
         icon={
           <Icon
-          name='add'
-          type='material-icons'
-          color='white'
+            name='videogame-asset'
+            type='material-icons'
+            color='white'
           />
         }
       />

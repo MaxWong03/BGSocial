@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import DatePicker from './DatePicker';
 export default function CreateEventDate({ timeSlots, addTimeSlot }) {
@@ -15,6 +15,7 @@ export default function CreateEventDate({ timeSlots, addTimeSlot }) {
           />
         }
         onPress={addTimeSlot}
+        buttonStyle={styles.buttonContainer}
       />
       <ScrollView>
         {
@@ -37,3 +38,9 @@ export default function CreateEventDate({ timeSlots, addTimeSlot }) {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    marginVertical: 5
+  }
+})
