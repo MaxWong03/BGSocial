@@ -5,10 +5,12 @@ import { useEventsData } from './../hooks/useEventsData';
 import { formatDateWithTime } from './../utils'
 import EventItemSide from './EventItemSide'
 import EventItemImage from './EventItemImage'
+import AttendanceList from './AttendanceList';
 
 export default function EventItem({ imageUrl, date, hosted, title }) {
   return (
     <View style={styles.flexParent}>
+      <AttendanceList/>
       <EventItemImage 
         imageUrl={imageUrl}
       />
