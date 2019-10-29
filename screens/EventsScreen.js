@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
-import { ButtonGroup, Button, Icon } from 'react-native-elements';
+import { ButtonGroup, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils';
 import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
 
-export default function EventsScreen({navigation}) {
+export default function EventsScreen({ navigation }) {
   const [screenState, setButtonGroup] = useState(0);
 
   const {
     state,
-    dispatchState
+    dispatchState,
+    confirmEvents,
+    pendingEvents
   } = useEventsData();
 
   const slider = function (currentScreen) {
@@ -20,18 +22,10 @@ export default function EventsScreen({navigation}) {
 
   const buttons = ['My Events', 'Pending Events', 'Explore']
 
-  const confirmEvents = (state) => {
-    return state.events.filter(event => event.chosen_event_date.date)
-  }
-
-  const pendingEvents = (state) => {
-    return state.events.filter(event => !event.chosen_event_date.date)
-  }
-
   const { id } = getUserInfo();
 
   return (
-    <ScrollView >
+    <ScrollView>
       <ButtonGroup
         buttons={buttons}
         containerStyle={styles.ButtonGroup}
@@ -45,6 +39,7 @@ export default function EventsScreen({navigation}) {
               key={index}
               date={formatDateWithTime(event.chosen_event_date.date)}
               imageUrl={event.event_games[0].image}
+              title="More info"
             />
           );
         })
@@ -57,6 +52,7 @@ export default function EventsScreen({navigation}) {
               hosted={id === event.owner_id}
               date={""}
               imageUrl={event.event_games[0].image}
+              title="Vote !"
             />
           );
         })
@@ -69,17 +65,19 @@ export default function EventsScreen({navigation}) {
               date={""}
               hosted={id === event.owner_id}
               imageUrl={event.event_games[0].image}
+              title="Vote"
             />
           );
         })
       }
       <Icon
-            size={50}
-            name='add-circle'
-            type='material-icons'
-            color='#bdbdbd'
-            onPress={() => navigation.navigate('CreateEvent')}
-          />
+        size={30}
+        name='calendar-plus-o'
+        type='font-awesome'
+        color='#0e92cf'
+        onPress={() => navigation.navigate('CreateEvent')}
+        iconStyle={styles.icon}
+      />
     </ScrollView>
   );
 };
@@ -118,5 +116,9 @@ const styles = StyleSheet.create({
   ButtonGroup: {
     backgroundColor: '#fafafa',
     height: 50
+  },
+  icon: {
+    margin: 20,
+    alignSelf: 'flex-end'
   }
 });

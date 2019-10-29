@@ -6,7 +6,7 @@ import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 
 
-export default function EventItem({imageUrl , date, hosted }) {
+export default function EventItem({imageUrl, date, hosted, title }) {
   return (
     <View style={styles.flexParent}>
     <View style={styles.imageContainer}>
@@ -23,7 +23,7 @@ export default function EventItem({imageUrl , date, hosted }) {
       </View>
       <Button
         buttonStyle={styles.button}
-        title='View more info'
+        title={`${title}`}
         type='outline'
         iconRight={true}
         icon={
