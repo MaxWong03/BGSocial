@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Overlay, Button } from 'react-native-elements';
+import { Overlay, Button, Icon } from 'react-native-elements';
 import InviteFriendsModal from './InviteFriendsModal';
 
 export default function InviteFriends(props) {
@@ -13,8 +13,14 @@ export default function InviteFriends(props) {
   return (
     <>
       <Button 
-        title="Invite Friends"
         onPress={showInviteModal}
+        icon={
+          <Icon
+          name='group-add'
+          type='material-icons'
+          color='white'
+          />
+        }
       />
         <Overlay
         isVisible={visible}

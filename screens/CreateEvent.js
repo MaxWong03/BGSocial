@@ -41,7 +41,17 @@ export default function createEventScreen() {
         }
         rightElement={<SelectGames />}
       />
-      <InviteFriends />
+      <Text style={styles.SectionHeader}> Invite Friends</Text>      
+      <ListItem
+        title={'Friends:'}
+        leftIcon={
+          <Icon
+            name='group'
+            type='material-icons'
+          />
+        }
+        rightElement={<InviteFriends />}
+      />
     </>
   );
 }
