@@ -2,26 +2,11 @@ import React, { useState } from 'react';
 import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import SelectGamesModal from './SelectGamesModal';
+import useList from '../hooks/useList';
 
 export default function SelectGames({ updateEventGameList }) {
   const {visible, showModal, closeModal} = useVisibility(false);
-  const [gameSelectList, setGameSelectList] = useState(gamesArray['games']);
-
-
-
-  //close SelectGame component
-
-  const onSelect = (gameID) => {
-    console.log(gameID)
-    const updateList = gameSelectList.map((game) => {
-      if (game['id'] === gameID) {
-        return { ...game, selected: !game['selected'] }
-      } else {
-        return game;
-      }
-    });
-    setGameSelectList(updateList);
-  }
+  const {list: gameSelectList, onSelectGame: onSelect} = useList(gamesArray['games']);
 
   const chooseGameAction = () => {
     const gameList = [];

@@ -2,22 +2,11 @@ import React, { useState } from 'react'
 import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import InviteFriendsModal from './InviteFriendsModal';
+import useList from '../hooks/useList';
 
 export default function InviteFriends({ updateEventFriendList }) {
   const { visible, showModal, closeModal } = useVisibility(false);
-  const [friendInviteList, setFriendInviteList] = useState(friendsArray);
-
-  const onSelect = (friend_id) => {
-    console.log(friend_id)
-    const updatedList = friendInviteList.map((friend) => {
-      if (friend['friend_id'] === friend_id) {
-        return { ...friend, invited: !friend['invited'] };
-      } else {
-        return friend;
-      }
-    });
-    setFriendInviteList(updatedList);
-  };
+  const { list: friendInviteList, onSelectFriend: onSelect } = useList(friendsArray);
 
   //Get all invited friends id
   const inviteAction = () => {
