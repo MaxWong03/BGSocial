@@ -46,37 +46,30 @@ const list = [
 ];
 
 export default function AttendanceList(props) {
+  const attendance = list.map((l, i) => (
+    <Tooltip key={i}popover={<Text>{l.name}</Text>}>
+      <ListItem
+        key={i}
+        // topDivider
+        // bottomDivider
+        leftAvatar={{ source: { uri: l.avatar_url }, size:'small' }}
+        containerStyle={ { height: 'auto', width: 40, padding: 3 } }
+      />
+    </Tooltip>
+  ))
 
-    const attendance = list.map((l, i) => (
-      <Tooltip key={i} popover={<Text>{l.name}</Text>}>
-        <ListItem
-          key={i}
-          // topDivider
-          // bottomDivider
-          leftAvatar={{ source: { uri: l.avatar_url }, size:'small' }}
-          containerStyle={{ 
-            height: 'auto', 
-            width: 40, 
-            padding: 3 
-          }}
-        />
-      </Tooltip>
-
-    ))
-
-    return (
-      <ScrollView
-        style={{
-          flex: 1,
-          width: 40
-        }}
-        >
-        {attendance}
-        {/* <Tooltip popover={<Text>Info here</Text>}>
-          <Text>Press me</Text>
-        </Tooltip> */}
-      </ScrollView>
-    )
+  return (
+    <ScrollView
+      style={{
+        flex: 1,
+        width: 40,
+        marginVertical: 5,
+      }}
+      // contentContainerStyle={{flexGrow : 1, justifyContent : 'center', width: 40,}}
+    >
+      {attendance}
+    </ScrollView>
+  )
 }
 
 const styles = StyleSheet.create({

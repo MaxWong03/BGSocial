@@ -26,7 +26,7 @@ export default function EventsScreen() {
             return (
               // <Card key={i} containerStyle={styles.card}>
               <View key={i} style={styles.flexParent}>
-                <AttendanceList containerStyle={  }/>
+                <AttendanceList/>
                 <View style={styles.imageContainer}>
                   <Image
                     style={styles.image}
