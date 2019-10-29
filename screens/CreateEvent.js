@@ -5,28 +5,19 @@ import EventTitle from '../components/CreateEventTitle';
 import EventDate from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
+import useTimeSlot from '../hooks/useTimeSlot';
+import useGameSlot from '../hooks/useGameSlot';
+import useFriendSlot from '../hooks/useFriendSlot';
 
 export default function createEventScreen() {
-  const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date() }]);
-
-
-  const addTimeSlot = () => {
-    if (timeSlots.length < 3) {
-      const newTime = { id: timeSlots.length, time: new Date() }
-      setTimeSlots([...timeSlots, newTime])
-    }
-  };
-
-  const changeTimeSlot = (index, newDate) => {
-    const updateTimeSlot = timeSlots.map((time) => {
-      if (time.id === index) return { ...time, time: newDate };
-      else return time;
-    });
-    setTimeSlots(updateTimeSlot);
-  };
+  const {timeSlots, addTimeSlot, changeTimeSlot} = useTimeSlot();
+  const {gameSlots, changeGameSlot} = useGameSlot();
+  const {friendSlots, changeFriendSlot} = useFriendSlot();
 
   const createEvent = () => {
     console.log('Selected Times:', timeSlots);
+    console.log('Selected Games:', gameSlots);
+    console.log('Invited Friends:', friendSlots);
   };
 
   return (
@@ -38,8 +29,12 @@ export default function createEventScreen() {
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
         />
-        <EventGames />
-        <EventFriends />
+        <EventGames 
+          changeGameSlot={changeGameSlot}
+        />
+        <EventFriends 
+          changeFriendSlot={changeFriendSlot}
+        />
       </ScrollView>
       <Button
         title='Create Event!'

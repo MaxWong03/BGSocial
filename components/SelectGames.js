@@ -4,7 +4,7 @@ import useVisibility from '../hooks/useVisibility';
 import SelectGamesModal from './SelectGamesModal';
 import useList from '../hooks/useList';
 
-export default function SelectGames({ updateEventGameList }) {
+export default function SelectGames({ updateEventGameList, getEventGameList }) {
   const {visible, showModal, closeModal} = useVisibility(false);
   const {list: gameSelectList, onSelectGame: onSelect} = useList(gamesArray['games']);
 
@@ -15,6 +15,7 @@ export default function SelectGames({ updateEventGameList }) {
     });
     const eventGameList = gamesArray['games'].filter(game => gameList.includes(game['id']))
     updateEventGameList(eventGameList);
+    getEventGameList(gameList);
     closeModal();
   }
 

@@ -4,7 +4,7 @@ import useVisibility from '../hooks/useVisibility';
 import InviteFriendsModal from './InviteFriendsModal';
 import useList from '../hooks/useList';
 
-export default function InviteFriends({ updateEventFriendList }) {
+export default function InviteFriends({ updateEventFriendList, getEventFriendList }) {
   const { visible, showModal, closeModal } = useVisibility(false);
   const { list: friendInviteList, onSelectFriend: onSelect } = useList(friendsArray);
 
@@ -16,6 +16,7 @@ export default function InviteFriends({ updateEventFriendList }) {
     });
     const eventFriendList = friendsArray.filter(friend => inviteList.includes(friend['friend_id']));
     updateEventFriendList(eventFriendList);
+    getEventFriendList(inviteList);
     closeModal();
   };
 
