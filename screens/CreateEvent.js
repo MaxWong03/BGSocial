@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Input, ListItem, Icon } from 'react-native-elements';
+import { Input, ListItem, Icon, Button } from 'react-native-elements';
 import InviteFriends from '../components/InviteFriends';
 import DatePicker from '../components/DatePicker';
 import SelectGames from '../components/SelectGames';
+import EventParticipants from '../components/Event-Participants';
 
 export default function createEventScreen() {
   return (
@@ -13,7 +14,18 @@ export default function createEventScreen() {
         label={"Event Title"}
         labelStyle={styles.EventTitleLabel}
       />
-      <Text style={styles.SectionHeader}> Select Time</Text>
+      <View style={styles.SelectTimeContainer}>
+        <Text style={styles.SectionHeader}> Select Time</Text>
+        <Button
+          icon={
+            <Icon
+              name='group-add'
+              type='material-icons'
+              color='white'
+            />
+          }
+        />
+      </View>
       {
         times.map((time, index) => (
           <ListItem
@@ -41,17 +53,7 @@ export default function createEventScreen() {
         }
         rightElement={<SelectGames />}
       />
-      <Text style={styles.SectionHeader}> Invite Friends</Text>      
-      <ListItem
-        title={'Friends:'}
-        leftIcon={
-          <Icon
-            name='group'
-            type='material-icons'
-          />
-        }
-        rightElement={<InviteFriends />}
-      />
+      <EventParticipants />
     </>
   );
 }
@@ -75,9 +77,8 @@ const styles = StyleSheet.create({
   EventTitleLabel: {
     fontSize: 30
   },
-  SectionHeader: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: 'grey'
+  SelectTimeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   }
 });
