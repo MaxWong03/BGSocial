@@ -1,63 +1,30 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { ListItem, Icon, Button } from 'react-native-elements';
-import DatePicker from '../components/DatePicker';
+import React, { useState } from 'react';
+import { StyleSheet } from 'react-native';
 import EventTitle from '../components/CreateEventTitle';
+import EventDate from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
+  const [timeSlots, setTimeSlots] = useState([{ id: 'time-1', title: 'Time-1' }]);
+
+  const addTimeSlot = () => {
+    const newTime = { id: `time-${timeSlots.length + 1}`, title: `Time-${timeSlots.length + 1}` }
+    setTimeSlots([...timeSlots, newTime])
+  };
+
   return (
     <>
       <EventTitle />
-      <View style={styles.SelectTimeContainer}>
-        <Text style={styles.SectionHeader}> Select Time</Text>
-        <Button
-          icon={
-            <Icon
-              name='group-add'
-              type='material-icons'
-              color='white'
-            />
-          }
-        />
-      </View>
-      {
-        times.map((time, index) => (
-          <ListItem
-            key={index}
-            title={time.title}
-            leftIcon={
-              <Icon
-                name='date-range'
-                type='material-icons'
-              />
-            }
-            rightElement={<DatePicker />}
-            bottomDivider
-          />
-        ))
-      }
+      <EventDate 
+        timeSlots={timeSlots}
+        addTimeSlot={addTimeSlot}
+      />
       <EventGames />
       <EventFriends />
     </>
   );
 }
-
-const times = [
-  {
-    id: 'time-1',
-    title: 'Time-1'
-  },
-  {
-    id: 'time-2',
-    title: 'Time-2'
-  },
-  {
-    id: 'time-3',
-    title: 'Time-3'
-  }
-]
 
 const styles = StyleSheet.create({
   EventTitleLabel: {
