@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import EventTitle from '../components/CreateEventTitle';
 import EventDate from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
@@ -14,6 +15,9 @@ export default function createEventScreen() {
     setTimeSlots([...timeSlots, newTime])
   };
 
+  const createEvent = () => {
+
+  };
 
   return (
     <>
@@ -26,6 +30,17 @@ export default function createEventScreen() {
         <EventGames />
         <EventFriends />
       </ScrollView>
+      <Button
+        title='Create Event!'
+        icon={
+          <Icon
+            name='check-circle'
+            type='font-awesome'
+            color='white'
+          />
+        }
+        onPress={createEvent}
+      />
     </>
   );
 }
