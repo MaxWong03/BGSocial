@@ -9,4 +9,5 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-BGSocial/settings/app.config.js
+settings/app.config.js
+.DS_Store
