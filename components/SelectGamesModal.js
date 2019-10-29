@@ -4,32 +4,41 @@ import { Button, Header, Icon } from 'react-native-elements';
 import GameSearchBar from './GameSearchBar';
 import GameListItem from './GameListItem';
 
-export default function SelectGameModal({ goBack }) {
-  const [gameSelectList, setGameSelectList] = useState(gamesArray['games']);
+export default function SelectGameModal({ goBack, gameSelectList, onSelect, chooseGameAction }) {
+  // const [gameSelectList, setGameSelectList] = useState(gamesArray['games']);
   const [search, setSearch] = useState('');
 
   //Changes the search bar value
   const updateSearch = (userInput) => setSearch(userInput);
 
-  const onSelect = (gameID) => {
-    console.log(gameID)
-    const updateList = gameSelectList.map((game) => {
-      if (game['id'] === gameID) {
-        return { ...game, selected: !game['selected'] }
-      } else {
-        return game;
-      }
-    });
-    setGameSelectList(updateList);
-  }
+  // const onSelect = (gameID) => {
+  //   console.log(gameID)
+  //   const updateList = gameSelectList.map((game) => {
+  //     if (game['id'] === gameID) {
+  //       return { ...game, selected: !game['selected'] }
+  //     } else {
+  //       return game;
+  //     }
+  //   });
+  //   setGameSelectList(updateList);
+  // }
 
-  const chooseGameAction = () => {
-    const gameList = [];
-    gameSelectList.forEach((game) => {
-      game['selected'] && gameList.push(game['id'])
-    });
-    console.log(gameList)
-  }
+  // const chooseGameAction = () => {
+  //   const gameList = [];
+  //   gameSelectList.forEach((game) => {
+  //     game['selected'] && gameList.push(game['id'])
+  //   });
+  //   const updateList = gameSelectList.map((game) => {
+  //     if (game['selected']) {
+  //       return { ...game, selected: true }
+  //     } else {
+  //       return game;
+  //     }
+  //   });
+  //   setGameSelectList(updateList);
+  //   goBack();
+  //   console.log(gameList)
+  // }
 
   return (
     <>

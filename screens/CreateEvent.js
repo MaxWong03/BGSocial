@@ -7,7 +7,7 @@ import EventFriends from '../components/CreateEventFriends';
 
 export default function createEventScreen() {
   const [timeSlots, setTimeSlots] = useState([{ id: 'time-1', title: 'Time-1' }]);
-  const [gamesSlots, setGameSlots] = useState([]);
+  const [gameSlot, setGameSlots] = useState([]);
 
 
   const addTimeSlot = () => {
@@ -15,7 +15,7 @@ export default function createEventScreen() {
     setTimeSlots([...timeSlots, newTime])
   };
 
-  const addGameSlot = () => {
+  const editGameSlot = () => {
 
   };
 
@@ -27,8 +27,8 @@ export default function createEventScreen() {
         addTimeSlot={addTimeSlot}
       />
       <EventGames 
-        gamesSlots={gamesSlots}
-        addGameSlot={addGameSlot}
+        gameSlot={gameSlot}
+        addGameSlot={editGameSlot}
       />
       <EventFriends />
     </>
