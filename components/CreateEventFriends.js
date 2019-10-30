@@ -5,7 +5,7 @@ import InviteFriends from './InviteFriends';
 import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
 
-export default function CreateEventFriends({ friendSlots, changeFriendSlot }) {
+export default function CreateEventFriends({ changeFriendSlot }) {
   const { list: friendInviteList, onSelectFriend: onSelect } = useList(friendsArray);
 
   const filterSelectedFriends = () => {

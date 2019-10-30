@@ -10,7 +10,7 @@ import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 
 export default function createEventScreen() {
-  const {timeSlots, addTimeSlot, changeTimeSlot} = useTimeSlot();
+  const {timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot} = useTimeSlot();
   const {gameSlots, changeGameSlot} = useGameSlot();
   const {friendSlots, changeFriendSlot} = useFriendSlot();
 
@@ -28,6 +28,7 @@ export default function createEventScreen() {
           timeSlots={timeSlots}
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
+          deleteTimeSlot={deleteTimeSlot}
         />
         <EventGames
           changeGameSlot={changeGameSlot}
