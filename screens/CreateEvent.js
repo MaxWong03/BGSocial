@@ -1,45 +1,85 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import EventTitle from '../components/CreateEventTitle';
 import EventDate from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
+import useTimeSlot from '../hooks/useTimeSlot';
+import useGameSlot from '../hooks/useGameSlot';
+import useFriendSlot from '../hooks/useFriendSlot';
+import MapView, { Marker } from 'react-native-maps';
+import useFriendsData from '../hooks/useFriendsData';
+import useGamesData from '../hooks/useGamesData';
+import useLocation from '../hooks/useLocation';
 
 export default function createEventScreen() {
-  const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date() }]);
+  const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
+  const { gameSlots, changeGameSlot } = useGameSlot();
+  const { friendSlots, changeFriendSlot } = useFriendSlot();
+  const [eventTitle, setEventTitle] = useState('');
+  const { state: friendsArray, dispatchState: dispatchFriends } = useFriendsData();
+  const { state: gamesArray, dispatchState: dispatchGames } = useGamesData();
+  const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
 
-
-  const addTimeSlot = () => {
-    if (timeSlots.length < 3) {
-      const newTime = { id: timeSlots.length, time: new Date() }
-      setTimeSlots([...timeSlots, newTime])
-    }
-  };
-
-  const changeTimeSlot = (index, newDate) => {
-    const updateTimeSlot = timeSlots.map((time) => {
-      if (time.id === index) return { ...time, time: newDate };
-      else return time;
-    });
-    setTimeSlots(updateTimeSlot);
-  };
+  const onChangeText = (newTitle) => {
+    setEventTitle(newTitle);
+  }
 
   const createEvent = () => {
+    console.log('Event Title:', eventTitle);
     console.log('Selected Times:', timeSlots);
+    console.log('Selected Games:', gameSlots);
+    console.log('Invited Friends:', friendSlots);
+    console.log('Location:', location)
   };
 
   return (
     <>
-      <EventTitle />
+      <View style={styles.mapContainer}>
+        {
+          latitude && longitude ?
+            <>
+              <MapView
+                style={styles.map}
+                initialRegion={{
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+                onPress={({ nativeEvent }) => {
+                  setLatitude(nativeEvent.coordinate.latitude);
+                  setLongitude(nativeEvent.coordinate.longitude);
+                }}
+                children={
+                  <Marker draggable coordinate={{ latitude, longitude }} />
+                }
+              />
+              <EventTitle
+                onChangeText={onChangeText}
+                value={eventTitle}
+              />
+            </>
+            :
+            <ActivityIndicator size='large' color="#0000ff" />
+        }
+
+      </View>
       <ScrollView >
         <EventDate
           timeSlots={timeSlots}
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
+          deleteTimeSlot={deleteTimeSlot}
         />
-        <EventGames />
-        <EventFriends />
+        <EventGames
+          changeGameSlot={changeGameSlot}
+        />
+        <EventFriends
+          friendSlots={friendSlots}
+          changeFriendSlot={changeFriendSlot}
+        />
       </ScrollView>
       <Button
         title='Create Event!'
@@ -57,11 +97,15 @@ export default function createEventScreen() {
 }
 
 const styles = StyleSheet.create({
-  EventTitleLabel: {
-    fontSize: 30
+  mapContainer: {
+    // ...StyleSheet.absoluteFillObject,
+    height: 200,
+    width: 400,
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
-  SelectTimeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around'
+  map: {
+    ...StyleSheet.absoluteFillObject,
   }
 });

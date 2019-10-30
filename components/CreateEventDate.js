@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import TimeListItem from './TimeListItem';
-export default function CreateEventDate({ timeSlots, addTimeSlot, changeTimeSlot }) {
+export default function CreateEventDate({ timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot }) {
+
   return (
     <>
       <Button
@@ -20,10 +21,12 @@ export default function CreateEventDate({ timeSlots, addTimeSlot, changeTimeSlot
       {
         timeSlots.map((time, index) => (
           <TimeListItem
-            key={index}
+            key={time.id}
             index={index}
+            id={time.id}
             title={time.title}
             changeTimeSlot={changeTimeSlot}
+            deleteTimeSlot={deleteTimeSlot}
           />
         ))
       }

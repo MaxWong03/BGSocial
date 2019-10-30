@@ -35,7 +35,8 @@
     "react-native-svg": "^9.13.2",
     "react-native-web": "^0.11.7",
     "react-navigation": "^3.12.0",
-    "react-navigation-hooks": "^1.1.0"
+    "react-navigation-hooks": "^1.1.0",
+    "react-native-maps": "~0.25.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",
