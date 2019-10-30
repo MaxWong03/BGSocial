@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, ActivityIndicator } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import EventTitle from '../components/CreateEventTitle';
 import EventDate from '../components/CreateEventDate';
@@ -9,13 +9,18 @@ import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
+import useFriendsData from '../hooks/useFriendsData';
+import useGamesData from '../hooks/useGamesData';
+import useLocation from '../hooks/useLocation';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
   const { gameSlots, changeGameSlot } = useGameSlot();
   const { friendSlots, changeFriendSlot } = useFriendSlot();
-  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
   const [eventTitle, setEventTitle] = useState('');
+  const { state: friendsArray, dispatchState: dispatchFriends } = useFriendsData();
+  const { state: gamesArray, dispatchState: dispatchGames } = useGamesData();
+  const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
 
   const onChangeText = (newTitle) => {
     setEventTitle(newTitle);
@@ -32,22 +37,34 @@ export default function createEventScreen() {
   return (
     <>
       <View style={styles.mapContainer}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          onPress={({ nativeEvent }) => setLocation(nativeEvent.coordinate)}
-        >
-          <Marker draggable coordinate={location} />
-          <EventTitle
-          onChangeText={onChangeText}
-          value={eventTitle}
-        />
-        </MapView>
+        {
+          latitude && longitude ?
+            <>
+              <MapView
+                style={styles.map}
+                initialRegion={{
+                  latitude: latitude,
+                  longitude: longitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421,
+                }}
+                onPress={({ nativeEvent }) => {
+                  setLatitude(nativeEvent.coordinate.latitude);
+                  setLongitude(nativeEvent.coordinate.longitude);
+                }}
+                children={
+                  <Marker draggable coordinate={{ latitude, longitude }} />
+                }
+              />
+              <EventTitle
+                onChangeText={onChangeText}
+                value={eventTitle}
+              />
+            </>
+            :
+            <ActivityIndicator size='large' color="#0000ff" />
+        }
+
       </View>
       <ScrollView >
         <EventDate
@@ -84,7 +101,7 @@ const styles = StyleSheet.create({
     // ...StyleSheet.absoluteFillObject,
     height: 200,
     width: 400,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
 
   },
