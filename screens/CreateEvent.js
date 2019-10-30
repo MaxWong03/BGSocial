@@ -13,8 +13,14 @@ export default function createEventScreen() {
   const {timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot} = useTimeSlot();
   const {gameSlots, changeGameSlot} = useGameSlot();
   const {friendSlots, changeFriendSlot} = useFriendSlot();
+  const [eventTitle, setEventTitle] = useState('');
+
+  const onChangeText = (newTitle) => {
+    setEventTitle(newTitle);
+  }
 
   const createEvent = () => {
+    console.log('Event Title:', eventTitle);
     console.log('Selected Times:', timeSlots);
     console.log('Selected Games:', gameSlots);
     console.log('Invited Friends:', friendSlots);
@@ -22,7 +28,10 @@ export default function createEventScreen() {
 
   return (
     <>
-      <EventTitle />
+      <EventTitle 
+        onChangeText={onChangeText}
+        value={eventTitle}
+      />
       <ScrollView >
         <EventDate
           timeSlots={timeSlots}
