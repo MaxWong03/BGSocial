@@ -1,103 +1,20 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { useEventsData } from './../hooks/useEventsData';
-import { ButtonGroup, ListItem, Button, Icon } from 'react-native-elements';
-import { formatDateWithTime } from './../utils'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
+import {
+  formatDateWithTime,
+  getEventMainImage,
+  getEventChosenEventDate,
+  getConfirmedAttendants
+} from './../utils';
 import AttendanceList from '../components/AttendanceList';
+import EventItem from '../components/EventItem';
+import api from './../api';
 
-export default function EventsScreen() {
 
-  const {
-    state,
-    dispatchState
-  } = useEventsData();
 
-  const buttons = ['My Events', 'Pending Events', 'Explore']
-
+export default function TestScreen() {
   return (
-    <ScrollView >
-      <ButtonGroup
-        buttons={buttons} // the top buttons
-        containerStyle={styles.ButtonGroup}
-      />
-      {
-        state.events.map((event, i) => {
-          if (event.chosen_event_date.date) {
-            return (
-              // <Card key={i} containerStyle={styles.card}>
-              <View key={i} style={styles.flexParent}>
-
-                <AttendanceList/>
-                <View style={styles.imageContainer}>
-                  <Image
-                    style={styles.image}
-                    source={{ uri: event.event_games[0].image }}
-                  />
-                </View>
-                <View style={styles.textContainer}>
-                  <View>
-                    <Text style={styles.name}>{formatDateWithTime(event.chosen_event_date.date)}</Text>
-                    <Text style={styles.attendanceCount}>Attendants: 4</Text>
-
-                  </View>
-                  <Button
-                    buttonStyle={styles.button}
-                    title='View more info'
-                    type='outline'
-                    iconRight={true}
-                    icon={
-                      <Icon
-                        size={20}
-                        name='info'
-                        type='material-icons'
-                        color='#bdbdbd'
-                      />
-                    } />
-                </View>
-              </View>
-              // </Card>
-            );
-          }
-        })
-      }
-    </ScrollView>
-
-  );
+    <Text>Test Screen</Text>
+  )
 }
-
-EventsScreen.navigationOptions = {
-  title: 'Events',
-};
-
-const styles = StyleSheet.create({
-  flexParent: {
-    margin: 10,
-    flexDirection: "row",
-    borderRadius: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-    height: 150,
-    alignItems: 'stretch',
-    borderColor: '#eee',
-    borderWidth: 1
-  },
-  imageContainer: {
-    flex: 3,
-  },
-  textContainer: {
-    flex: 3,
-    padding: 20,
-    justifyContent: 'space-between'
-  },
-  image: {
-    aspectRatio: 1,
-    resizeMode: 'cover',
-  },
-  button: {
-    justifyContent: 'space-around'
-  },
-  ButtonGroup: {
-    backgroundColor: '#fafafa',
-    height: 50
-  }
-});

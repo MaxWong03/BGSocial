@@ -8,7 +8,7 @@ import EventsScreen from '../screens/EventsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
-
+import SingleEventScreen from '../screens/SingleEventScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -41,7 +41,9 @@ HomeStack.path = '';
 const EventsStack = createStackNavigator(
   {
     Events: EventsScreen,
-    CreateEvent: CreateEventScreen 
+    CreateEvent: CreateEventScreen,
+    SingleEvent: SingleEventScreen
+
   },
   config
 );
