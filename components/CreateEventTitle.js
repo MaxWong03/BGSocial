@@ -5,9 +5,9 @@ import { Input } from 'react-native-elements';
 export default function CreateEventTitle({ onChangeText, value }) {
   return (
     <Input
+      inputContainerStyle={styles.inputContainer}
       placeholder={"Enter Event Name..."}
-      label={"Event Title"}
-      labelStyle={styles.EventTitleLabel}
+      placeholderTextColor={'#545454'}
       onChangeText={onChangeText}
       value={value}
     />
@@ -15,10 +15,7 @@ export default function CreateEventTitle({ onChangeText, value }) {
 }
 
 const styles = StyleSheet.create({
-  ImageContainer: {
-    marginBottom: 30
+  inputContainer: {
+    width: '50%',
   },
-  EventTitleLabel: {
-    fontSize: 30
-  }
 })
