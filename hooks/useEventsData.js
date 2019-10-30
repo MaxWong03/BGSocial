@@ -80,6 +80,16 @@ export function useEventsData() {
     dispatchState({ value: eventId, type: 'removeEvent' });
   }
 
+  function goingToEvent(eventId, userId){
+    api.post(`/events/${eventId}/users/${userId}`);
+    dispatchState({ value: eventId, type: 'setGoingEvent' });
+  }
+
+  function setConfirmEvent(eventId, eventDateId){
+    api.post(`/events/${eventId}/dates/${eventDateId}`);
+    loadEvents();
+  }
+
 
   useEffect(() => {
     console.log("change state")
@@ -92,7 +102,9 @@ export function useEventsData() {
     removeEvent,
     confirmEvents,
     pendingEvents,
-    userConfirmed
+    userConfirmed,
+    goingToEvent,
+    setConfirmEvent
   };
 
 };

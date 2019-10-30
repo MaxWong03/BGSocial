@@ -14,7 +14,9 @@ export default function EventsScreen({ navigation }) {
     confirmEvents,
     pendingEvents,
     userConfirmed,
-    removeEvent
+    removeEvent,
+    goingToEvent,
+    setConfirmEvent
   } = useEventsData();
 
 //third view
@@ -64,9 +66,11 @@ export default function EventsScreen({ navigation }) {
             isOwner={userId === event.owner_id}
             confirmedAssistance={userConfirmed(event, userId)}
             attendants={getConfirmedAttendants(event).length}
-            onPress={() => navigation.navigate('Tests', {
+            onPress={() => navigation.navigate('SingleEvent', {
               eventID: event.id,
-              removeEvent
+              removeEvent,
+              goingToEvent,
+              setConfirmEvent
             })}
           />
         );

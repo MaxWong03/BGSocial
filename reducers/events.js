@@ -17,6 +17,11 @@ const stateLookup = {
     const events = { ...state.events }; // Copy (immutability)
     delete events[value];
     return { ...state, events };
+  },
+  setGoingEvent: (state, value) => { // value = eventId
+    const eventAttendants = { ...state.events[value.event].event_attendants }; // Copy (immutability)
+    delete events[value];
+    return { ...state, events };
   }
 };
 
