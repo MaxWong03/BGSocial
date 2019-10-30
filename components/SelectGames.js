@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import SelectGamesModal from './SelectGamesModal';
-import useList from '../hooks/useList';
 
-export default function SelectGames({ updateEventGameList, getEventGameList }) {
+export default function SelectGames({ getEventGameList, gameSelectList, onSelect }) {
   const {visible, showModal, closeModal} = useVisibility(false);
-  const {list: gameSelectList, onSelectGame: onSelect} = useList(gamesArray['games']);
 
   const chooseGameAction = () => {
     const gameList = [];
     gameSelectList.forEach((game) => {
       game['selected'] && gameList.push(game['id'])
     });
-    const eventGameList = gamesArray['games'].filter(game => gameList.includes(game['id']))
-    updateEventGameList(eventGameList);
     getEventGameList(gameList);
     closeModal();
   }

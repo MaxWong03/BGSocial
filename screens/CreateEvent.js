@@ -30,7 +30,6 @@ export default function createEventScreen() {
           changeTimeSlot={changeTimeSlot}
         />
         <EventGames
-          gameSlots={gameSlots} 
           changeGameSlot={changeGameSlot}
         />
         <EventFriends 
