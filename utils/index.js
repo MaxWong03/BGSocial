@@ -5,6 +5,31 @@ const formatDateWithTime = function (date) {
   return moment(date).format('ddd, MMM DD [at] hh:mm A');
 }
 
+const arrayToObject = function (objectsArray, key) { // key === 'id'
+  const object = {};
+  objectsArray.forEach(item => {
+    object[item[key]] = item;
+  });
+  return object;
+}
+
+const getEventMainImage = function (event) {
+  return event.event_games[0].game.image;
+}
+
+const getEventChosenEventDate = function (event) {
+  return event.event_dates.find(eventDate => eventDate.is_chosen === true);
+}
+
+function getConfirmedAttendants(event) {
+  return event.event_attendants.filter(attendant => attendant.is_confirmed)
+};
+
+
 export {
-  formatDateWithTime
+  formatDateWithTime,
+  arrayToObject,
+  getEventChosenEventDate,
+  getEventMainImage,
+  getConfirmedAttendants
 };

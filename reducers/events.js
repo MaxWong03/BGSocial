@@ -1,5 +1,5 @@
 const stateLookup = {
-  setEvents: (state, value) => {
+  setEvents: (state, value) => { // value = { eventId: event }
     // For setting all events together
     return { ...state, events: value };
   },
@@ -9,8 +9,13 @@ const stateLookup = {
     const events = { ...state.events, [value.id]: newEvent };
     return { ...state, events };
   },
-  createEvent: (state, value) => {
+  createEvent: (state, value) => { // value = event (Object)
     const events = { ...state.events, [value.id]: value };
+    return { ...state, events };
+  },
+  removeEvent: (state, value) => { // value = eventId
+    const events = { ...state.events }; // Copy (immutability)
+    delete events[value];
     return { ...state, events };
   }
 };

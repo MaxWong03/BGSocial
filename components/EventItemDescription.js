@@ -5,7 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 
 
-export default function EventItem({ chosenDate, attendants, isOwner, confirmedAssistance }) {
+export default function EventItem({ chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
   let title = 'More info!';
   let icon = 'info-circle';
   if (chosenDate) {
@@ -41,6 +41,7 @@ export default function EventItem({ chosenDate, attendants, isOwner, confirmedAs
         title={title}
         type='outline'
         iconRight={true}
+        onPress={onPress}
         icon={
           <Icon
             size={20}
