@@ -32,6 +32,17 @@ export default function OwnGameListItem({ imageURL, date, title }) {
             />
           }
         />
+
+        <Button
+          icon={
+            <Icon
+              name="minus-circle"
+              type="font-awesome"
+              size={30}
+              color="white"
+            />
+          }
+        />
       </View>
     </View>
   );

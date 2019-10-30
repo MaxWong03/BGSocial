@@ -10,7 +10,7 @@ export default function createEventScreen() {
   const [timeSlots, setTimeSlots] = useState([{ id: 0, time: new Date() }]);
 
 
-  const addTimeSlot = () => {
+  const addTimeSlot = () => { // add a new date
     if (timeSlots.length < 3) {
       const newTime = { id: timeSlots.length, time: new Date() }
       setTimeSlots([...timeSlots, newTime])

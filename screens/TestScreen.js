@@ -1,14 +1,62 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Overlay, Button, Icon } from 'react-native-elements';
-import SelectGamesModal from './../components/SelectGamesModal';
+import React from 'react';
+import { StyleSheet, View, ScrollView, Text } from 'react-native'
+import { Button, Header, Icon } from 'react-native-elements';
+import GameSearchBar from './../components/GameSearchBar';
+import GameListItem from './../components/GameListItem';
 
-
-export default function TestScreen() {
-  
+export default function TestScreen() {  
   return (
-    <View>
-      <SelectGamesModal/>
+    <>
+    <View style={styles.headerContainer}>
+      <Icon
+        name="arrow-left"
+        color="black"
+        type='font-awesome'
+        // onPress={goBack}
+        style={styles.backIcon}
+      />
+      <Text style={styles.headerText}>Select Games</Text>
     </View>
+    <GameSearchBar
+      // updateSearch={updateSearch}
+      // search={search}
+    />
+    <ScrollView style={styles.gameListContainer}>
+      {
+        // gameSelectList.map((game, index) => (
+        //   game['name'].includes(search) &&
+        //   <GameListItem
+        //     key={index}
+        //     game={game}
+        //     onSelect={onSelect}
+        //   />
+        // ))
+      }
+    </ScrollView>
+    <Button
+      // onPress={chooseGameAction}
+      title={"Select"}
+    />
+  </>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    height: '6%',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  backIcon: {
+    width: '30%',
+  },
+  headerText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 20,
+    width: '70%'
+  },
+  gameListContainer: {
+    height: '75%'
+  }
+})

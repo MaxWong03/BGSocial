@@ -19,6 +19,8 @@ export default function TestScreen({ navigation }) {
 
   const [allGames, setAllGames] = useState([]);
 
+  const [date, setDate] = useState("");
+
   const {list = [], loading} = state 
 
   const goToGameLibrary = function (){
@@ -33,7 +35,6 @@ export default function TestScreen({ navigation }) {
     getData();
     api.get("/games/library").then((res) => {
       setAllGames(res.data.games);
-      console.log("get all data");
     })
   }, [])
 
@@ -78,8 +79,7 @@ export default function TestScreen({ navigation }) {
               <OwnGameListItem
                 key={ index }
                 imageURL = { event.image }
-                date = { '2019-07-01' }
-                // date = { event.last_played }
+                date = { event.last_play }
                 title = { event.name }
               />
             );

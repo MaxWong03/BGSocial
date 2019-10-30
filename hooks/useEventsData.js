@@ -3,7 +3,7 @@ import { useEffect, useReducer } from "react";
 import api from './../api';
 
 import reduceState from "../reducers/events";
-import Axios from "axios";
+import Axios from "axios"; // used in the ./../api
 
 
 export function useEventsData() {

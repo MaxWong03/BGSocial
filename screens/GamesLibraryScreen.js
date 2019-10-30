@@ -14,7 +14,7 @@ export default function GamesLibraryScreen({navigation}) {
     return gameSelectList.filter((game) => game['selected'])
   };
 
-  console.log(navigation.state.params.onGoBack());
+  // console.log(navigation.state.params.onGoBack());
   const userID = 1;
 
   const [search, setSearch] = useState('');
@@ -29,7 +29,7 @@ export default function GamesLibraryScreen({navigation}) {
     selectedList.map( game => {
       api.post(`/user/${userID}/game/${game}`)
       .then(res =>{
-        console.log("res: set up with id", game);
+        // console.log("res: set up with id", game);
       });
     });
     navigation.state.params.onGoBack()
@@ -85,4 +85,3 @@ const styles = StyleSheet.create({
     height: '75%'
   }
 })
-
