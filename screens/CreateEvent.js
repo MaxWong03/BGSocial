@@ -12,14 +12,13 @@ import MapView, { Marker } from 'react-native-maps';
 import useFriendsData from '../hooks/useFriendsData';
 import useGamesData from '../hooks/useGamesData';
 import useLocation from '../hooks/useLocation';
+import { useNavigationParam } from 'react-navigation-hooks';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
   const { gameSlots, changeGameSlot } = useGameSlot();
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const [eventTitle, setEventTitle] = useState('');
-  const { state: friendsArray, dispatchState: dispatchFriends } = useFriendsData();
-  const { state: gamesArray, dispatchState: dispatchGames } = useGamesData();
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
 
   const onChangeText = (newTitle) => {
@@ -99,7 +98,7 @@ export default function createEventScreen() {
 const styles = StyleSheet.create({
   mapContainer: {
     // ...StyleSheet.absoluteFillObject,
-    height: 200,
+    height: 150,
     width: 400,
     justifyContent: 'center',
     alignItems: 'center',

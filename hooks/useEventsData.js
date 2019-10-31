@@ -70,7 +70,7 @@ export function useEventsData() {
   async function loadEvents() {
     const response = await api.get("/events");
     const eventsAsObject = arrayToObject(response.data, 'id');
-    console.log('eventsAsObject', eventsAsObject);
+    // console.log('eventsAsObject', eventsAsObject);
     dispatchState({ value: eventsAsObject, type: "setEvents" });
   };
 
@@ -92,7 +92,7 @@ export function useEventsData() {
 
 
   useEffect(() => {
-    console.log("change state")
+    // console.log("change state")
     loadEvents();
   }, []);
 
