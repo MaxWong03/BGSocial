@@ -4,13 +4,12 @@ import { ListItem, Icon, Button } from 'react-native-elements';
 import SelectGames from './SelectGames';
 import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
-import { getUserInfo } from '../hooks/sessionContext';
 
-export default function CreatEventGames({ changeGameSlot }) {
-  let { userGames } = getUserInfo();
+export default function CreatEventGames({ changeGameSlot, userGames }) {
   userGames = userGames.map(game => {
     return {...game, 'selected': false}
   })
+  
   const { list: gameSelectList, onSelectGame: onSelect } = useList(userGames);
 
   const filterSelectedGames = () => {

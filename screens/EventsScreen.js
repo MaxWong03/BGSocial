@@ -5,18 +5,23 @@ import { ButtonGroup, Icon } from 'react-native-elements';
 import { getConfirmedAttendants } from './../utils';
 import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
+import useGamesData from '../hooks/useGamesData';
+import useFriendsData from '../hooks/useFriendsData';
 
 export default function EventsScreen({ navigation }) {
   const [screenState, setButtonGroup] = useState(0);
+  const { state: userGames } = useGamesData();
+  const { state: userFriends } = useFriendsData();
 
   const {
-    state,
+      state,
     confirmEvents,
     pendingEvents,
     userConfirmed,
     removeEvent,
     goingToEvent,
-    setConfirmEvent
+    setConfirmEvent,
+    dispatchState
   } = useEventsData();
 
 //third view
@@ -82,7 +87,11 @@ export default function EventsScreen({ navigation }) {
         name='calendar-plus-o'
         type='font-awesome'
         color='#0e92cf'
-        onPress={() => navigation.navigate('CreateEvent')}
+        onPress={() => navigation.navigate('CreateEvent', {
+          userGames,
+          userFriends,
+          dispatchState
+        })}
         iconStyle={styles.icon}
       />
     </View>

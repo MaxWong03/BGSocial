@@ -4,10 +4,8 @@ import { ListItem, Icon, Button } from 'react-native-elements';
 import InviteFriends from './InviteFriends';
 import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
-import { getUserInfo } from '../hooks/sessionContext';
 
-export default function CreateEventFriends({ changeFriendSlot }) {
-  let { userFriends } = getUserInfo();
+export default function CreateEventFriends({ changeFriendSlot, userFriends }) {
   userFriends = userFriends.map(friend => {
     return {...friend, 'invited': false}
   })

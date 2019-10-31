@@ -7,9 +7,6 @@ import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 
 import { getUserInfoContext } from './../hooks/sessionContext';
-import useGamesData from '../hooks/useGamesData';
-import useFriendsData from '../hooks/useFriendsData';
-
 
 async function loginWithFacebook() {
   try {
@@ -41,8 +38,6 @@ async function loginWithFacebook() {
 
 export default function FBAuth(props) {
   const { navigate, dispatch } = useNavigation();
-  const { state: userGames, dispatchState: dispatchGames } = useGamesData();
-  const { state: userFriends, dispatchState: dispatchFriends } = useFriendsData();
   // Only interested in the part of the context related to SET the state (userInfo) value.
   const { setUserInfo } = getUserInfoContext();
   const loginAndNavigate = () => {
@@ -54,8 +49,6 @@ export default function FBAuth(props) {
             name,
             profilePicture,
             userData, //object
-            userGames,
-            userFriends
           };
           setUserInfo(userInfo);
           navigate('Main');

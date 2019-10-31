@@ -12,7 +12,8 @@ import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
-import { getUserInfo } from '../hooks/sessionContext';
+import { useNavigationParam } from 'react-navigation-hooks';
+
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
@@ -20,10 +21,6 @@ export default function createEventScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
-  const { userData } = getUserInfo();
-  const onChangeText = (newTitle) => {
-    setEventTitle(newTitle);
-  }
 
   const createEvent = () => {
     console.log('Event Title:', eventTitle);
@@ -106,7 +103,7 @@ export default function createEventScreen() {
                 }
               />
               <EventTitle
-                onChangeText={onChangeText}
+                onChangeText={setEventTitle}
                 value={eventTitle}
               />
             </>
@@ -123,10 +120,11 @@ export default function createEventScreen() {
           deleteTimeSlot={deleteTimeSlot}
         />
         <EventGames
+          userGames={useNavigationParam('userGames')}
           changeGameSlot={changeGameSlot}
         />
         <EventFriends
-          friendSlots={friendSlots}
+          userFriends={useNavigationParam('userFriends')}
           changeFriendSlot={changeFriendSlot}
         />
       </ScrollView>
