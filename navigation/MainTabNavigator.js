@@ -10,6 +10,7 @@ import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
 import GamesLibraryScreen from '../screens/GamesLibraryScreen';
+import SingleEventScreen from '../screens/SingleEventScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -42,7 +43,9 @@ HomeStack.path = '';
 const EventsStack = createStackNavigator(
   {
     Events: EventsScreen,
-    CreateEvent: CreateEventScreen 
+    CreateEvent: CreateEventScreen,
+    SingleEvent: SingleEventScreen
+
   },
   config
 );

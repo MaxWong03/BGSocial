@@ -5,16 +5,19 @@ import GameSearchBar from './../components/GameSearchBar';
 import GameListItem from '../components/GameListItem';
 import api from './../api';
 
-export default function GamesLibraryScreen({navigation}) {  
+export default function GamesLibraryScreen({navigation}) {
+
   const allGames = navigation.getParam("games");
   const ownedGamesID = navigation.getParam("ownedGames").map(game => game['id']);
+  console.log("in the beginniong of the game", navigation);
+  const dispatchState = navigation.getParam("dispatchState")
+  const ADD_GAMES = navigation.getParam("ADD_GAMES")
   const {list: gameSelectList, onSelectGame: onSelect} = useList(allGames);
 
   const filterSelectedGames = () => {
     return gameSelectList.filter((game) => game['selected'])
   };
 
-  // console.log(navigation.state.params.onGoBack());
   const userID = 1;
 
   const [search, setSearch] = useState('');
@@ -25,14 +28,12 @@ export default function GamesLibraryScreen({navigation}) {
   // since the list should be updated in the front page
   const chooseGameAction = () => {
     const selectedList = filterSelectedGames()
-      .map(game => game['id']);
     selectedList.map( game => {
-      api.post(`/user/${userID}/game/${game}`)
-      .then(res =>{
-        // console.log("res: set up with id", game);
+      api.post(`/user/${userID}/game/${game['id']}`)
+      .then(() => {
+        dispatchState({type: ADD_GAMES, value: game});
       });
     });
-    navigation.state.params.onGoBack()
     navigation.goBack();
   }
 

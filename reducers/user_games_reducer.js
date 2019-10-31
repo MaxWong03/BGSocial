@@ -2,6 +2,8 @@ import {
   loading,
   list,
 } from './user_games_action'
+
+
 export const initState = {
   loading: true,
   list: [],

@@ -5,9 +5,11 @@ import { Header, Button, Icon, Divider } from 'react-native-elements';
 // import { formatDateWithTime } from './../utils'
 import OwnGameListItem from '../components/OwnGameListItem';
 import api from './../api';
-
-import { updateLoading, updateList } from './../reducers/user_games_action';
+import useGameData from '../hooks/useGamesData';
+// import { updateLoading, updateList } from './../reducers/user_games_action';
 import { initState, initReducer } from './../reducers/user_games_reducer';
+
+
 
 export default function TestScreen({ navigation }) {
 
@@ -21,31 +23,36 @@ export default function TestScreen({ navigation }) {
 
   const [date, setDate] = useState("");
 
-  const {list = [], loading} = state 
+  const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES} = useGameData();
+  // const {list = [], loading} = state
+  
+  // const {list, dispatchState} = useGameData();
 
   const goToGameLibrary = function (){
     navigation.navigate('GameLibrary', {
       games: allGames,
       ownedGames: list,
-      onGoBack: () => getData()
+      dispatchState,
+      ADD_GAMES,
+      // onGoBack: () => getData()
     })
   };
 
   useEffect(() => {
-    getData();
+    // getData();
     api.get("/games/library").then((res) => {
       setAllGames(res.data.games);
     })
   }, [])
 
-  const getData = () => {
-    api.get(`/user/games/${userID}`)
-    .then(res => {
-      setCount(res.data.games.length);
-      dispatch(updateList(res.data.games))
-      dispatch(updateLoading(false))
-    });
-  }
+  // const getData = () => {
+  //   api.get(`/user/games/${userID}`)
+  //   .then(res => {
+  //     setCount(res.data.games.length);
+  //     dispatch(updateList(res.data.games))
+  //     dispatch(updateLoading(false))
+  //   });
+  // }
 
   return (
     <>
@@ -71,19 +78,27 @@ export default function TestScreen({ navigation }) {
 
       <Divider style={{ backgroundColor: 'blue', height: 5 }} />
       <ScrollView style={styles.gameListContainer}>
-        <Text style={ { fontSize: 50 } }>{count} games</Text>
+        <Text style={ { fontSize: 50 } }>{list.length} games</Text>
         {
-          loading ? <Text>LOADING</Text> : 
-          list.map((event, index) => {
-            return (
-              <OwnGameListItem
-                key={ index }
-                imageURL = { event.image }
-                date = { event.last_play }
-                title = { event.name }
-              />
-            );
-          })
+          // loading ? <Text>LOADING</Text> : 
+          list.length !== 0 ?
+          
+            list.map((event, index) => {
+              return (
+                <OwnGameListItem
+                  key={ index }
+                  imageURL = { event.image }
+                  date = { event.last_play }
+                  title = { event.name }
+                  game = { event }
+                  dispatchState = {dispatchState}
+                  DELETE_GAMES = {DELETE_GAMES}
+                  ADD_GAMES = { ADD_GAMES }
+                  // deleteGame = { () => removeEvent()}
+                />
+              );
+            })
+          : <Text>loading</Text>
         }
       </ScrollView>
     </>

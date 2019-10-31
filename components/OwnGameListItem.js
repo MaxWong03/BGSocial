@@ -2,8 +2,21 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
+import api from './../api';
 
-export default function OwnGameListItem({ imageURL, date, title }) {
+export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES }) {
+
+  const userID = 1;
+
+  const removeEvent = function (game) {
+    api.post(`/user/${userID}/game/${game.bgg_id}/delete`)
+    .then(() => {
+      dispatchState({type: DELETE_GAMES, value: game});
+    });
+    console.log(game.bgg_id);
+  }
+
+
   return (
     <View style={styles.flexParent}> 
       <View style={styles.imamgContainer}>
@@ -40,6 +53,7 @@ export default function OwnGameListItem({ imageURL, date, title }) {
               type="font-awesome"
               size={30}
               color="white"
+              onPress={()=> ( removeEvent(game) )}
             />
           }
         />

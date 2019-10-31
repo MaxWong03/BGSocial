@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
-import { formatDateWithTime } from './../utils';
+import { getConfirmedAttendants } from './../utils';
 import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
 
@@ -11,11 +11,12 @@ export default function EventsScreen({ navigation }) {
 
   const {
     state,
-    dispatchState,
     confirmEvents,
     pendingEvents,
-    confirmAttendants,
-    userConfirmed
+    userConfirmed,
+    removeEvent,
+    goingToEvent,
+    setConfirmEvent
   } = useEventsData();
 
 //third view
@@ -56,15 +57,21 @@ export default function EventsScreen({ navigation }) {
         selectedIndex={screenState}
         onPress={slider}
       />
-      {eventsToShow.map((event, index) => {
+      {eventsToShow.map((event) => {
         return  (
           <EventItem
-            key={index}
+            key={event.id}
             chosenDate={event.chosen_event_date.date}
             imageUrl={event.event_games[0].image}
             isOwner={userId === event.owner_id}
             confirmedAssistance={userConfirmed(event, userId)}
-            attendants={confirmAttendants(event.event_attendants).length}
+            attendants={getConfirmedAttendants(event).length}
+            onPress={() => navigation.navigate('SingleEvent', {
+              eventID: event.id,
+              removeEvent,
+              goingToEvent,
+              setConfirmEvent
+            })}
           />
         );
       })}
