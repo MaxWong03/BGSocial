@@ -95,14 +95,6 @@ export default function EventsScreen({ navigation }) {
         iconStyle={styles.icon}
       />
 
-      <Icon
-        size={30}
-        name='qq'
-        type='font-awesome'
-        color='#0e92cf'
-        onPress={() => navigation.navigate('EditEvent')}
-        iconStyle={styles.icon}
-      />
     </View>
   );
 };

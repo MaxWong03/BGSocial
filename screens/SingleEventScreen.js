@@ -165,6 +165,16 @@ export default function SingleEventScreen({ navigation }) {
                 />
               }
             />
+            <Icon
+              size={30}
+              name='qq'
+              type='font-awesome'
+              color='#0e92cf'
+              onPress={() => navigation.navigate('EditEvent', {
+                event: state.event
+              })}
+              iconStyle={styles.icon}
+            />
           </View>}
       </View>
     </ScrollView>
