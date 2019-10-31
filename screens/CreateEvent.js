@@ -9,10 +9,10 @@ import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
-import useFriendsData from '../hooks/useFriendsData';
-import useGamesData from '../hooks/useGamesData';
 import useLocation from '../hooks/useLocation';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { API_HOST } from './../settings/app.config';
+import axios from 'axios';
+import { getUserInfo } from '../hooks/sessionContext';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
@@ -20,7 +20,7 @@ export default function createEventScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
-
+  const { userData } = getUserInfo();
   const onChangeText = (newTitle) => {
     setEventTitle(newTitle);
   }
@@ -31,7 +31,57 @@ export default function createEventScreen() {
     console.log('Selected Games:', gameSlots);
     console.log('Invited Friends:', friendSlots);
     console.log('Location:', location)
+
+
+    axios.post(`${API_HOST}/events/`, {
+      "owner_id": 1,
+      "eventDates": timeSlots.map(time => {
+        return {
+          "date": time["date"],
+          "is_chosen": false,
+          "is_open": true,
+          "location": location
+        }
+      }),
+      "eventAttendants": [
+        {
+          "is_confirmed": true,
+          "is_not_assisting": false,
+          "attendant_id": 2
+        }
+      ],
+      "eventGames": gameSlots.map(game => {
+        return {
+          "game_id": game
+        }
+      })
+    })
   };
+
+
+  // {
+  //   "owner_id": 1,
+  //   "eventDates": timeSlots.map(time => {
+  //     return {
+  //       "date": time["date"],
+  //       "is_chosen": false,
+  //       "is_open": true,
+  //       "location": location
+  //     }
+  //   }),
+  //   "eventAttendants": friendSlots.map(friend => {
+  //     return {
+  //       "is_confirmed": false,
+  //       "is_not_assisting": false,
+  //       "attendant_id": friend
+  //     }
+  //   }),
+  //   "eventGames": gameSlots.map(game => {
+  //     return {
+  //       "game_id": game
+  //     }
+  //   })
+  // }
 
   return (
     <>
