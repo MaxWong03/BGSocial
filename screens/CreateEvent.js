@@ -24,11 +24,6 @@ export default function createEventScreen() {
   const dispatchState = useNavigationParam('dispatchState');
 
   const createEvent = () => {
-    console.log('Event Title:', eventTitle);
-    console.log('Selected Times:', timeSlots);
-    console.log('Selected Games:', gameSlots);
-    console.log('Invited Friends:', friendSlots);
-    console.log('Location:', location)
 
     const eventDates = timeSlots.map(time => {
       return {
@@ -60,38 +55,11 @@ export default function createEventScreen() {
       eventGames
     };
 
-    console.log("NEWEVENT", newEvent);
-
     axios.post(`${API_HOST}/events/`, newEvent).then((createdEvent) => {
       console.log(createdEvent.data);
       dispatchState({value: createdEvent.data, type: 'createEvent'})
     })
   };
-
-
-  // {
-  //   "owner_id": 1,
-  //   "eventDates": timeSlots.map(time => {
-  //     return {
-  //       "date": time["date"],
-  //       "is_chosen": false,
-  //       "is_open": true,
-  //       "location": location
-  //     }
-  //   }),
-  //   "eventAttendants": friendSlots.map(friend => {
-  //     return {
-  //       "is_confirmed": false,
-  //       "is_not_assisting": false,
-  //       "attendant_id": friend
-  //     }
-  //   }),
-  //   "eventGames": gameSlots.map(game => {
-  //     return {
-  //       "game_id": game
-  //     }
-  //   })
-  // }
 
   return (
     <>
