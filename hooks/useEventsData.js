@@ -90,6 +90,9 @@ export function useEventsData() {
     loadEvents();
   }
 
+  function refreshEventScreen() {
+    loadEvents();
+  }
 
   useEffect(() => {
     // console.log("change state")
@@ -104,7 +107,8 @@ export function useEventsData() {
     pendingEvents,
     userConfirmed,
     goingToEvent,
-    setConfirmEvent
+    setConfirmEvent,
+    refreshEventScreen
   };
 
 };

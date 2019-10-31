@@ -21,7 +21,7 @@ export default function EventsScreen({ navigation }) {
     removeEvent,
     goingToEvent,
     setConfirmEvent,
-    dispatchState
+    refreshEventScreen
   } = useEventsData();
 
 //third view
@@ -90,7 +90,7 @@ export default function EventsScreen({ navigation }) {
         onPress={() => navigation.navigate('CreateEvent', {
           userGames,
           userFriends,
-          dispatchState
+          refreshEventScreen
         })}
         iconStyle={styles.icon}
       />

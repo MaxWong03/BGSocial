@@ -21,9 +21,9 @@ export default function createEventScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
-  const dispatchState = useNavigationParam('dispatchState');
+  const refreshEventScreen = useNavigationParam('refreshEventScreen');
   const { navigate } = useNavigation();
-  const createEvent = () => {
+  const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {
       return {
@@ -68,7 +68,7 @@ export default function createEventScreen() {
         date: null,
         location: null
       };
-      dispatchState({ value: createdEvent, type: 'createEvent' });
+      refreshEventScreen();
       navigate('Events');
     })
   };
@@ -130,7 +130,7 @@ export default function createEventScreen() {
             color='white'
           />
         }
-        onPress={createEvent}
+        onPress={createEventAction}
       />
     </>
   );
