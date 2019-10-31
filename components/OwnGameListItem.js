@@ -9,7 +9,7 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
   const userID = 1;
 
   const removeEvent = function (game) {
-    api.post(`/user/${userID}/game/${game.bgg_id}/delete`)
+    api.post(`game/user/${game.bgg_id}/delete`)
     .then(() => {
       dispatchState({type: DELETE_GAMES, value: game});
     });

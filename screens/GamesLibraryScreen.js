@@ -9,7 +9,6 @@ export default function GamesLibraryScreen({navigation}) {
 
   const allGames = navigation.getParam("games");
   const ownedGamesID = navigation.getParam("ownedGames").map(game => game['id']);
-  console.log("in the beginniong of the game", navigation);
   const dispatchState = navigation.getParam("dispatchState")
   const ADD_GAMES = navigation.getParam("ADD_GAMES")
   const {list: gameSelectList, onSelectGame: onSelect} = useList(allGames);
@@ -29,10 +28,12 @@ export default function GamesLibraryScreen({navigation}) {
   const chooseGameAction = () => {
     const selectedList = filterSelectedGames()
     selectedList.map( game => {
-      api.post(`/user/${userID}/game/${game['id']}`)
+      api.post(`/games/user/${game['id']}`)
       .then(() => {
         dispatchState({type: ADD_GAMES, value: game});
-      });
+      }).catch((err) => {
+        console.log(err);
+      })
     });
     navigation.goBack();
   }

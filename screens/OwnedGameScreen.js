@@ -9,9 +9,7 @@ import useGameData from '../hooks/useGamesData';
 // import { updateLoading, updateList } from './../reducers/user_games_action';
 import { initState, initReducer } from './../reducers/user_games_reducer';
 
-
-
-export default function TestScreen({ navigation }) {
+export default function OwnedGameScreen({ navigation }) {
 
   const userID = 1;
 
@@ -105,9 +103,9 @@ export default function TestScreen({ navigation }) {
   );
 }
 
-TestScreen.navigationOptions = { // title at the top
-  title: 'Test',
-};
+// OwnedGameScreen.navigationOptions = { // title at the top
+//   title: 'Test',
+// };
 
 const styles = StyleSheet.create({
 });
