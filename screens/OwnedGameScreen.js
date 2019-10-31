@@ -93,7 +93,7 @@ export default function TestScreen({ navigation }) {
                   game = { event }
                   dispatchState = {dispatchState}
                   DELETE_GAMES = {DELETE_GAMES}
-                  ADD_GAMES = { ADD_GAMES }
+                  last_play = { event.last_play }
                   // deleteGame = { () => removeEvent()}
                 />
               );

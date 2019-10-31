@@ -13,17 +13,9 @@ const stateLookup = {
     let filtered = state.filter(function(el) { return el.bgg_id != value.bgg_id; }); 
     return filtered;
   }
-
-  // DELETE_GAMES: (state, value) =>{
-  //   console.log("in the delete gaeme");
-  //   let games = [...state];
-  //   delete games[value];
-  //   return games;
-  // }
 }
 
 export default function reducer(state, action) {
-  console.log("in the reducer, ", action.type);
   if (stateLookup[action.type]) {
     return stateLookup[action.type](state, action.value);
   } else {
