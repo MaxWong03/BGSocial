@@ -14,7 +14,7 @@ export default function EventsScreen({ navigation }) {
   const { state: userFriends } = useFriendsData();
 
   const {
-      state,
+    state,
     confirmEvents,
     pendingEvents,
     userConfirmed,
@@ -24,7 +24,7 @@ export default function EventsScreen({ navigation }) {
     refreshEventScreen
   } = useEventsData();
 
-//third view
+  //third view
   // useEffect(()={
   //   if (screenState == 2 ) {
   //     updateOpenEvents();
@@ -42,10 +42,10 @@ export default function EventsScreen({ navigation }) {
   const userId = 1;
 
   let eventsToShow = [];
-  if ( screenState === 0 ) {
+  if (screenState === 0) {
     eventsToShow = confirmEvents(state, userId);
   }
-  else if (screenState == 1 ) {
+  else if (screenState == 1) {
     eventsToShow = pendingEvents(state, userId);
   }
   //third view
@@ -55,34 +55,34 @@ export default function EventsScreen({ navigation }) {
 
   return (
     <View>
-    <ScrollView>
-      <ButtonGroup
-        buttons={buttons}
-        containerStyle={styles.buttonGroup}
-        selectedIndex={screenState}
-        onPress={slider}
-      />
-      {eventsToShow.map((event) => {
-        return  (
-          <EventItem
-            key={event.id}
-            chosenDate={event.chosen_event_date.date}
-            imageUrl={event.event_games[0].image}
-            isOwner={userId === event.owner_id}
-            confirmedAssistance={userConfirmed(event, userId)}
-            attendants={getConfirmedAttendants(event).length}
-            onPress={() => navigation.navigate('SingleEvent', {
-              eventID: event.id,
-              removeEvent,
-              goingToEvent,
-              setConfirmEvent
-            })}
-          />
-        );
-      })}
-      
-    </ScrollView>
-    <Icon
+      <ScrollView>
+        <ButtonGroup
+          buttons={buttons}
+          containerStyle={styles.buttonGroup}
+          selectedIndex={screenState}
+          onPress={slider}
+        />
+        {eventsToShow.map((event) => {
+          return (
+            <EventItem
+              key={event.id}
+              chosenDate={event.chosen_event_date.date}
+              imageUrl={event.event_games[0].image}
+              isOwner={userId === event.owner_id}
+              confirmedAssistance={userConfirmed(event, userId)}
+              attendants={getConfirmedAttendants(event).length}
+              onPress={() => navigation.navigate('SingleEvent', {
+                eventID: event.id,
+                removeEvent,
+                goingToEvent,
+                setConfirmEvent
+              })}
+            />
+          );
+        })}
+
+      </ScrollView>
+      <Icon
         size={30}
         name='calendar-plus-o'
         type='font-awesome'
@@ -92,6 +92,15 @@ export default function EventsScreen({ navigation }) {
           userFriends,
           refreshEventScreen
         })}
+        iconStyle={styles.icon}
+      />
+
+      <Icon
+        size={30}
+        name='qq'
+        type='font-awesome'
+        color='#0e92cf'
+        onPress={() => navigation.navigate('EditEvent')}
         iconStyle={styles.icon}
       />
     </View>
@@ -109,6 +118,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 20,
-    alignSelf:'flex-end'
+    alignSelf: 'flex-end'
   }
 });
