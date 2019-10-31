@@ -12,7 +12,7 @@ import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 
 
 export default function createEventScreen() {
@@ -22,7 +22,7 @@ export default function createEventScreen() {
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
   const dispatchState = useNavigationParam('dispatchState');
-
+  const { navigate } = useNavigation();
   const createEvent = () => {
 
     const eventDates = timeSlots.map(time => {
@@ -42,11 +42,18 @@ export default function createEventScreen() {
       }
     });
 
+    eventAttendants.push({
+      "is_confirmed": true,
+      "is_not_assisting": false,
+      "attendant_id": 1
+    })
+
     const eventGames = gameSlots.map(game => {
       return {
         "game_id": game
       }
     })
+
 
     const newEvent = {
       "owner_id": 1,
@@ -55,9 +62,14 @@ export default function createEventScreen() {
       eventGames
     };
 
-    axios.post(`${API_HOST}/events/`, newEvent).then((createdEvent) => {
-      console.log(createdEvent.data);
-      dispatchState({value: createdEvent.data, type: 'createEvent'})
+    axios.post(`${API_HOST}/events/`, newEvent).then((res) => {
+      const { data: createdEvent } = res;
+      createdEvent['chosen_event_date'] = {
+        date: null,
+        location: null
+      };
+      dispatchState({ value: createdEvent, type: 'createEvent' });
+      navigate('Events');
     })
   };
 
