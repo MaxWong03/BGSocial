@@ -20,41 +20,6 @@ export function useEventsData() {
   //     })
   // }
 
-  // function bookInterview(id, interview) {
-  //   const appointment = {
-  //     ...state.appointments[id],
-  //     interview: { ...interview }
-  //   };
-  //   const appointments = {
-  //     ...state.appointments,
-  //     [id]: appointment
-  //   };
-
-  //   return axios.put(`/api/appointments/${id}`, { interview })
-  //     .then(response => {
-  //       dispatchState({ value: appointments, type: "appointments" })
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       throw error;
-  //     });
-
-  // };
-
-  // function cancelInterview(id) {
-  //   return axios.delete(`/api/appointments/${id}`)
-  //     .then(response => {
-  //       const newState = JSON.parse(JSON.stringify(state));
-  //       newState.appointments[id].interview = null
-  //       const appointments = { ...newState.appointments }
-  //       dispatchState({ value: appointments, type: "appointments" })
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //       throw error;
-  //     });
-  // }
-
   function confirmEvents(state, userId) {
     return Object.values(state.events).filter(event => (event.chosen_event_date.date && userConfirmed(event, userId)))
   };
@@ -70,12 +35,10 @@ export function useEventsData() {
   async function loadEvents() {
     const response = await api.get("/events");
     const eventsAsObject = arrayToObject(response.data, 'id');
-    console.log('eventsAsObject', eventsAsObject);
     dispatchState({ value: eventsAsObject, type: "setEvents" });
   };
 
   function removeEvent(eventId) {
-    console.log('delete', eventId);
     api.post(`/events/${eventId}/delete`);
     dispatchState({ value: eventId, type: 'removeEvent' });
   }
@@ -86,13 +49,13 @@ export function useEventsData() {
   }
 
   function setConfirmEvent(eventId, eventDateId){
-    api.post(`/events/${eventId}/dates/${eventDateId}`);
-    loadEvents();
+    return api
+      .post(`/events/${eventId}/dates/${eventDateId}`)
+      .then((res) => loadEvents());
   }
 
 
   useEffect(() => {
-    console.log("change state")
     loadEvents();
   }, []);
 
