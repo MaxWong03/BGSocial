@@ -61,6 +61,7 @@ export default function EditEventScreen() {
             invited: true
           }
         })}
+        buttonText={'Edit Attendance'}
       />
       <Button
         title='Edit Event!'

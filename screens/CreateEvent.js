@@ -121,6 +121,7 @@ export default function createEventScreen() {
         <EventFriends
           userFriends={useNavigationParam('userFriends')}
           changeFriendSlot={changeFriendSlot}
+          buttonText={'Invite Friends'}
         />
       </ScrollView>
       <Button
