@@ -39,6 +39,7 @@ export default function EditEventScreen() {
         addTimeSlot={addTimeSlot}
         changeTimeSlot={changeTimeSlot}
         deleteTimeSlot={deleteTimeSlot}
+        buttonText={'Edit Date'}
       />
       <Button
         title='Edit Event!'

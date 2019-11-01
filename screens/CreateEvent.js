@@ -111,6 +111,7 @@ export default function createEventScreen() {
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
           deleteTimeSlot={deleteTimeSlot}
+          buttonText={'Add Date'}
         />
         <EventGames
           userGames={useNavigationParam('userGames')}
