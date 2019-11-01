@@ -5,7 +5,6 @@ import SelectGamesModal from './SelectGamesModal';
 
 export default function SelectGames({ getEventGameList, gameSelectList, onSelect, buttonText }) {
   const {visible, showModal, closeModal} = useVisibility(false);
-
   const chooseGameAction = () => {
     const gameList = [];
     gameSelectList.forEach((game) => {

@@ -6,23 +6,26 @@ import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
 
 export default function CreatEventGames({ changeGameSlot, userGames, eventGameList, buttonText }) {
-  // eventGameList ? 
-  // userGames = userGames.map((game,index) => {
-  //   return {...game, 'selected': eventGameList[index]['selected']}
-  // })
-  // :
-  // userGames = userGames.map(game => {
-  //   return {...game, 'selected': false}
-  // })
-  
-  eventGameList[3];
+
+  userGames = userGames.map(game => {
+    return { ...game, 'selected': false }
+  })
+
+  if (eventGameList) {
+    userGames.forEach(game => {
+      eventGameList.find(eventGame => {
+        if (game.id === eventGame.id) game.selected = true
+      })
+    })
+  }
 
   const { list: gameSelectList, onSelectGame: onSelect } = useList(userGames);
 
   const filterSelectedGames = () => {
     return gameSelectList.filter((game) => game['selected'])
   };
-  eventGameList ? eventGameList : eventGameList = filterSelectedGames();
+
+  eventGameList = filterSelectedGames();
 
 
   const getEventGameList = (eventGameListID) => {
