@@ -6,8 +6,8 @@ import { NavigationActions } from 'react-navigation';
 import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 
-import api from './../api';
-
+import { facebookLogin } from './../api';
+ 
 import { getUserInfoContext } from './../hooks/sessionContext';
 
 async function loginWithFacebook() {
@@ -27,15 +27,9 @@ async function loginWithFacebook() {
       const { name, id: fbID } = basicInfo.data;
       const profileResponse = await axios.get(`https://graph.facebook.com/v4.0/${fbID}/picture?height=350&width=350`)
       const { responseURL: profilePicture } = profileResponse.request;
-      const response = await axios.post(`${API_HOST}/facebook-login/${fbID}`);
+      const userData = await facebookLogin(fbID);
 
-      const authorizationToken = response.headers['x-auth-token'];
-      console.log('authorizationToken', authorizationToken);
-
-      console.log(api);
-      api.defaults.headers.common['x-auth-token'] = authorizationToken;
-
-      return { type, fbID, profilePicture, name, userData: response.data }
+      return { type, fbID, profilePicture, name, userData  }
     } else { //type === 'cancel', user doesn't wanna login
       return { type };
     }

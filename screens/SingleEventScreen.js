@@ -9,7 +9,7 @@ import {
 import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
 import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
-import api from './../api';
+import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 
 
@@ -101,7 +101,7 @@ export default function SingleEventScreen({ navigation }) {
   const userId = getUserInfo().userData.id;
 
   if (isLoading()) {
-    return (<ActivityIndicator size='large' color="#0000ff" />) // display loading...
+    return (<ActivityIndicator size='large' color="#0000ff" style={{marginTop: 200}}/>) // display loading...
   }
 
   function renderChosenDateInfo(chosenDate, confirmedAttendants) {
@@ -186,10 +186,10 @@ export default function SingleEventScreen({ navigation }) {
           </View>
           <View style={{ flex: 0, padding: 10 }}>
             <IconVerticalWithLabel
-              iconName={ checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o":"calendar-check-o"} 
-              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote': 'Vote!'}
-              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red': 'blue'}
-              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 
+              iconName={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o" : "calendar-check-o"}
+              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote' : 'Vote!'}
+              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red' : 'blue'}
+              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ?
                 cancelvoteEventDate(event.id, eventDate.id) : voteEventDate(event.id, eventDate.id)}
             />
           </View>
@@ -205,9 +205,9 @@ export default function SingleEventScreen({ navigation }) {
   }
   function getAttendantButtons(eventAttendants) {
     return [
-      chosenDate ? (checkIfUserIsGoing(eventAttendants, userId) ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id), iconColor:'blue' }
-      : { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress:() => goingToEvent(state.event.id) })
-      : {},
+      chosenDate ? (checkIfUserIsGoing(eventAttendants, userId) ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id), iconColor: 'blue' }
+        : { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id) })
+        : {},
       { iconName: 'frown-o', iconType: 'font-awesome', textInfo: 'Not Going', onPress: notGoingModal },
     ];
   }
@@ -217,11 +217,11 @@ export default function SingleEventScreen({ navigation }) {
 
   }
 
-  function checkVoteOfUserByDateId(userId, eventDateId, eventVotes){
+  function checkVoteOfUserByDateId(userId, eventDateId, eventVotes) {
     return getVotesByDateId(eventVotes, eventDateId).find(vote => vote.user_id === userId)
   }
 
-  function checkIfUserIsGoing(eventAttendants, userId){
+  function checkIfUserIsGoing(eventAttendants, userId) {
     return !!eventAttendants.find(attendant => userId === attendant.attendant_id && attendant.is_confirmed === true)
   }
 

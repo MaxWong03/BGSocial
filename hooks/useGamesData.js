@@ -1,5 +1,5 @@
 import { useEffect, userReducer, useReducer } from 'react';
-import api from '../api';
+import { api } from '../api';
 import reducer, { SET_GAMES } from '../reducers/games';
 
 export default function useGamesData() {

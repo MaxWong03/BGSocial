@@ -14,7 +14,7 @@ export default function EventsScreen({ navigation }) {
   const { state: userFriends } = useFriendsData();
 
   const {
-      state,
+    state,
     confirmEvents,
     pendingEvents,
     userConfirmed,
@@ -25,7 +25,7 @@ export default function EventsScreen({ navigation }) {
     notGoingToEvent
   } = useEventsData();
 
-//third view
+  //third view
   // useEffect(()={
   //   if (screenState == 2 ) {
   //     updateOpenEvents();
@@ -43,10 +43,10 @@ export default function EventsScreen({ navigation }) {
   const userId = userData.id;
 
   let eventsToShow = [];
-  if ( screenState === 0 ) {
+  if (screenState === 0) {
     eventsToShow = confirmEvents(state, userId);
   }
-  else if (screenState == 1 ) {
+  else if (screenState == 1) {
     eventsToShow = pendingEvents(state, userId);
   }
   //third view
@@ -55,48 +55,48 @@ export default function EventsScreen({ navigation }) {
   // }
 
   return (
-    <View style={{height:"100%"}}>
-    <ScrollView>
-      <ButtonGroup
-        buttons={buttons}
-        containerStyle={styles.buttonGroup}
-        selectedIndex={screenState}
-        onPress={slider}
-      />
-      {eventsToShow.map((event) => {
-        return  (
-          <EventItem
-            key={event.id}
-            chosenDate={event.chosen_event_date.date}
-            imageUrl={event.event_games[0].image}
-            isOwner={userId === event.owner_id}
-            confirmedAssistance={userConfirmed(event, userId)}
-            attendants={getConfirmedAttendants(event).length}
-            onPress={() => navigation.navigate('SingleEvent', {
-              eventID: event.id,
-              removeEvent,
-              goingToEvent,
-              setConfirmEvent,
-              notGoingToEvent
-            })}
-          />
-        );
-      })}
-      
-    </ScrollView>
-    <View style={styles.iconBox}>
-    <Icon
-        size={30}
-        name='calendar-plus-o'
-        type='font-awesome'
-        color='white'
-        onPress={() => navigation.navigate('CreateEvent', {
-          userGames,
-          userFriends,
-          refreshEventScreen
+    <View style={{ height: "100%" }}>
+      <ScrollView>
+        <ButtonGroup
+          buttons={buttons}
+          containerStyle={styles.buttonGroup}
+          selectedIndex={screenState}
+          onPress={slider}
+        />
+        {eventsToShow.map((event) => {
+          return (
+            <EventItem
+              key={event.id}
+              chosenDate={event.chosen_event_date.date}
+              imageUrl={event.event_games[0].image}
+              isOwner={userId === event.owner_id}
+              confirmedAssistance={userConfirmed(event, userId)}
+              attendants={getConfirmedAttendants(event).length}
+              onPress={() => navigation.navigate('SingleEvent', {
+                eventID: event.id,
+                removeEvent,
+                goingToEvent,
+                setConfirmEvent,
+                notGoingToEvent
+              })}
+            />
+          );
         })}
-        iconStyle={styles.icon}
-      />
+
+      </ScrollView>
+      <View style={styles.iconBox}>
+        <Icon
+          size={20}
+          name='calendar-plus-o'
+          type='font-awesome'
+          color='white'
+          onPress={() => navigation.navigate('CreateEvent', {
+            userGames,
+            userFriends,
+            refreshEventScreen
+          })}
+          iconStyle={styles.icon}
+        />
       </View>
     </View>
   );
@@ -112,8 +112,7 @@ const styles = StyleSheet.create({
     height: 50
   },
   icon: {
-    margin: 20,
-    alignSelf:'flex-end',
+    color: 'white'
   },
   iconBox: {
     position: 'absolute',
@@ -121,8 +120,11 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: '#0e92cf',
     borderRadius: 1000,
-    padding:0,
-    opacity:0.8
+    // opacity: 0.8,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignContent: 'center'
 
   }
 
