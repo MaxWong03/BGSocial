@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, Icon } from 'react-native-elements';
-import TimeListItem from '../components/TimeListItem';
 import EventDates from '../components/CreateEventDate';
 import { useNavigationParam } from 'react-navigation-hooks';
 import useTimeSlot from '../hooks/useTimeSlot';
@@ -23,17 +22,6 @@ export default function EditEventScreen() {
   }
   return (
     <>
-      {/* {
-        timeSlots.map((date, index) => (
-          <TimeListItem
-            key={index}
-            id={index}
-            preSetDate={date.date}
-            title={date.date}
-            changeTimeSlot={changeTimeSlot}
-          />
-        ))
-      } */}
       <EventDates
         timeSlots={timeSlots}
         addTimeSlot={addTimeSlot}
