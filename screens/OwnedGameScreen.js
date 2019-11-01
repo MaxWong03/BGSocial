@@ -13,18 +13,18 @@ export default function OwnedGameScreen({ navigation }) {
 
   const userID = 1;
 
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
-  const [state, dispatch] = useReducer(initReducer, initState);
+  // const [state, dispatch] = useReducer(initReducer, initState);
+  
+    // const [date, setDate] = useState("");
+    // const {list = [], loading} = state
+    
+    // const {list, dispatchState} = useGameData();
 
   const [allGames, setAllGames] = useState([]);
 
-  const [date, setDate] = useState("");
-
   const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES} = useGameData();
-  // const {list = [], loading} = state
-  
-  // const {list, dispatchState} = useGameData();
 
   const goToGameLibrary = function (){
     navigation.navigate('GameLibrary', {
@@ -80,6 +80,7 @@ export default function OwnedGameScreen({ navigation }) {
                   last_play = { event.last_play }
                   onPress={() => navigation.navigate('GameMoreInfo', {
                     game: event,
+                    // userGames
                   })}
                 />
               );

@@ -13,6 +13,7 @@ import useLocation from '../hooks/useLocation';
 import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
+import { NavigationEvents } from 'react-navigation';
 
 
 export default function createEventScreen() {
@@ -22,7 +23,11 @@ export default function createEventScreen() {
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
   const refreshEventScreen = useNavigationParam('refreshEventScreen');
+  const loadGames = useNavigationParam('loadGames');
   const { navigate } = useNavigation();
+  const userGames = useNavigationParam('userGames')
+  const userFriends = useNavigationParam('userFriends')
+  console.log("userGames:", userGames.length);
   const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {
@@ -75,6 +80,18 @@ export default function createEventScreen() {
 
   return (
     <>
+      <NavigationEvents
+      onWillFocus={payload => {
+        console.log('will focus')
+        loadGames();
+      }}
+      onDidFocus={payload => {
+        console.log('did focus')
+        loadGames();
+      }}
+      onWillBlur={payload => console.log('will blur')}
+      onDidBlur={payload => console.log('did blur')}
+      />
       <View style={styles.mapContainer}>
         {
           latitude && longitude ?
@@ -113,11 +130,11 @@ export default function createEventScreen() {
           deleteTimeSlot={deleteTimeSlot}
         />
         <EventGames
-          userGames={useNavigationParam('userGames')}
+          userGames={userGames}
           changeGameSlot={changeGameSlot}
         />
         <EventFriends
-          userFriends={useNavigationParam('userFriends')}
+          userFriends={userFriends}
           changeFriendSlot={changeFriendSlot}
         />
       </ScrollView>

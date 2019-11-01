@@ -6,7 +6,7 @@ import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
 
 export default function CreatEventGames({ changeGameSlot, userGames }) {
-  userGames = userGames.map(game => {
+  userGames.map(game => {
     return {...game, 'selected': false}
   })
   

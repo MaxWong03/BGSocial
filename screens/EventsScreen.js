@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
 import { getConfirmedAttendants } from './../utils';
@@ -10,7 +11,7 @@ import useFriendsData from '../hooks/useFriendsData';
 
 export default function EventsScreen({ navigation }) {
   const [screenState, setButtonGroup] = useState(0);
-  const { state: userGames } = useGamesData();
+  const { state: userGames, loadGames } = useGamesData();
   const { state: userFriends } = useFriendsData();
 
   const {
@@ -52,9 +53,14 @@ export default function EventsScreen({ navigation }) {
   // else if (screenState ==2) {
   //   eventsToShow = state.openEvents;
   // }
-
+console.log(userGames.length)
   return (
     <View style={{height:"100%"}}>
+    <NavigationEvents
+      onWillFocus={() => {
+        loadGames();
+      }}
+    />
     <ScrollView>
       <ButtonGroup
         buttons={buttons}
@@ -91,7 +97,8 @@ export default function EventsScreen({ navigation }) {
         onPress={() => navigation.navigate('CreateEvent', {
           userGames,
           userFriends,
-          refreshEventScreen
+          refreshEventScreen,
+          loadGames
         })}
         iconStyle={styles.icon}
       />

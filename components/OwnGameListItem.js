@@ -5,7 +5,6 @@ import { formatDateWithTime } from './../utils'
 import api from './../api';
 
 export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play, onPress }) {
-
   const userID = 1;
 
   const removeEvent = function (game) {
