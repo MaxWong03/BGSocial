@@ -54,7 +54,7 @@ export default function EventsScreen({ navigation }) {
   // }
 
   return (
-    <View>
+    <View style={{height:"100%"}}>
     <ScrollView>
       <ButtonGroup
         buttons={buttons}
@@ -82,11 +82,12 @@ export default function EventsScreen({ navigation }) {
       })}
       
     </ScrollView>
+    <View style={styles.iconBox}>
     <Icon
         size={30}
         name='calendar-plus-o'
         type='font-awesome'
-        color='#0e92cf'
+        color='white'
         onPress={() => navigation.navigate('CreateEvent', {
           userGames,
           userFriends,
@@ -94,6 +95,7 @@ export default function EventsScreen({ navigation }) {
         })}
         iconStyle={styles.icon}
       />
+      </View>
     </View>
   );
 };
@@ -109,6 +111,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 20,
-    alignSelf:'flex-end'
+    alignSelf:'flex-end',
+  },
+  iconBox: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#0e92cf',
+    borderRadius: 1000,
+    padding:0,
+    opacity:0.8
+
   }
+
 });
