@@ -56,7 +56,7 @@ export default function FBAuth(props) {
             fbID,
             name,
             profilePicture,
-            userData //object
+            userData, //object
           };
           setUserInfo(userInfo);
           navigate('Main');

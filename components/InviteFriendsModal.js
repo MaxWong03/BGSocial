@@ -32,7 +32,7 @@ export default function InviteFriendsModal({ goBack, onSelect, inviteAction, fri
       <ScrollView style={styles.friendListContainer}>
         {
           friendInviteList.map((friend, index) => (
-            friend['friend_name'].includes(search) &&
+            friend['name'].includes(search) &&
             <FriendListItem
               key={index}
               friend={friend}

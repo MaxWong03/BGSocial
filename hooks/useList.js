@@ -4,19 +4,20 @@ export default function useList (initial) {
   const [list, setList] = useState(initial);
 
   const onSelectFriend = (friend_id) => {
-    console.log(friend_id)
+    console.log("onSelectFriend:", friend_id)
     const updatedList = list.map((friend) => {
-      if (friend['friend_id'] === friend_id) {
+      if (friend['id'] === friend_id) {
         return { ...friend, invited: !friend['invited'] };
       } else {
         return friend;
       }
     });
     setList(updatedList);
+    return updatedList;
   }
 
   const onSelectGame = (gameID) => {
-    console.log(gameID)
+    console.log("onSelectGame:", gameID)
     const updateList = list.map((game) => {
       if (game['id'] === gameID) {
         return { ...game, selected: !game['selected'] }
@@ -25,6 +26,7 @@ export default function useList (initial) {
       }
     });
     setList(updateList);
+    return updateList;
   }
 
   return {
