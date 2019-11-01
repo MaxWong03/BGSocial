@@ -1,7 +1,6 @@
 import { useEffect, useReducer } from "react";
 import api from './../api';
 import reduceState from "../reducers/events";
-import Axios from "axios";
 import { arrayToObject } from './../utils';
 
 
@@ -29,7 +28,7 @@ export function useEventsData() {
   };
 
   function isUserGoing(event, userId) {
-    return !!event.event_attendants.find(attendant => (attendant.attendant_id === 1 && !attendant.is_not_assisting));
+    return !!event.event_attendants.find(attendant => (attendant.attendant_id === userId && !attendant.is_not_assisting));
 
   };
   
