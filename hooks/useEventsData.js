@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import api from './../api';
+import { api } from './../api';
 import reduceState from "../reducers/events";
 import Axios from "axios";
 import { arrayToObject } from './../utils';

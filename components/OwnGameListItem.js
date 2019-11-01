@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
-import api from './../api';
+import { api } from './../api';
 
 export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play, onPress }) {
   const userID = 1;

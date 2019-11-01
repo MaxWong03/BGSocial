@@ -1,6 +1,7 @@
 import { Icon, Button, Rating } from 'react-native-elements';
 import React, { useEffect }from 'react';
 import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+// import { api } from './../api';
 
 
 export default function GameInfo({ game }) {

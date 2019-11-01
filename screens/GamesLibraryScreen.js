@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
 import useList from '../hooks/useList';
 import GameSearchBar from './../components/GameSearchBar';
 import GameListItem from '../components/GameListItem';
-import api from './../api';
+import { api } from './../api';
 
 export default function GamesLibraryScreen({navigation}) {
 
