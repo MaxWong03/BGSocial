@@ -25,7 +25,6 @@ const stateLookup = {
   }
 };
 
-
 export default function reduceState(state, action) {
   if (stateLookup[action.type]) {
     return stateLookup[action.type](state, action.value);
@@ -33,4 +32,3 @@ export default function reduceState(state, action) {
     throw new Error("tried to reduce with unsupported action type");
   }
 };
-

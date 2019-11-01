@@ -11,6 +11,7 @@ import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
+
 import { api } from './../api';
 
 export default function createEventScreen() {
@@ -21,6 +22,9 @@ export default function createEventScreen() {
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
   const refreshEventScreen = useNavigationParam('refreshEventScreen');
   const { navigate } = useNavigation();
+  const userGames = useNavigationParam('userGames')
+  const userFriends = useNavigationParam('userFriends')
+  // console.log("userGames:", userGames.length);
   const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {
@@ -112,12 +116,12 @@ export default function createEventScreen() {
           buttonText={'Add Date'}
         />
         <EventGames
-          userGames={useNavigationParam('userGames')}
+          userGames={userGames}
           changeGameSlot={changeGameSlot}
           buttonText={'Add Games'}
         />
         <EventFriends
-          userFriends={useNavigationParam('userFriends')}
+          userFriends={userFriends}
           changeFriendSlot={changeFriendSlot}
           buttonText={'Invite Friends'}
         />

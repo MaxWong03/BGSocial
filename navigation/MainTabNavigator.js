@@ -8,7 +8,10 @@ import EventsScreen from '../screens/EventsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
+import OwnedGameScreen from '../screens/OwnedGameScreen';
+import GamesLibraryScreen from '../screens/GamesLibraryScreen';
 import SingleEventScreen from '../screens/SingleEventScreen';
+import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 
 const config = Platform.select({
@@ -108,12 +111,32 @@ CreateEvent.navigationOptions = {
 
 CreateEvent.path = '';
 
+
+const GamesStack = createStackNavigator(
+  {
+    OwnedGame: OwnedGameScreen,
+    GameLibrary: GamesLibraryScreen,
+    GameMoreInfo: GameMoreInfoScreen
+  },
+  config
+)
+
+GamesStack.navigationOptions = {
+  tabBarLabel: 'Games',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+  ),
+};
+
+GamesStack.path = '';
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
   SettingsStack,
   TestStack,
-  CreateEvent
+  CreateEvent,
+  GamesStack
 });
 
 tabNavigator.path = '';
