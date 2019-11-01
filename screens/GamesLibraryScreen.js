@@ -30,7 +30,6 @@ export default function GamesLibraryScreen({navigation}) {
     selectedList.map( game => {
       api.post(`/games/user/${game['id']}`)
       .then((res) => {
-        console.log(res.data);
         const {game} = res.data;
         dispatchState({type: ADD_GAMES, value: game});
       }).catch((err) => {
