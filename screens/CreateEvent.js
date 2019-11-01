@@ -93,10 +93,10 @@ export default function createEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              <EventTitle
+              {/* <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              />
+              /> */}
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />
@@ -109,14 +109,17 @@ export default function createEventScreen() {
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
           deleteTimeSlot={deleteTimeSlot}
+          buttonText={'Add Date'}
         />
         <EventGames
           userGames={useNavigationParam('userGames')}
           changeGameSlot={changeGameSlot}
+          buttonText={'Add Games'}
         />
         <EventFriends
           userFriends={useNavigationParam('userFriends')}
           changeFriendSlot={changeFriendSlot}
+          buttonText={'Invite Friends'}
         />
       </ScrollView>
       <Button

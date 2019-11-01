@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { Icon } from 'react-native-elements'
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -11,11 +12,14 @@ import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
+import { useNavigationParam } from 'react-navigation-hooks';
 
 
 
 export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
+  const userGames = useNavigationParam('userGames');
+  const userFriends = useNavigationParam('userFriends');
 
   function openDeleteModal() {
     Alert.alert(
@@ -101,7 +105,7 @@ export default function SingleEventScreen({ navigation }) {
   const userId = getUserInfo().userData.id;
 
   if (isLoading()) {
-    return (<ActivityIndicator size='large' color="#0000ff" style={{marginTop: 200}}/>) // display loading...
+    return (<ActivityIndicator size='large' color="#0000ff" style={{ marginTop: 200 }} />) // display loading...
   }
 
   function renderChosenDateInfo(chosenDate, confirmedAttendants) {
@@ -255,6 +259,18 @@ export default function SingleEventScreen({ navigation }) {
         {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
         {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
       </View>
+      <Icon
+        size={30}
+        name='qq'
+        type='font-awesome'
+        color='#0e92cf'
+        onPress={() => navigation.navigate('EditEvent', {
+          event: state.event,
+          userGames,
+          userFriends
+        })}
+        iconStyle={styles.icon}
+      />
     </ScrollView>
   );
 }

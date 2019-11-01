@@ -77,7 +77,9 @@ export default function EventsScreen({ navigation }) {
                 removeEvent,
                 goingToEvent,
                 setConfirmEvent,
-                notGoingToEvent
+                notGoingToEvent,
+                userGames,
+                userFriends
               })}
             />
           );

@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import SingleEventScreen from '../screens/SingleEventScreen';
+import EditEventScreen from '../screens/EditEventScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -42,7 +43,8 @@ const EventsStack = createStackNavigator(
   {
     Events: EventsScreen,
     CreateEvent: CreateEventScreen,
-    SingleEvent: SingleEventScreen
+    SingleEvent: SingleEventScreen,
+    EditEvent: EditEventScreen
 
   },
   config
