@@ -3,7 +3,7 @@ import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import SelectGamesModal from './SelectGamesModal';
 
-export default function SelectGames({ getEventGameList, gameSelectList, onSelect }) {
+export default function SelectGames({ getEventGameList, gameSelectList, onSelect, buttonText }) {
   const {visible, showModal, closeModal} = useVisibility(false);
 
   const chooseGameAction = () => {
@@ -19,7 +19,7 @@ export default function SelectGames({ getEventGameList, gameSelectList, onSelect
     <>
       <Button
         onPress={showModal}
-        title={'Add Games'}
+        title={buttonText}
         icon={
           <Icon
             name='videogame-asset'

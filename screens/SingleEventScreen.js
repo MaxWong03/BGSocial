@@ -11,11 +11,13 @@ import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
 import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
 import api from './../api';
-
+import { useNavigationParam } from 'react-navigation-hooks';
 
 
 export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
+  const userGames = useNavigationParam('userGames');
+  const userFriends = useNavigationParam('userFriends');
 
   function openDeleteModal() {
     Alert.alert(
@@ -179,10 +181,10 @@ export default function SingleEventScreen({ navigation }) {
           </View>
           <View style={{ flex: 0, padding: 10 }}>
             <IconVerticalWithLabel
-              iconName={ checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o":"calendar-check-o"} 
-              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote': 'Vote!'}
-              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red': 'blue'}
-              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 
+              iconName={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o" : "calendar-check-o"}
+              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote' : 'Vote!'}
+              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red' : 'blue'}
+              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ?
                 cancelvoteEventDate(event.id, eventDate.id) : voteEventDate(event.id, eventDate.id)}
             />
           </View>
@@ -208,7 +210,7 @@ export default function SingleEventScreen({ navigation }) {
 
   }
 
-  function checkVoteOfUserByDateId(userId, eventDateId, eventVotes){
+  function checkVoteOfUserByDateId(userId, eventDateId, eventVotes) {
     return getVotesByDateId(eventVotes, eventDateId).find(vote => vote.user_id === userId)
   }
 
@@ -244,6 +246,18 @@ export default function SingleEventScreen({ navigation }) {
         {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
         {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
       </View>
+      <Icon
+        size={30}
+        name='qq'
+        type='font-awesome'
+        color='#0e92cf'
+        onPress={() => navigation.navigate('EditEvent', {
+          event: state.event,
+          userGames,
+          userFriends
+        })}
+        iconStyle={styles.icon}
+      />
     </ScrollView>
   );
 }

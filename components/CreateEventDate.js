@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import TimeListItem from './TimeListItem';
 export default function CreateEventDate({ buttonText,timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot }) {
-  console.log(timeSlots);
   return (
     <>
       <Button
@@ -27,6 +26,7 @@ export default function CreateEventDate({ buttonText,timeSlots, addTimeSlot, cha
             title={time.title}
             changeTimeSlot={changeTimeSlot}
             deleteTimeSlot={deleteTimeSlot}
+            presetDate={time.date}
           />
         ))
       }

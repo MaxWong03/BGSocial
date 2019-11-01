@@ -75,7 +75,9 @@ export default function EventsScreen({ navigation }) {
               eventID: event.id,
               removeEvent,
               goingToEvent,
-              setConfirmEvent
+              setConfirmEvent,
+              userGames,
+              userFriends
             })}
           />
         );

@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import { ListItem, Icon, Button } from 'react-native-elements';
 import DatePicker from './DatePicker';
 
-export default function TimeListItem({ id, changeTimeSlot, deleteTimeSlot, preSetDate }) {
-  const [date, setDate] = useState(preSetDate ? new Date(preSetDate) : new Date());
+export default function TimeListItem({ id, changeTimeSlot, deleteTimeSlot, presetDate }) {
+  const [date, setDate] = useState(presetDate ? new Date(presetDate) : new Date());
   const onChangeDate = (newDate) => {
     setDate(newDate);
     changeTimeSlot(id, newDate);

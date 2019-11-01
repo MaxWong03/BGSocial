@@ -116,6 +116,7 @@ export default function createEventScreen() {
         <EventGames
           userGames={useNavigationParam('userGames')}
           changeGameSlot={changeGameSlot}
+          buttonText={'Add Games'}
         />
         <EventFriends
           userFriends={useNavigationParam('userFriends')}
