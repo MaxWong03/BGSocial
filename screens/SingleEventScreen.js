@@ -54,6 +54,7 @@ export default function SingleEventScreen({ navigation }) {
 
   const deleteEventCallback = navigation.getParam('removeEvent');
   const goingEventCallback = navigation.getParam('goingToEvent');
+  const notGoingEventCallback = navigation.getParam('notGoingToEvent');
   const confirmEventCallback = navigation.getParam('setConfirmEvent');
 
   function isLoading() {
@@ -72,6 +73,11 @@ export default function SingleEventScreen({ navigation }) {
 
   function goingToEvent(eventId) {
     goingEventCallback(eventId);
+    navigation.navigate('Events');
+  }
+
+  function notGoing(eventId) {
+    notGoingEventCallback(eventId);
     navigation.navigate('Events');
   }
 

@@ -21,7 +21,8 @@ export default function EventsScreen({ navigation }) {
     removeEvent,
     goingToEvent,
     setConfirmEvent,
-    refreshEventScreen
+    refreshEventScreen,
+    notGoingToEvent
   } = useEventsData();
 
 //third view
@@ -75,7 +76,8 @@ export default function EventsScreen({ navigation }) {
               eventID: event.id,
               removeEvent,
               goingToEvent,
-              setConfirmEvent
+              setConfirmEvent,
+              notGoingToEvent
             })}
           />
         );
