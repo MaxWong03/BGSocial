@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import {
   formatDateWithTime,
@@ -7,7 +7,9 @@ import {
   getEventChosenEventDate,
   getConfirmedAttendants
 } from './../utils';
+import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
 import AttendanceList from '../components/AttendanceList';
+import IconBar from '../components/IconBar';
 import api from './../api';
 
 
@@ -26,6 +28,21 @@ export default function SingleEventScreen({ navigation }) {
           style: 'cancel',
         },
         { text: 'Delete', onPress: () => deleteEvent(state.event.id) },
+      ],
+      { cancelable: false },
+    );
+  }
+  function notGoingModal() {
+    Alert.alert(
+      'Reject Event assistance',
+      'Are you sure you are not going to this event? The event will not appear in your event list anymore.',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Not Going', onPress: () => notGoing(state.event.id) },
       ],
       { cancelable: false },
     );
@@ -58,27 +75,155 @@ export default function SingleEventScreen({ navigation }) {
     navigation.navigate('Events');
   }
 
-  function confirmEvent(eventId) {
-    loadSingleEvent(eventId)
-    confirmEventCallback(eventId);
+  async function confirmEvent(eventId, eventDateId) {
+    await confirmEventCallback(eventId, eventDateId);
+    loadSingleEvent(eventId);
+  }
+
+  async function voteEventDate(eventId, eventDateId) {
+    await api.post(`/events/${eventId}/dates/${eventDateId}/vote`);
+    loadSingleEvent(eventId);
+  }
+
+  async function cancelvoteEventDate(eventId, eventDateId) {
+    await api.post(`/events/${eventId}/dates/${eventDateId}/vote-delete`);
+    loadSingleEvent(eventId);
   }
 
 
   const userId = 1;
 
   if (isLoading()) {
-    return (<View></View>) // display loading...
+    return (<ActivityIndicator size='large' color="#0000ff" />) // display loading...
   }
 
+  function renderChosenDateInfo(chosenDate, confirmedAttendants) {
+    const chosenDateViewData = [
+      {
+        iconName: 'map-pin',
+        iconColor: '#bdbdbd',
+        textInfo: chosenDate.location,
+      },
+      {
+        iconName: 'calendar-o',
+        iconColor: '#bdbdbd',
+        textInfo: formatDateWithTime(chosenDate.date),
+      },
+      {
+        iconName: 'group',
+        iconColor: '#bdbdbd',
+        textInfo: `Attendants: ${confirmedAttendants.length}`,
+      }
+    ];
+    return (
+      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={10} />
+    )
+  }
+
+  function renderOwnerEventBody(event) {
+
+    return event.event_dates.map((eventDate) => {
+      const iconBarData = [
+        {
+          iconName: 'map-pin',
+          textInfo: eventDate.location,
+        },
+        {
+          iconName: 'calendar-o',
+          textInfo: formatDateWithTime(eventDate.date),
+        },
+        {
+          iconName: 'group',
+          textInfo: `Votes: `,
+        }
+      ];
+      return (
+        <View key={eventDate.id} style={styles.eventDateChooseDateContainer}>
+          <View style={{ flex: 1 }}>
+            <IconBar iconsData={iconBarData} horizontal={false} padding={4} />
+          </View>
+          <View style={{ flex: 0, padding: 10 }}>
+            <IconVerticalWithLabel
+              iconName="calendar-o"
+              textInfo="Choose Date"
+              iconColor="blue"
+              onPress={() => confirmEvent(event.id, eventDate.id)}
+            />
+          </View>
+        </View>
+      )
+    });
+  }
+
+  function renderVotesEventBody(event) {
+
+    return event.event_dates.map((eventDate) => {
+      const iconBarData = [
+        {
+          iconName: 'map-pin',
+          textInfo: eventDate.location,
+        },
+        {
+          iconName: 'calendar-o',
+          textInfo: formatDateWithTime(eventDate.date),
+        },
+        {
+          iconName: 'group',
+          textInfo: `Votes: ${getVotesByDateId(event.event_votes, eventDate.id).length}`,
+        }
+      ];
+      return (
+        <View key={eventDate.id} style={styles.eventDateChooseDateContainer}>
+          <View style={{ flex: 1 }}>
+            <IconBar iconsData={iconBarData} horizontal={false} padding={4} />
+          </View>
+          <View style={{ flex: 0, padding: 10 }}>
+            <IconVerticalWithLabel
+              iconName={ checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o":"calendar-check-o"} 
+              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote': 'Vote!'}
+              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red': 'blue'}
+              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 
+                cancelvoteEventDate(event.id, eventDate.id) : voteEventDate(event.id, eventDate.id)}
+            />
+          </View>
+        </View>
+      )
+    });
+  }
+
+  function getOwnerButtons() {
+    return [
+      { iconName: 'trash-o', textInfo: 'Delete', onPress: openDeleteModal },
+    ];
+  }
+  function getAttendantButtons() {
+    return [
+      chosenDate ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: undefined } : {},
+      { iconName: 'frown-o', iconType: 'font-awesome', textInfo: 'Not Going', onPress: notGoingModal },
+    ];
+  }
+
+  function getVotesByDateId(eventVotes, eventDateId) {
+    return eventVotes.filter(eventDate => eventDate.event_date_id === eventDateId)
+
+  }
+
+  function checkVoteOfUserByDateId(userId, eventDateId, eventVotes){
+    return getVotesByDateId(eventVotes, eventDateId).find(vote => vote.user_id === userId)
+  }
+
+  const isOwner = userId === state.event.owner_id;
   const chosenDate = getEventChosenEventDate(state.event);
   const confirmedAttendants = getConfirmedAttendants(state.event);
 
+  const iconBarItems = isOwner ? getOwnerButtons() : (getAttendantButtons());
   // console.log('state.event', state.event);
   // console.log('getEventMainImage(state.event)', getEventMainImage(state.event));
 
+
+  //Here start the component rendered
   return (
     <ScrollView style={styles.mainContainer}>
-      <Text>Single Event</Text>
       <View style={styles.flexParent}>
         <View style={styles.attendantsListContainer}>
           <AttendanceList backgroundColor={'#fafafa'} />
@@ -88,94 +233,16 @@ export default function SingleEventScreen({ navigation }) {
           source={{ uri: getEventMainImage(state.event) }}
         />
       </View>
+      <View style={styles.iconBar}>
+        <IconBar
+          iconsData={iconBarItems}
+          horizontal={true}
+        />
+      </View>
       <View style={styles.textContainer}>
-        <View >
-          <View style={styles.flexBoxText}>
-            <View style={{ flex: 0, width: 30, alignItems: 'center' }}>
-              <Icon
-                size={20}
-                name='map-pin'
-                type='font-awesome'
-                color='#bdbdbd'
-                iconStyle={styles.icon}
-              />
-            </View>
-            <Text style={{ flex: 1 }}>{!!chosenDate ? chosenDate.location : ""}</Text>
-          </View>
-          <View style={styles.flexBoxText}>
-            <View style={{ flex: 0, width: 30, alignItems: 'center' }}>
-              <Icon
-                size={20}
-                name='calendar-o'
-                type='font-awesome'
-                color='#bdbdbd'
-                iconStyle={styles.icon}
-              />
-            </View>
-            <Text style={{ flex: 1 }}>{!!chosenDate ? formatDateWithTime(chosenDate.date) : ""}</Text>
-          </View>
-          <View style={styles.flexBoxText}>
-            <View style={{ flex: 0, width: 30, alignItems: 'center' }}>
-              <Icon
-                size={20}
-                name='group'
-                type='font-awesome'
-                color='#bdbdbd'
-                iconStyle={styles.icon}
-              />
-            </View>
-            <Text style={{ flex: 1 }}>{!!chosenDate ? `Attendants: ${confirmedAttendants.length}` : ""}</Text>
-          </View>
-        </View>
-
-
-        {(userId === state.event.owner_id) &&
-          <View>
-            {!chosenDate &&
-              <Button
-                buttonStyle={styles.button}
-                title="Confirm Event"
-                type='outline'
-                iconRight={true}
-                onPress={() => confirmEvent(state.event.id)}
-                icon={
-                  <Icon
-                    size={20}
-                    name='check-square-o'
-                    type='font-awesome'
-                    color='#cf0e11'
-                    iconStyle={styles.icon}
-                  />
-                }
-              />
-            }
-            <Button
-              buttonStyle={styles.button}
-              title="Delete Event"
-              type='outline'
-              iconRight={true}
-              onPress={() => openDeleteModal()}
-              icon={
-                <Icon
-                  size={20}
-                  name='trash-o'
-                  type='font-awesome'
-                  color='#cf0e11'
-                  iconStyle={styles.icon}
-                />
-              }
-            />
-            <Icon
-              size={30}
-              name='qq'
-              type='font-awesome'
-              color='#0e92cf'
-              onPress={() => navigation.navigate('EditEvent', {
-                event: state.event
-              })}
-              iconStyle={styles.icon}
-            />
-          </View>}
+        {chosenDate && renderChosenDateInfo(chosenDate, confirmedAttendants)}
+        {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
+        {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
       </View>
     </ScrollView>
   );
@@ -186,36 +253,50 @@ export default function SingleEventScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+  eventDateChooseDateContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    marginTop: 15,
+    justifyContent: 'center'
+  },
   mainContainer: {
+    flex: 1
+  },
+  button: {
     flex: 1
   },
   flexParent: {
     flexDirection: "row",
-    height: 210
+    backgroundColor: '#EEE'
   },
   flexBoxText: {
     justifyContent: 'space-around',
     flexDirection: "row",
-
   },
   attendantsListContainer: {
     flex: 0,
     backgroundColor: '#fafafa',
     width: 40,
-    height: 200
-  },
-  button: {
-    justifyContent: 'space-around',
-    width: 200,
-    alignSelf: 'center'
+    height: 220
   },
   imageContainer: {
     alignSelf: 'flex-end'
   },
+  iconBar: {
+    marginVertical: 6,
+    borderTopColor: '#DDD',
+    borderBottomColor: '#DDD',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    paddingVertical: 6
+  },
   image: {
     flex: 1,
     height: 200,
-    resizeMode: 'stretch'
+    resizeMode: 'contain',
+    borderRadius: 30,
+    overflow: 'hidden',
+    marginVertical: 10
   },
   textContainer: {
     flex: 2,

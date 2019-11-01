@@ -54,39 +54,40 @@ export default function EventsScreen({ navigation }) {
   // }
 
   return (
-    <View>
-      <ScrollView>
-        <ButtonGroup
-          buttons={buttons}
-          containerStyle={styles.buttonGroup}
-          selectedIndex={screenState}
-          onPress={slider}
-        />
-        {eventsToShow.map((event) => {
-          return (
-            <EventItem
-              key={event.id}
-              chosenDate={event.chosen_event_date.date}
-              imageUrl={event.event_games[0].image}
-              isOwner={userId === event.owner_id}
-              confirmedAssistance={userConfirmed(event, userId)}
-              attendants={getConfirmedAttendants(event).length}
-              onPress={() => navigation.navigate('SingleEvent', {
-                eventID: event.id,
-                removeEvent,
-                goingToEvent,
-                setConfirmEvent
-              })}
-            />
-          );
-        })}
-
-      </ScrollView>
-      <Icon
+    <View style={{height:"100%"}}>
+    <ScrollView>
+      <ButtonGroup
+        buttons={buttons}
+        containerStyle={styles.buttonGroup}
+        selectedIndex={screenState}
+        onPress={slider}
+      />
+      {eventsToShow.map((event) => {
+        return  (
+          <EventItem
+            key={event.id}
+            chosenDate={event.chosen_event_date.date}
+            imageUrl={event.event_games[0].image}
+            isOwner={userId === event.owner_id}
+            confirmedAssistance={userConfirmed(event, userId)}
+            attendants={getConfirmedAttendants(event).length}
+            onPress={() => navigation.navigate('SingleEvent', {
+              eventID: event.id,
+              removeEvent,
+              goingToEvent,
+              setConfirmEvent
+            })}
+          />
+        );
+      })}
+      
+    </ScrollView>
+    <View style={styles.iconBox}>
+    <Icon
         size={30}
         name='calendar-plus-o'
         type='font-awesome'
-        color='#0e92cf'
+        color='white'
         onPress={() => navigation.navigate('CreateEvent', {
           userGames,
           userFriends,
@@ -94,7 +95,7 @@ export default function EventsScreen({ navigation }) {
         })}
         iconStyle={styles.icon}
       />
-
+      </View>
     </View>
   );
 };
@@ -110,6 +111,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 20,
-    alignSelf: 'flex-end'
+    alignSelf:'flex-end',
+  },
+  iconBox: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#0e92cf',
+    borderRadius: 1000,
+    padding:0,
+    opacity:0.8
+
   }
+
 });
