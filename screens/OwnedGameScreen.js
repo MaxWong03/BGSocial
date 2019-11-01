@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { Header, Button, Icon, Divider } from 'react-native-elements';
 // import { formatDateWithTime } from './../utils'
 import OwnGameListItem from '../components/OwnGameListItem';
-import api from './../api';
+import { api } from './../api';
 import useGameData from '../hooks/useGamesData';
 // import { updateLoading, updateList } from './../reducers/user_games_action';
 import { initState, initReducer } from './../reducers/user_games_reducer';

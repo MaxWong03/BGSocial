@@ -9,7 +9,6 @@ import {
 } from './../utils';
 import AttendanceList from '../components/AttendanceList';
 import EventItem from '../components/EventItem';
-import api from './../api';
 
 
 

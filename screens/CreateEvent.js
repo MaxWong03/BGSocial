@@ -10,11 +10,10 @@ import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
-import { API_HOST } from './../settings/app.config';
-import axios from 'axios';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { NavigationEvents } from 'react-navigation';
 
+import { api } from './../api';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
@@ -27,7 +26,7 @@ export default function createEventScreen() {
   const { navigate } = useNavigation();
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
-  console.log("userGames:", userGames.length);
+  // console.log("userGames:", userGames.length);
   const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {
@@ -67,7 +66,7 @@ export default function createEventScreen() {
       eventGames
     };
 
-    axios.post(`${API_HOST}/events/`, newEvent).then((res) => {
+    api.post(`/events/`, newEvent).then((res) => {
       const { data: createdEvent } = res;
       createdEvent['chosen_event_date'] = {
         date: null,
