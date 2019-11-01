@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -71,9 +70,10 @@ export default function SingleEventScreen({ navigation }) {
     navigation.navigate('Events');
   }
 
-  function goingToEvent(eventId) {
-    goingEventCallback(eventId);
-    navigation.navigate('Events');
+  async function goingToEvent(eventId) {
+    await api.post(`/events/${eventId}/going`);
+    await goingEventCallback(eventId);
+    loadSingleEvent(eventId);
   }
 
   async function notGoing(eventId) {
@@ -202,9 +202,11 @@ export default function SingleEventScreen({ navigation }) {
       { iconName: 'trash-o', textInfo: 'Delete', onPress: openDeleteModal },
     ];
   }
-  function getAttendantButtons() {
+  function getAttendantButtons(eventAttendants) {
     return [
-      chosenDate ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: undefined } : {},
+      chosenDate ? (checkIfUserIsGoing(eventAttendants, userId) ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id), iconColor:'blue' }
+      : { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress:() => goingToEvent(state.event.id) })
+      : {},
       { iconName: 'frown-o', iconType: 'font-awesome', textInfo: 'Not Going', onPress: notGoingModal },
     ];
   }
@@ -218,13 +220,15 @@ export default function SingleEventScreen({ navigation }) {
     return getVotesByDateId(eventVotes, eventDateId).find(vote => vote.user_id === userId)
   }
 
+  function checkIfUserIsGoing(eventAttendants, userId){
+    return !!eventAttendants.find(attendant => userId === attendant.attendant_id && attendant.is_confirmed === true)
+  }
+
   const isOwner = userId === state.event.owner_id;
   const chosenDate = getEventChosenEventDate(state.event);
   const confirmedAttendants = getConfirmedAttendants(state.event);
 
-  const iconBarItems = isOwner ? getOwnerButtons() : (getAttendantButtons());
-  // console.log('state.event', state.event);
-  // console.log('getEventMainImage(state.event)', getEventMainImage(state.event));
+  const iconBarItems = isOwner ? getOwnerButtons() : (getAttendantButtons(state.event.event_attendants));
 
 
   //Here start the component rendered

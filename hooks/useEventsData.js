@@ -55,8 +55,7 @@ export function useEventsData() {
   }
 
   function goingToEvent(eventId, userId){
-    api.post(`/events/${eventId}/users/${userId}`);
-    dispatchState({ value: eventId, type: 'setGoingEvent' });
+    refreshEventScreen() 
   }
 
   function setConfirmEvent(eventId, eventDateId){
