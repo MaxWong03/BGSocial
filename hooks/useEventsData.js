@@ -21,15 +21,21 @@ export function useEventsData() {
   // }
 
   function confirmEvents(state, userId) {
-    return Object.values(state.events).filter(event => (event.chosen_event_date.date && userConfirmed(event, userId)))
+    return Object.values(state.events).filter(event => (event.chosen_event_date.date && userConfirmed(event, userId) && isUserGoing(event, userId)))
   };
 
   function userConfirmed(event, userId) {
     return !!event.event_attendants.find(attendant => (attendant.attendant_id === userId && attendant.is_confirmed));
   };
 
+  function isUserGoing(event, userId) {
+    return !!event.event_attendants.find(attendant => (attendant.attendant_id === 1 && !attendant.is_not_assisting));
+
+  };
+  
   function pendingEvents(state, userId) {
-    return Object.values(state.events).filter(event => !event.chosen_event_date.date || !userConfirmed(event, userId))
+    return Object.values(state.events).filter(event => (!event.chosen_event_date.date && isUserGoing(event, userId)) 
+    || (!userConfirmed(event, userId) && isUserGoing(event, userId)))
   };
 
   async function loadEvents() {
@@ -43,9 +49,13 @@ export function useEventsData() {
     dispatchState({ value: eventId, type: 'removeEvent' });
   }
 
+  async function notGoingToEvent(eventId){
+    await api.post(`/events/${eventId}/not-going`);
+    loadEvents();
+  }
+
   function goingToEvent(eventId, userId){
-    api.post(`/events/${eventId}/users/${userId}`);
-    dispatchState({ value: eventId, type: 'setGoingEvent' });
+    refreshEventScreen() 
   }
 
   function setConfirmEvent(eventId, eventDateId){
@@ -71,7 +81,8 @@ export function useEventsData() {
     userConfirmed,
     goingToEvent,
     setConfirmEvent,
-    refreshEventScreen
+    refreshEventScreen,
+    notGoingToEvent
   };
 
 };
