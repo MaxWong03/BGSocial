@@ -29,7 +29,9 @@ export default function GamesLibraryScreen({navigation}) {
     const selectedList = filterSelectedGames()
     selectedList.map( game => {
       api.post(`/games/user/${game['id']}`)
-      .then(() => {
+      .then((res) => {
+        console.log(res.data);
+        const {game} = res.data;
         dispatchState({type: ADD_GAMES, value: game});
       }).catch((err) => {
         console.log(err);

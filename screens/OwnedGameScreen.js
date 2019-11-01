@@ -92,11 +92,13 @@ export default function OwnedGameScreen({ navigation }) {
                   dispatchState = {dispatchState}
                   DELETE_GAMES = {DELETE_GAMES}
                   last_play = { event.last_play }
-                  // deleteGame = { () => removeEvent()}
+                  onPress={() => navigation.navigate('GameMoreInfo', {
+                    game: event,
+                  })}
                 />
               );
             })
-          : <Text>loading</Text>
+          : <Text>No game in your library</Text>
         }
       </ScrollView>
     </>

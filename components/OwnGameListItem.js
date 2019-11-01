@@ -4,12 +4,12 @@ import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 import api from './../api';
 
-export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play }) {
+export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play, onPress }) {
 
   const userID = 1;
 
   const removeEvent = function (game) {
-    api.post(`game/user/${game.bgg_id}/delete`)
+    api.post(`games/user/${game.bgg_id}/delete`)
     .then(() => {
       dispatchState({type: DELETE_GAMES, value: game});
     });
@@ -31,13 +31,14 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
       <View style={styles.textContainer}>
         <Text style={{marginTop: 10, fontSize: 20}} >{title}</Text>
 
-        {last_play === null &&
+        { !last_play &&
           <View style={styles.hostFlag}>
             <Text style={{ color: 'white', paddingBottom: 6 }}>New Game</Text>
           </View>
+        
         }
 
-        {last_play !== null &&
+        { last_play &&
           <Text>
             {formatDateWithTime(date)}
           </Text>
@@ -48,6 +49,7 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
           title={"more info"}
           type='outline'
           iconRight={true}
+          onPress={ onPress }
           icon={
             <Icon
               size={20}
