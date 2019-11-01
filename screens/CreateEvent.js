@@ -24,7 +24,6 @@ export default function createEventScreen() {
   const { navigate } = useNavigation();
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
-  // console.log("userGames:", userGames.length);
   const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {

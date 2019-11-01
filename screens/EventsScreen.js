@@ -54,12 +54,10 @@ export default function EventsScreen({ navigation }) {
   // else if (screenState ==2) {
   //   eventsToShow = state.openEvents;
   // }
-console.log(userGames.length)
   return (
     <View style={{ height: "100%" }}>
       <NavigationEvents
       onWillFocus={payload => {
-        console.log('will focus')
         loadGames();
       }}
       />
