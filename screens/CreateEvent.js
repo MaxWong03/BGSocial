@@ -11,7 +11,6 @@ import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
-import { NavigationEvents } from 'react-navigation';
 
 import { api } from './../api';
 
@@ -22,7 +21,6 @@ export default function createEventScreen() {
   const [eventTitle, setEventTitle] = useState('');
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
   const refreshEventScreen = useNavigationParam('refreshEventScreen');
-  const loadGames = useNavigationParam('loadGames');
   const { navigate } = useNavigation();
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
@@ -79,18 +77,6 @@ export default function createEventScreen() {
 
   return (
     <>
-      <NavigationEvents
-      onWillFocus={payload => {
-        console.log('will focus')
-        loadGames();
-      }}
-      onDidFocus={payload => {
-        console.log('did focus')
-        loadGames();
-      }}
-      onWillBlur={payload => console.log('will blur')}
-      onDidBlur={payload => console.log('did blur')}
-      />
       <View style={styles.mapContainer}>
         {
           latitude && longitude ?
@@ -111,10 +97,10 @@ export default function createEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              <EventTitle
+              {/* <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              />
+              /> */}
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />
@@ -127,14 +113,17 @@ export default function createEventScreen() {
           addTimeSlot={addTimeSlot}
           changeTimeSlot={changeTimeSlot}
           deleteTimeSlot={deleteTimeSlot}
+          buttonText={'Add Date'}
         />
         <EventGames
           userGames={userGames}
           changeGameSlot={changeGameSlot}
+          buttonText={'Add Games'}
         />
         <EventFriends
           userFriends={userFriends}
           changeFriendSlot={changeFriendSlot}
+          buttonText={'Invite Friends'}
         />
       </ScrollView>
       <Button

@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import TimeListItem from './TimeListItem';
-export default function CreateEventDate({ timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot }) {
-
+export default function CreateEventDate({ buttonText,timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot }) {
   return (
     <>
       <Button
-        title={'Add Date'}
+        title={buttonText}
         icon={
           <Icon
             name='calendar-plus-o'
@@ -27,6 +26,7 @@ export default function CreateEventDate({ timeSlots, addTimeSlot, changeTimeSlot
             title={time.title}
             changeTimeSlot={changeTimeSlot}
             deleteTimeSlot={deleteTimeSlot}
+            presetDate={time.date}
           />
         ))
       }

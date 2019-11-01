@@ -24,11 +24,10 @@ function getConfirmedAttendants(event) {
   return event.event_attendants.filter(attendant => attendant.is_confirmed)
 };
 
-
 export {
   formatDateWithTime,
   arrayToObject,
   getEventChosenEventDate,
   getEventMainImage,
-  getConfirmedAttendants
+  getConfirmedAttendants,
 };

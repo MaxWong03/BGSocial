@@ -9,7 +9,6 @@ export default function SelectGameModal({ goBack, gameSelectList, onSelect, choo
 
   //Changes the search bar value
   const updateSearch = (userInput) => setSearch(userInput);
-
   return (
     <>
       <View style={styles.headerContainer}>

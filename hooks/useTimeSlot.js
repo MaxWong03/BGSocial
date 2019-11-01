@@ -8,9 +8,9 @@ const makeID = () => {
 }
 const id = makeID();
 
-export default function useTimeSlot() {
+export default function useTimeSlot(preExistTime) {
 
-  const [timeSlots, setTimeSlots] = useState([{ id: id(), "date": new Date() }]);
+  const [timeSlots, setTimeSlots] = useState( preExistTime || [{ id: id(), "date": new Date() }]);
 
 
   const addTimeSlot = () => {

@@ -57,6 +57,12 @@ export default function EventsScreen({ navigation }) {
 console.log(userGames.length)
   return (
     <View style={{ height: "100%" }}>
+      <NavigationEvents
+      onWillFocus={payload => {
+        console.log('will focus')
+        loadGames();
+      }}
+      />
       <ScrollView>
         <ButtonGroup
           buttons={buttons}
@@ -78,7 +84,9 @@ console.log(userGames.length)
                 removeEvent,
                 goingToEvent,
                 setConfirmEvent,
-                notGoingToEvent
+                notGoingToEvent,
+                userGames,
+                userFriends
               })}
             />
           );
@@ -94,7 +102,7 @@ console.log(userGames.length)
           onPress={() => navigation.navigate('CreateEvent', {
             userGames,
             userFriends,
-            refreshEventScreen
+            refreshEventScreen,
           })}
           iconStyle={styles.icon}
         />
