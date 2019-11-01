@@ -76,8 +76,8 @@ export default function SingleEventScreen({ navigation }) {
     navigation.navigate('Events');
   }
 
-  function notGoing(eventId) {
-    notGoingEventCallback(eventId);
+  async function notGoing(eventId) {
+    await notGoingEventCallback(eventId);
     navigation.navigate('Events');
   }
 
