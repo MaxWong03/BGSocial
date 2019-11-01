@@ -54,6 +54,9 @@ export function useEventsData() {
       .then((res) => loadEvents());
   }
 
+  function refreshEventScreen() {
+    loadEvents();
+  }
 
   useEffect(() => {
     loadEvents();
@@ -67,7 +70,8 @@ export function useEventsData() {
     pendingEvents,
     userConfirmed,
     goingToEvent,
-    setConfirmEvent
+    setConfirmEvent,
+    refreshEventScreen
   };
 
 };

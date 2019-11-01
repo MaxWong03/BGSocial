@@ -11,7 +11,7 @@ export default function InviteFriends({ getEventFriendList, friendInviteList, on
   const inviteAction = () => {
     const inviteList = [];
     friendInviteList.forEach((friend) => {
-      friend['invited'] && inviteList.push(friend['friend_id']);
+      friend['invited'] && inviteList.push(friend['id']);
     });
     getEventFriendList(inviteList);
     closeModal();

@@ -9,29 +9,68 @@ import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
-import useFriendsData from '../hooks/useFriendsData';
-import useGamesData from '../hooks/useGamesData';
 import useLocation from '../hooks/useLocation';
+import { API_HOST } from './../settings/app.config';
+import axios from 'axios';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
+
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
   const { gameSlots, changeGameSlot } = useGameSlot();
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const [eventTitle, setEventTitle] = useState('');
-  const { state: friendsArray, dispatchState: dispatchFriends } = useFriendsData();
-  const { state: gamesArray, dispatchState: dispatchGames } = useGamesData();
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
+  const refreshEventScreen = useNavigationParam('refreshEventScreen');
+  const { navigate } = useNavigation();
+  const createEventAction = () => {
 
-  const onChangeText = (newTitle) => {
-    setEventTitle(newTitle);
-  }
+    const eventDates = timeSlots.map(time => {
+      return {
+        "date": JSON.stringify(time["date"]),
+        "is_chosen": false,
+        "is_open": true,
+        "location": location
+      }
+    });
 
-  const createEvent = () => {
-    console.log('Event Title:', eventTitle);
-    console.log('Selected Times:', timeSlots);
-    console.log('Selected Games:', gameSlots);
-    console.log('Invited Friends:', friendSlots);
-    console.log('Location:', location)
+    const eventAttendants = friendSlots.map(friend => {
+      return {
+        "is_confirmed": true,
+        "is_not_assisting": false,
+        "attendant_id": friend
+      }
+    });
+
+    eventAttendants.push({
+      "is_confirmed": true,
+      "is_not_assisting": false,
+      "attendant_id": 1
+    })
+
+    const eventGames = gameSlots.map(game => {
+      return {
+        "game_id": game
+      }
+    })
+
+
+    const newEvent = {
+      "owner_id": 1,
+      eventDates,
+      eventAttendants,
+      eventGames
+    };
+
+    axios.post(`${API_HOST}/events/`, newEvent).then((res) => {
+      const { data: createdEvent } = res;
+      createdEvent['chosen_event_date'] = {
+        date: null,
+        location: null
+      };
+      refreshEventScreen();
+      navigate('Events');
+    })
   };
 
   return (
@@ -57,7 +96,7 @@ export default function createEventScreen() {
                 }
               />
               <EventTitle
-                onChangeText={onChangeText}
+                onChangeText={setEventTitle}
                 value={eventTitle}
               />
             </>
@@ -74,10 +113,11 @@ export default function createEventScreen() {
           deleteTimeSlot={deleteTimeSlot}
         />
         <EventGames
+          userGames={useNavigationParam('userGames')}
           changeGameSlot={changeGameSlot}
         />
         <EventFriends
-          friendSlots={friendSlots}
+          userFriends={useNavigationParam('userFriends')}
           changeFriendSlot={changeFriendSlot}
         />
       </ScrollView>
@@ -90,7 +130,7 @@ export default function createEventScreen() {
             color='white'
           />
         }
-        onPress={createEvent}
+        onPress={createEventAction}
       />
     </>
   );
@@ -99,7 +139,7 @@ export default function createEventScreen() {
 const styles = StyleSheet.create({
   mapContainer: {
     // ...StyleSheet.absoluteFillObject,
-    height: 200,
+    height: 150,
     width: 400,
     justifyContent: 'center',
     alignItems: 'center',
