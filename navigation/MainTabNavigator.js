@@ -33,8 +33,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-ios-home'${focused ? '' : '-outline'}`
+          : 'ios-home'
       }
     />
   ),
@@ -124,7 +124,7 @@ const GamesStack = createStackNavigator(
 GamesStack.navigationOptions = {
   tabBarLabel: 'Games',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-logo-snapchat' : 'logo-snapchat'} />
   ),
 };
 
