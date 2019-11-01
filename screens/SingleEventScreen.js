@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { Icon } from 'react-native-elements'
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -104,7 +105,7 @@ export default function SingleEventScreen({ navigation }) {
   const userId = getUserInfo().userData.id;
 
   if (isLoading()) {
-    return (<ActivityIndicator size='large' color="#0000ff" style={{marginTop: 200}}/>) // display loading...
+    return (<ActivityIndicator size='large' color="#0000ff" style={{ marginTop: 200 }} />) // display loading...
   }
 
   function renderChosenDateInfo(chosenDate, confirmedAttendants) {
