@@ -95,10 +95,10 @@ export default function createEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              <EventTitle
+              {/* <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              />
+              /> */}
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />
