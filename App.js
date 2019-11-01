@@ -23,10 +23,10 @@ export default function App(props) {
   } else {
     return (
       <SessionContext.Provider value={contextValue}>
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
-        </View>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <AppNavigator />
+          </View>
       </SessionContext.Provider>
     );
   }

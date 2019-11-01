@@ -17,7 +17,7 @@ export default function EditEventScreen() {
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
   const { event_dates, event_attendants, event_games } = event;
-  // const { location } = event_dates[0];
+  const { location: presetLocation } = event_dates[0];
 
   const timeArray = event_dates.map((date) => {
     return {
@@ -28,12 +28,14 @@ export default function EditEventScreen() {
   const { gameSlots, changeGameSlot } = useGameSlot(event_games);
   const { friendSlots, changeFriendSlot } = useFriendSlot(event_attendants);
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot(timeArray);
-  const { location, latitude, longitude, setLatitude, setLongitude } = useLocation();
+  const { location, latitude, longitude, setLatitude, setLongitude } = useLocation(presetLocation);
+
 
   const editEventAction = () => {
     console.log('timeSlots:', timeSlots);
     console.log('gamesSlot', gameSlots);
     console.log('friendSlots', friendSlots);
+    console.log('location', location);
   }
   return (
     <>
