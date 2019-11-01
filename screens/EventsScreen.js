@@ -39,7 +39,7 @@ export default function EventsScreen({ navigation }) {
 
   const { userData } = getUserInfo();
 
-  const userId = 1;
+  const userId = userData.id;
 
   let eventsToShow = [];
   if ( screenState === 0 ) {

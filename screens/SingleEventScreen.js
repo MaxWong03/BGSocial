@@ -11,6 +11,7 @@ import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
 import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
 import api from './../api';
+import { getUserInfo } from './../hooks/sessionContext';
 
 
 
@@ -91,7 +92,7 @@ export default function SingleEventScreen({ navigation }) {
   }
 
 
-  const userId = 1;
+  const userId = getUserInfo().userData.id;
 
   if (isLoading()) {
     return (<ActivityIndicator size='large' color="#0000ff" />) // display loading...

@@ -25,7 +25,7 @@ export function useEventsData() {
   };
 
   function userConfirmed(event, userId) {
-    return !!event.event_attendants.find(attendant => (attendant.attendant_id === 1 && attendant.is_confirmed));
+    return !!event.event_attendants.find(attendant => (attendant.attendant_id === userId && attendant.is_confirmed));
   };
 
   function pendingEvents(state, userId) {
