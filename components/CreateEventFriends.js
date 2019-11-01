@@ -5,16 +5,26 @@ import InviteFriends from './InviteFriends';
 import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
 
-export default function CreateEventFriends({ changeFriendSlot, userFriends }) {
+export default function CreateEventFriends({ changeFriendSlot, userFriends, eventFriendList }) {
   userFriends = userFriends.map(friend => {
     return {...friend, 'invited': false}
   })
+
+  if (eventFriendList) {
+    userFriends.forEach(friend => {
+      eventFriendList.find(eventFriend => {
+        if (friend.id === eventFriend.id) friend.invited = true
+      })
+    })
+  }
+
   const { list: friendInviteList, onSelectFriend: onSelect } = useList(userFriends);
 
   const filterSelectedFriends = () => {
     return friendInviteList.filter((friend) => friend['invited'])
   };
-  const eventFriendList = filterSelectedFriends();
+
+  eventFriendList = filterSelectedFriends();
 
   const getEventFriendList = (eventFriendListID) => {
     changeFriendSlot(eventFriendListID)

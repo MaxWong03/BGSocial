@@ -3,9 +3,11 @@ import { ScrollView } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import EventDates from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
+import EventFriends from '../components/CreateEventFriends';
 import { useNavigationParam } from 'react-navigation-hooks';
 import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
+import useFriendSlot from '../hooks/useFriendSlot';
 import { id } from '../utils/makeNewID';
 
 export default function EditEventScreen() {
@@ -22,11 +24,13 @@ export default function EditEventScreen() {
     }
   });
   const { gameSlots, changeGameSlot } = useGameSlot(event_games);
+  const { friendSlots, changeFriendSlot } = useFriendSlot(event_attendants);
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot(timeArray);
 
   const editEventAction = () => {
     console.log('timeSlots:', timeSlots);
     console.log('gamesSlot', gameSlots);
+    console.log('friendSlots', friendSlots);
   }
   return (
     <ScrollView>
@@ -47,6 +51,16 @@ export default function EditEventScreen() {
           }
         })}
         buttonText={'Edit Games'}
+      />
+      <EventFriends
+        userFriends={userFriends}
+        changeFriendSlot={changeFriendSlot}
+        eventFriendList={event_attendants.map(friend => {
+          return {
+            ...friend,
+            invited: true
+          }
+        })}
       />
       <Button
         title='Edit Event!'
