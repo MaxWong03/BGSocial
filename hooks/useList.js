@@ -5,7 +5,7 @@ export default function useList (initial) {
   const onSelectFriend = (friend_id) => {
     console.log("onSelectFriend:", friend_id)
     const updatedList = list.map((friend) => {
-      if (friend['friend_id'] === friend_id) {
+      if (friend['id'] === friend_id) {
         return { ...friend, invited: !friend['invited'] };
       } else {
         return friend;

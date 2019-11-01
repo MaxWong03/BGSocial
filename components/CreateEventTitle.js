@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     width: '50%',
     backgroundColor: 'rgba(168, 165, 163, 0.3)',
     position: 'absolute',
-    top: -100,
+    top: -80,
     left: 0
   },
   inputStyle:{

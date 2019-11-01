@@ -5,18 +5,23 @@ import { ButtonGroup, Icon } from 'react-native-elements';
 import { getConfirmedAttendants } from './../utils';
 import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
+import useGamesData from '../hooks/useGamesData';
+import useFriendsData from '../hooks/useFriendsData';
 
 export default function EventsScreen({ navigation }) {
   const [screenState, setButtonGroup] = useState(0);
+  const { state: userGames } = useGamesData();
+  const { state: userFriends } = useFriendsData();
 
   const {
-    state,
+      state,
     confirmEvents,
     pendingEvents,
     userConfirmed,
     removeEvent,
     goingToEvent,
-    setConfirmEvent
+    setConfirmEvent,
+    refreshEventScreen
   } = useEventsData();
 
 //third view
@@ -49,7 +54,7 @@ export default function EventsScreen({ navigation }) {
   // }
 
   return (
-    <View>
+    <View style={{height:"100%"}}>
     <ScrollView>
       <ButtonGroup
         buttons={buttons}
@@ -77,14 +82,20 @@ export default function EventsScreen({ navigation }) {
       })}
       
     </ScrollView>
+    <View style={styles.iconBox}>
     <Icon
         size={30}
         name='calendar-plus-o'
         type='font-awesome'
-        color='#0e92cf'
-        onPress={() => navigation.navigate('CreateEvent')}
+        color='white'
+        onPress={() => navigation.navigate('CreateEvent', {
+          userGames,
+          userFriends,
+          refreshEventScreen
+        })}
         iconStyle={styles.icon}
       />
+      </View>
     </View>
   );
 };
@@ -100,6 +111,17 @@ const styles = StyleSheet.create({
   },
   icon: {
     margin: 20,
-    alignSelf:'flex-end'
+    alignSelf:'flex-end',
+  },
+  iconBox: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#0e92cf',
+    borderRadius: 1000,
+    padding:0,
+    opacity:0.8
+
   }
+
 });

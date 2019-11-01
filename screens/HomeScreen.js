@@ -14,8 +14,10 @@ import {
 import { MonoText } from '../components/StyledText';
 import { getUserInfo } from './../hooks/sessionContext';
 
+
 export default function HomeScreen() {
   const { userData, profilePicture } = getUserInfo();
+
   // console.log('@HomeScreen:', userData.id, profilePicture);
   return (
     <View style={styles.container}>
