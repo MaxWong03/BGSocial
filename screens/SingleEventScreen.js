@@ -203,17 +203,53 @@ export default function SingleEventScreen({ navigation }) {
   }
 
   function getOwnerButtons() {
-    return [
-      { iconName: 'trash-o', textInfo: 'Delete', onPress: openDeleteModal },
+    const buttons = [
+      {
+        iconName: 'edit', textInfo: 'Edit',
+        onPress: () => navigation.navigate('EditEvent', {
+          event: state.event,
+          userGames,
+          userFriends
+        })
+      },
     ];
+    if (chosenDate) {
+      buttons.push({
+        iconName: 'check', textInfo: 'Open Event',
+        onPress: () => navigation.navigate('EditEvent', {
+          event: state.event,
+          userGames,
+          userFriends
+        })
+      });
+    }
+    buttons.push({ iconName: 'trash-o', textInfo: 'Delete', onPress: openDeleteModal });
+    return buttons;
   }
+
   function getAttendantButtons(eventAttendants) {
-    return [
-      chosenDate ? (checkIfUserIsGoing(eventAttendants, userId) ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id), iconColor: 'blue' }
-        : { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id) })
-        : {},
-      { iconName: 'frown-o', iconType: 'font-awesome', textInfo: 'Not Going', onPress: notGoingModal },
-    ];
+    const attendantButtons = [];
+    if (eventAttendants.find(attendant => userId === attendant.attendant_id)) {
+      attendantButtons.push({
+        iconName: 'frown-o',
+        iconType: 'font-awesome',
+        textInfo: 'Not Going',
+        onPress: notGoingModal
+      });
+    }
+    if (chosenDate) {
+      const button = {
+        iconName: 'check',
+        iconType: 'EvilIcon',
+        textInfo: 'Going',
+        onPress: () => goingToEvent(state.event.id)
+      };
+      if (checkIfUserIsGoing(eventAttendants, userId)) {
+        button['iconColor'] = 'blue';
+      }
+      attendantButtons.push(button);
+    }
+    return attendantButtons;
   }
 
   function getVotesByDateId(eventVotes, eventDateId) {
@@ -233,7 +269,7 @@ export default function SingleEventScreen({ navigation }) {
   const chosenDate = getEventChosenEventDate(state.event);
   const confirmedAttendants = getConfirmedAttendants(state.event);
 
-  const iconBarItems = isOwner ? getOwnerButtons() : (getAttendantButtons(state.event.event_attendants));
+  const iconBarItems = isOwner ? getOwnerButtons() : getAttendantButtons(state.event.event_attendants);
 
 
   //Here start the component rendered
@@ -259,18 +295,6 @@ export default function SingleEventScreen({ navigation }) {
         {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
         {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
       </View>
-      <Icon
-        size={30}
-        name='qq'
-        type='font-awesome'
-        color='#0e92cf'
-        onPress={() => navigation.navigate('EditEvent', {
-          event: state.event,
-          userGames,
-          userFriends
-        })}
-        iconStyle={styles.icon}
-      />
     </ScrollView>
   );
 }

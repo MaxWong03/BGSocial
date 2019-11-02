@@ -23,7 +23,8 @@ export default function EventsScreen({ navigation }) {
     goingToEvent,
     setConfirmEvent,
     refreshEventScreen,
-    notGoingToEvent
+    notGoingToEvent,
+    openEvents
   } = useEventsData();
 
   //third view
@@ -50,16 +51,13 @@ export default function EventsScreen({ navigation }) {
   else if (screenState == 1) {
     eventsToShow = pendingEvents(state, userId);
   }
-  //third view
-  // else if (screenState ==2) {
-  //   eventsToShow = state.openEvents;
-  // }
-console.log(userGames.length)
+  else if (screenState ==2) {
+    eventsToShow = openEvents(state, userId);
+  }
   return (
     <View style={{ height: "100%" }}>
       <NavigationEvents
       onWillFocus={payload => {
-        console.log('will focus')
         loadGames();
       }}
       />
