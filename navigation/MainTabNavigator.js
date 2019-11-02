@@ -74,7 +74,7 @@ const PlaysStack = createStackNavigator(
 PlaysStack.navigationOptions = {
   tabBarLabel: 'Records',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-stats' : 'md-stats'} />
   ),
 };
 

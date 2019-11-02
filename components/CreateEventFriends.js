@@ -6,6 +6,7 @@ import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
 
 export default function CreateEventFriends({ changeFriendSlot, userFriends, eventFriendList, buttonText }) {
+
   userFriends = userFriends.map(friend => {
     return {...friend, 'invited': false}
   })

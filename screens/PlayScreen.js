@@ -1,16 +1,46 @@
 import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { getUserInfo } from '../hooks/sessionContext';
+import { useNavigation } from 'react-navigation-hooks';
+import useFriendsData from '../hooks/useFriendsData';
+
 
 export default function PlayScreen() {
+  const { navigate } = useNavigation();
+  const { state: userFriends } = useFriendsData();
   return (
-    
-    <Icon
-      size={50}
-      name='qq'
-      type='font-awesome'
-      color='blue'
-      onPress={() => navigation.navigate('CreatePlay')}
-    />
+
+    <View style={styles.iconBox}>
+      <Icon
+        size={20}
+        name='playlist-add'
+        type='material'
+        color='blue'
+        onPress={() => navigate('CreatePlay', {
+          userFriends
+        })}
+        
+        iconStyle={styles.icon}
+      />
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    color: 'white'
+  },
+  iconBox: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#0e92cf',
+    borderRadius: 1000,
+    // opacity: 0.8,
+    height: 40,
+    width: 40,
+    justifyContent: 'center',
+    alignContent: 'center'
+
+  }
+});
