@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import PlayScreen from '../screens/PlayScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -13,6 +13,7 @@ import GamesLibraryScreen from '../screens/GamesLibraryScreen';
 import SingleEventScreen from '../screens/SingleEventScreen';
 import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
+import CreatePlayScreen from '../screens/CreatePlayScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -62,21 +63,22 @@ EventsStack.navigationOptions = {
 
 EventsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const PlaysStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Play: PlayScreen,
+    CreatePlay: CreatePlayScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+PlaysStack.navigationOptions = {
+  tabBarLabel: 'Records',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
   ),
 };
 
-SettingsStack.path = '';
+PlaysStack.path = '';
 
 const TestStack = createStackNavigator(
   {
@@ -133,7 +135,7 @@ GamesStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
-  SettingsStack,
+  PlaysStack,
   TestStack,
   CreateEvent,
   GamesStack
