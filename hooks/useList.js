@@ -40,20 +40,30 @@ export default function useList(initial) {
     return updatedList;
   }
 
-  const onSelectRecordGame = (gameID) => {
+  const selected = () => {
     let count = 0;
     list.forEach(game => {
       if (game.selected) count += 1;
     })
+    return count;
+  }
+
+  const onSelectRecordGame = (gameID) => {
     let updatedList = [];
-    if (!count) {
+    if (!selected()) {
       updatedList = list.map((game) => {
         if (game.id === gameID) {
-          return { ...game, selected: !game['selected'] }
+          return { ...game, selected: true }
+        } else return game
+      })
+    } else {
+      updatedList = list.map((game) => {
+        if (game.id === gameID) {
+          return { ...game, selected: false }
         } else return game
       })
     }
-    updatedList.length && setList(updatedList);
+    setList(updatedList);
     return updatedList;
   }
 
