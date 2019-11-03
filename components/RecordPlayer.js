@@ -1,17 +1,34 @@
 import React from 'react';
+import { ScrollView } from 'react-native';
 import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
+import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, changeFriendSlot }) {
+export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList }) {
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
   })
 
   const { visible, showModal, closeModal } = useVisibility(false);
   const { list: friendSelectList, onSelectRecord: onSelect } = useList(userFriends);
-  
+
+  const filterSelectedFriends = () => {
+    return friendSelectList.filter((friend) => friend['selected'])
+  };
+
+  const selectedFriends = filterSelectedFriends();
+
+  const deleteRecordFriend = (friendID) => {
+    const friendList = onSelect(friendID)
+      .filter(friend => friend['selected'])
+      .map(friend => friend['id']);
+
+    changeFriendSlot(friendList);
+    deleteScoreList(friendID);
+  }
+
   return (
     <>
       <Button
@@ -34,20 +51,35 @@ export default function RecordPlayer({ userFriends, changeFriendSlot }) {
             changeFriendSlot={changeFriendSlot}
             friendSelectList={friendSelectList}
             onSelect={onSelect}
+            addScoreList={addScoreList}
+            deleteScoreList={deleteScoreList}
           />
         }
       />
+      <ScrollView>
+        {
+          <RecordListItem
+            id={creator.id}
+            title={creator.name}
+            leftAvatar={{ source: { uri: creator.avatar } }}
+            canDelete={false}
+            updateScoreList={updateScoreList}
+          />
+        }
+        {
+          selectedFriends.map((friend) => (
+            <RecordListItem
+              key={friend.id}
+              id={friend.id}
+              title={friend.name}
+              leftAvatar={{ source: { uri: friend.avatar } }}
+              deleteRecordFriend={deleteRecordFriend}
+              canDelete={true}
+              updateScoreList={updateScoreList}
+            />
+          ))
+        }
+      </ScrollView>
     </>
   )
 }
-
-
-
-{/* <RecordPlayer
-        changeFriendSlot={changeFriendSlot}
-        userFriends={userFriends}
-        buttonText={'Add Player Score'}
-        attendance={{ id, name, avatar, invited: true }}
-        score={score}
-        onChangeScore={onChangeScore}
-      /> */}
