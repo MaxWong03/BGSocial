@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 // import { useEventsData } from './../hooks/useEventsData';
-import { Header, Button, Icon, Divider } from 'react-native-elements';
+import { Header, Button, Icon, Divider, Text } from 'react-native-elements';
 // import { formatDateWithTime } from './../utils'
 import OwnGameListItem from '../components/OwnGameListItem';
 import { api } from './../api';
@@ -16,15 +16,15 @@ export default function OwnedGameScreen({ navigation }) {
   // const [count, setCount] = useState(0);
 
   // const [state, dispatch] = useReducer(initReducer, initState);
-
-  // const [date, setDate] = useState("");
-  // const {list = [], loading} = state
-
-  // const {list, dispatchState} = useGameData();
+  
+    // const [date, setDate] = useState("");
+    // const {list = [], loading} = state
+    
+    // const {list, dispatchState} = useGameData();
 
   const [allGames, setAllGames] = useState([]);
 
-  const { state: list, dispatchState, ADD_GAMES, DELETE_GAMES } = useGameData();
+  const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES} = useGameData();
 
   const goToGameLibrary = function () {
     navigation.navigate('GameLibrary', {
@@ -39,47 +39,30 @@ export default function OwnedGameScreen({ navigation }) {
     api.get("/games/library").then((res) => {
       setAllGames(res.data.games);
     });
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    navigation.setParams({ numberOfGames: list.length, goToGameLibrary });
+  }, [list.length, allGames.length]);
+
+
 
   return (
     <>
-      <Header
-        centerComponent={{ text: 'My Games', style: { color: '#fff', fontSize: 25 } }}
-        rightComponent={<Button
-          icon={
-            <Icon
-              name="add"
-              size={30}
-              color="white"
-              onPress={() => goToGameLibrary()}
-            />
-          }
-        />}
-        containerStyle={{ height: 'auto' }}
-      />
-      <Divider style={{ backgroundColor: 'blue', height: 5 }} />
-      <View style={{
-        justifyContent: 'center',
-        alignItems: "center"
-      }}>
-      </View>
-
-      <Divider style={{ backgroundColor: 'blue', height: 5 }} />
       <ScrollView style={styles.gameListContainer}>
-        <Text style={{ fontSize: 50 }}>{list.length} games</Text>
         {
           list.length !== 0 ?
             list.map((event, index) => {
               return (
                 <OwnGameListItem
-                  key={index}
-                  imageURL={event.image}
-                  date={event.last_play}
-                  title={event.name}
-                  game={event}
-                  dispatchState={dispatchState}
-                  DELETE_GAMES={DELETE_GAMES}
-                  last_play={event.last_play}
+                  key={ index }
+                  imageURL = { event.image }
+                  date = { event.last_play }
+                  title = { event.name }
+                  game = { event }
+                  dispatchState = {dispatchState}
+                  DELETE_GAMES = {DELETE_GAMES}
+                  last_play = { event.last_play }
                   onPress={() => navigation.navigate('GameMoreInfo', {
                     game: event,
                     // userGames
@@ -87,16 +70,38 @@ export default function OwnedGameScreen({ navigation }) {
                 />
               );
             })
-            : <Text>No game in your library</Text>
+          : <Text>No game in your library</Text>
         }
       </ScrollView>
     </>
   );
 }
 
-// OwnedGameScreen.navigationOptions = { // title at the top
-//   title: 'Test',
-// };
+OwnedGameScreen.navigationOptions = ({navigation}) => { // title at the top
+  console.log('navigationOpeitons')
+  const numberOfGames = navigation.getParam('numberOfGames') || 0;
+
+  const options = {
+    title: `My Games (${numberOfGames})`
+  }
+
+  if (navigation.getParam('goToGameLibrary')) {
+    options.headerRight = (
+      <Button
+        onPress={navigation.getParam('goToGameLibrary')}
+        title="+ Add Game"
+        color="#fff"
+      />
+    );
+  }
+  return options;
+};
+
 
 const styles = StyleSheet.create({
+  headerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
 });

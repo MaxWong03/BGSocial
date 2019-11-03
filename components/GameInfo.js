@@ -76,12 +76,12 @@ export default function GameInfo({ game }) {
               <Text>Average Rating in Bgg: {game.average_bgg_rating}</Text>
 
               <Text>Category: {game.category}</Text>
-              <Text>Description: </Text>
-              <Text style={styles.descriptionStyle}>{game.description}</Text>
-
               <Text>Published year: {game.year_published}</Text>
               <Text>Mechanic: {game.mechanic}</Text>
               <Text>Last Played: {game.last_play}</Text>
+
+              <Text style={styles.descriptionStyle}>{game.description}</Text>
+
               
             </View>
 
@@ -103,21 +103,6 @@ export default function GameInfo({ game }) {
               onFinishRating={this.ratingCompleted}
             /> */}
 
-            <Button
-              buttonStyle={styles.button}
-              title= ' back'
-              type='outline'
-              iconLeft={true}
-              onPress={ () => navigation.goBack() }
-              icon={
-                <Icon
-                  size={20}
-                  name='arrow-circle-left'
-                  type='font-awesome'
-                  color='#bdbdbd'
-                  title='Go back previous page'
-                />
-              } />
           </View>
       </ScrollView>
       
@@ -136,19 +121,19 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     fontSize: 30,
+    padding: 20
   },
   titleStyle: {
-    fontSize: 50,
+    fontSize: 30,
     textAlign: 'center', // <-- the magic
   },
   descriptionStyle: {
-    aspectRatio: 1,
+    marginTop: 20,
     backgroundColor: '#E2DBDB',
-    margin: 5,
-    padding: 5,
-    textAlign: 'center', // <-- the magic
+    padding: 10,
+    textAlign: 'justify', // <-- the magic
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#fff'
+    borderColor: '#fff'  
   },
-});
+  });
