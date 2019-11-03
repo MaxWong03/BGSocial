@@ -16,8 +16,6 @@ export default function CreatePlayScreen() {
     setScore(Math.round(newScore * 100));
   }
 
-  userFriends.unshift({ avatar, id, name })
-  console.log(friendSlots);
   return (
     <>
       <RecordPlayer
@@ -27,11 +25,19 @@ export default function CreatePlayScreen() {
       />
       <ScrollView>
         {
+          <ListItem
+            leftAvatar={{ source: { uri: avatar } }}
+            title={name}
+          />
+        }
+        {
           userFriends.map((friend, index) => (
             friendSlots.includes(friend.id) &&
             <ListItem
               key={index}
               title={friend.name}
+              leftAvatar={{ source: { uri: friend['avatar'] } }}
+              bottomDivider
             />
           ))
         }

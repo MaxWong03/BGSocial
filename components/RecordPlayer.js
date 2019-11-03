@@ -2,9 +2,16 @@ import React from 'react';
 import { Overlay, Button, Icon } from 'react-native-elements';
 import useVisibility from '../hooks/useVisibility';
 import PlayerModal from '../components/PlayerModal'
+import useList from '../hooks/useList';
 
 export default function RecordPlayer({ userFriends, changeFriendSlot }) {
+  userFriends = userFriends.map(friend => {
+    return { ...friend, 'selected': false }
+  })
+
   const { visible, showModal, closeModal } = useVisibility(false);
+  const { list: friendSelectList, onSelectRecord: onSelect } = useList(userFriends);
+  
   return (
     <>
       <Button
@@ -25,6 +32,8 @@ export default function RecordPlayer({ userFriends, changeFriendSlot }) {
             closeModal={closeModal}
             userFriends={userFriends}
             changeFriendSlot={changeFriendSlot}
+            friendSelectList={friendSelectList}
+            onSelect={onSelect}
           />
         }
       />

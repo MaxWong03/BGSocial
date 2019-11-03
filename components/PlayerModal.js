@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { Icon, Button, ListItem, CheckBox } from 'react-native-elements';
 import FriendSearchBar from './FriendSearchBar';
-import useList from '../hooks/useList';
 
-export default function PlayerScoreModal({ closeModal, userFriends, changeFriendSlot }) {
-  userFriends = userFriends.map(friend => {
-    return { ...friend, 'selected': false }
-  })
+export default function PlayerScoreModal({ closeModal, changeFriendSlot, friendSelectList, onSelect }) {
 
   const [search, setSearch] = useState('');
   const updateSearch = (userInput) => setSearch(userInput);
-  const { list: friendSelectList, onSelectRecord: onSelect } = useList(userFriends);
+
+  const filterSelectedFriends = () => {
+    return friendSelectList.filter((friend) => friend['selected'])
+  };
+
+  const recordPlayer = filterSelectedFriends();
+
   const selectAction = () => {
     const selectList = [];
     friendSelectList.forEach((friend) => {
