@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useList (initial) {
+export default function useList(initial) {
   const [list, setList] = useState(initial);
   const onSelectFriend = (friend_id) => {
     console.log("onSelectFriend:", friend_id)
@@ -40,10 +40,28 @@ export default function useList (initial) {
     return updatedList;
   }
 
+  const onSelectRecordGame = (gameID) => {
+    let count = 0;
+    list.forEach(game => {
+      if (game.selected) count += 1;
+    })
+    let updatedList = [];
+    if (!count) {
+      updatedList = list.map((game) => {
+        if (game.id === gameID) {
+          return { ...game, selected: !game['selected'] }
+        } else return game
+      })
+    }
+    updatedList.length && setList(updatedList);
+    return updatedList;
+  }
+
   return {
     list,
     onSelectFriend,
     onSelectGame,
-    onSelectRecord
+    onSelectRecord,
+    onSelectRecordGame
   }
 }

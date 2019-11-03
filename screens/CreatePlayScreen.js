@@ -8,10 +8,12 @@ import RecordGame from '../components/RecordGame';
 
 export default function CreatePlayScreen() {
   const userFriends = useNavigationParam('userFriends');
+  const userGames = useNavigationParam('userGames');
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
   const [scoreList, setScoreList] = useState([{ id, score: 0 }])
+  const [gameRecord, setGameRecord] = useState([]);
 
   const addScoreList = (id) => {
     if (!scoreList.find(playerScore => playerScore.id === id)) {// if i cant find the player 
@@ -40,9 +42,9 @@ export default function CreatePlayScreen() {
 
   return (
     <>
-      <RecordGame /
-      
-      >
+      <RecordGame
+        userGames={userGames}
+      />
       <RecordPlayer
         userFriends={userFriends}
         friendSlots={friendSlots}

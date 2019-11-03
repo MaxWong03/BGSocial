@@ -3,11 +3,12 @@ import { View, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { useNavigation } from 'react-navigation-hooks';
 import useFriendsData from '../hooks/useFriendsData';
-
+import useGamesData from '../hooks/useGamesData';
 
 export default function PlayScreen() {
   const { navigate } = useNavigation();
   const { state: userFriends } = useFriendsData();
+  const { state: userGames } = useGamesData();
   return (
 
     <View style={styles.iconBox}>
@@ -17,9 +18,10 @@ export default function PlayScreen() {
         type='material'
         color='blue'
         onPress={() => navigate('CreatePlay', {
-          userFriends
+          userFriends,
+          userGames
         })}
-        
+
         iconStyle={styles.icon}
       />
     </View>
