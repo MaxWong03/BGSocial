@@ -13,6 +13,9 @@ import GamesLibraryScreen from '../screens/GamesLibraryScreen';
 import SingleEventScreen from '../screens/SingleEventScreen';
 import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
+import FriendsScreen from '../screens/FriendsScreen';
+import AddFriendsScreen from '../screens/AddFriendsScreen'
+
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -95,21 +98,22 @@ TestStack.navigationOptions = {
 TestStack.path = '';
 
 
-const CreateEvent = createStackNavigator(
+const FriendsStack = createStackNavigator(
   {
-    CreateEvents: CreateEventScreen,
+    ShowFriends: FriendsScreen,
+    AddFriends: AddFriendsScreen,
   },
   config
 )
 
-CreateEvent.navigationOptions = {
-  tabBarLabel: 'Create',
+FriendsStack.navigationOptions = {
+  tabBarLabel: 'Friends',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
   ),
 };
 
-CreateEvent.path = '';
+FriendsStack.path = '';
 
 
 const GamesStack = createStackNavigator(
@@ -135,7 +139,7 @@ const tabNavigator = createBottomTabNavigator({
   EventsStack,
   SettingsStack,
   TestStack,
-  CreateEvent,
+  FriendsStack,
   GamesStack
 });
 

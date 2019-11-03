@@ -4,20 +4,24 @@ import useList from '../hooks/useList';
 import GameSearchBar from './../components/GameSearchBar';
 import GameListItem from '../components/GameListItem';
 import { api } from './../api';
+import { getUserInfo } from './../hooks/sessionContext';
 
 export default function GamesLibraryScreen({navigation}) {
 
   const allGames = navigation.getParam("games");
-  const ownedGamesID = navigation.getParam("ownedGames").map(game => game['id']);
-  const dispatchState = navigation.getParam("dispatchState")
-  const ADD_GAMES = navigation.getParam("ADD_GAMES")
+  const ownedGamesID = navigation.getParam("ownedGames").map(game => game['id']); // the list of games the user owns and their IDs
+  const dispatchState = navigation.getParam("dispatchState"); // dispatcher for user_games
+  const ADD_GAMES = navigation.getParam("ADD_GAMES");
   const {list: gameSelectList, onSelectGame: onSelect} = useList(allGames);
 
   const filterSelectedGames = () => {
     return gameSelectList.filter((game) => game['selected'])
   };
 
-  const userID = 1;
+  const { userData } = getUserInfo();
+
+  const userId = userData.id;
+
 
   const [search, setSearch] = useState('');
 
@@ -30,7 +34,7 @@ export default function GamesLibraryScreen({navigation}) {
     selectedList.map( game => {
       api.post(`/games/user/${game['id']}`)
       .then((res) => {
-        const {game} = res.data;
+        const { game } = res.data;
         dispatchState({type: ADD_GAMES, value: game});
       }).catch((err) => {
         console.log(err);

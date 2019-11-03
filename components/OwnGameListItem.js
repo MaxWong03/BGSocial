@@ -16,19 +16,15 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
 
   return (
     <View style={styles.flexParent}> 
-      <View style={styles.imamgContainer}>
+      <View style={styles.imageContainer}>
         <Image
-          style={{flex: 1,
-            width: null,
-            height: null,
-            // resizeMode: 'contain'
-          }}
-          source={{uri: imageURL}}
+          style={ styles.imageStyle }
+          source={ {uri: imageURL} }
         />
       </View>
 
-      <View style={styles.textContainer}>
-        <Text style={{marginTop: 10, fontSize: 20}} >{title}</Text>
+      <View style={ styles.textContainer }>
+        <Text style={styles.titleStyle} >{title}</Text>
 
         { !last_play &&
           <View style={styles.hostFlag}>
@@ -45,7 +41,7 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
 
         <Button
           buttonStyle={styles.button}
-          title={"more info"}
+          title={"More Info "}
           type='outline'
           iconRight={true}
           onPress={ onPress }
@@ -60,7 +56,7 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
         />
         <Button
           buttonStyle={styles.button}
-          title={"Delete"}
+          title={"Delete "}
           type='outline'
           iconRight={true}
           onPress={()=> ( removeEvent(game) )}
@@ -117,11 +113,16 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     paddingVertical: 5
   },
-  imamgContainer:{
+  imageContainer:{
     flex: 3,
     height: '100%',
     width: '100%',
     // backgroundColor: 'blue'
+  },
+  imageStyle:{
+    flex: 1,
+    width: null,
+    height: null,
   },
   textContainer:{
     flex: 3,
@@ -129,11 +130,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  // iconContainer: {
-  //   backgroundColor: 'yellow',
-  //   flex: 1,
-  //   padding: 'auto',
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // }
+  titleStyle: {
+    marginTop: 10,
+    fontSize: 20,
+  }
 });

@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function useList (initial) {
   const [list, setList] = useState(initial);
   const onSelectFriend = (friend_id) => {
-    console.log("onSelectFriend:", friend_id)
+    // console.log("onSelectFriend:", friend_id)
     const updatedList = list.map((friend) => {
       if (friend['id'] === friend_id) {
         return { ...friend, invited: !friend['invited'] };
