@@ -5,9 +5,20 @@ import GameSearchBar from './GameSearchBar';
 import GameListItem from '../components/GameListItem';
 
 
-export default function RecordGameModal({ gameSelectList, closeModal, onSelect }) {
+export default function RecordGameModal({ gameSelectList, closeModal, onSelect, setGameRecord }) {
   const [search, setSearch] = useState('');
+  
   const updateSearch = (userInput) => setSearch(userInput);
+
+  const chooseGameAction = () => {
+    const gameList = [];
+    gameSelectList.forEach((game) => {
+      game['selected'] && gameList.push(game['id'])
+    });
+    setGameRecord(gameList);
+    closeModal();
+  }
+
   return (
     <>
       <View style={styles.headerContainer}>
@@ -36,10 +47,10 @@ export default function RecordGameModal({ gameSelectList, closeModal, onSelect }
           ))
         }
       </ScrollView>
-      {/* <Button
+      <Button
         onPress={chooseGameAction}
         title={"Select"}
-      /> */}
+      />
     </>
   );
 }

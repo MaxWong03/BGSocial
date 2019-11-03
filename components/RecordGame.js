@@ -1,11 +1,12 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Overlay, Button, Icon, ListItem } from 'react-native-elements';
 import EmptyList from '../components/EmptyList';
 import useVisibility from '../hooks/useVisibility';
 import RecordGameModal from '../components/RecordGameModal';
 import useList from '../hooks/useList';
 
-export default function RecordGame({ userGames }) {
+export default function RecordGame({ userGames, setGameRecord }) {
   const { visible, showModal, closeModal } = useVisibility(false);
   userGames = userGames.map(game => {
     return { ...game, 'selected': false }
@@ -17,6 +18,14 @@ export default function RecordGame({ userGames }) {
   };
 
   const selectRecordGame = filterSelectedGames();
+
+  const deleteEventGame = (gameID) => {
+    const gameList = onSelect(gameID)
+      .filter(game => game['selected'])
+      .map(game => game['id']);
+
+    setGameRecord(gameList)
+  }
 
   return (
     <>
@@ -38,6 +47,7 @@ export default function RecordGame({ userGames }) {
             closeModal={closeModal}
             gameSelectList={gameSelectList}
             onSelect={onSelect}
+            setGameRecord={setGameRecord}
           />
         }
       />
@@ -51,9 +61,30 @@ export default function RecordGame({ userGames }) {
               leftAvatar={{ source: { uri: game.thumbnail } }}
               title={game.name}
               bottomDivider
+              rightElement={
+                <Button
+                  icon={
+                    <Icon
+                      name='delete-forever'
+                      type='material'
+                      color='white'
+                    />
+                  }
+                  buttonStyle={styles.deleteButton}
+                  onPress={() => deleteEventGame(game['id'])}
+                />
+              }
             />
           ))
       }
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  deleteButton: {
+    backgroundColor: 'red',
+    padding: 10,
+    marginRight: 5
+  }
+});

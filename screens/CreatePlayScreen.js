@@ -38,12 +38,14 @@ export default function CreatePlayScreen() {
 
   const createScoreAction = () => {
     console.log('scoreList:', scoreList);
+    console.log('gameRecord:', gameRecord);
   }
 
   return (
     <>
       <RecordGame
         userGames={userGames}
+        setGameRecord={setGameRecord}
       />
       <RecordPlayer
         userFriends={userFriends}
