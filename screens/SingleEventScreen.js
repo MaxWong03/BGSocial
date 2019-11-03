@@ -55,6 +55,22 @@ export default function SingleEventScreen({ navigation }) {
     );
   }
 
+  function notGoingModal() {
+    Alert.alert(
+      'Reject Event assistance',
+      'Are you sure you are not going to this event? The event will not appear in your event list anymore.',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Not Going', onPress: () => notGoing(state.event.id) },
+      ],
+      { cancelable: false },
+    );
+  }
+
   useEffect(() => {
     loadSingleEvent(navigation.getParam('eventID'));
   }, [navigation.state.params.eventID]);
