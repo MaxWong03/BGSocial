@@ -1,55 +1,42 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import { BarChart } from 'react-native-chart-kit';
-import RecordPlayer from '../components/CreateEventFriends';
+import React, { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import useFriendSlot from '../hooks/useFriendSlot';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { getUserInfo } from './../hooks/sessionContext';
-
+import RecordPlayer from '../components/RecordPlayer';
+import { ListItem } from 'react-native-elements';
 
 export default function CreatePlayScreen() {
   const userFriends = useNavigationParam('userFriends');
   const { friendSlots, changeFriendSlot } = useFriendSlot();
-  const screenWidth = Dimensions.get('window').width;
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
-  console.log(avatar, id, name);
-  const data = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43]
-      }
-    ]
-  };
+  const [score, setScore] = useState(0);
+  const onChangeScore = (newScore) => {
+    setScore(Math.round(newScore * 100));
+  }
+
+  userFriends.unshift({ avatar, id, name })
+  console.log(friendSlots);
   return (
     <>
       <RecordPlayer
-        changeFriendSlot={changeFriendSlot}
         userFriends={userFriends}
-        buttonText={'Add Player Score'}
+        friendSlots={friendSlots}
+        changeFriendSlot={changeFriendSlot}
       />
-      <BarChart
-        data={data}
-        height={220}
-        width={screenWidth}
-        chartConfig={chartConfig}
-      />
+      <ScrollView>
+        {
+          userFriends.map((friend, index) => (
+            friendSlots.includes(friend.id) &&
+            <ListItem
+              key={index}
+              title={friend.name}
+            />
+          ))
+        }
+      </ScrollView>
     </>
   )
 }
 
-const styles = StyleSheet.create({
-
-})
-
-const chartConfig = {
-  backgroundColor: '#1cc910',
-  backgroundGradientFrom: '#eff3ff',
-  backgroundGradientTo: '#efefef',
-  decimalPlaces: 2, // optional, defaults to 2dp
-  color: (opacity = 255) => `rgba(0, 0, 0, ${opacity})`,
-  style: {
-    borderRadius: 16,
-  },
-}

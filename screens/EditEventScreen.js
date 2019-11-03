@@ -25,6 +25,8 @@ export default function EditEventScreen() {
       date: date.date
     }
   });
+
+  //states
   const { gameSlots, changeGameSlot } = useGameSlot(event_games);
   const { friendSlots, changeFriendSlot } = useFriendSlot(event_attendants);
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot(timeArray);

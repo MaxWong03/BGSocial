@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import { ListItem, Icon, Button } from 'react-native-elements';
 import InviteFriends from './InviteFriends';
 import EmptyList from './EmptyList';
 import useList from '../hooks/useList';
+import { Slider } from 'react-native-elements';
 
 export default function CreateEventFriends({ changeFriendSlot, userFriends, eventFriendList, buttonText }) {
 
   userFriends = userFriends.map(friend => {
-    return {...friend, 'invited': false}
+    return { ...friend, 'invited': false }
   })
 
   if (eventFriendList) {
@@ -20,13 +21,10 @@ export default function CreateEventFriends({ changeFriendSlot, userFriends, even
   }
 
   const { list: friendInviteList, onSelectFriend: onSelect } = useList(userFriends);
-
   const filterSelectedFriends = () => {
     return friendInviteList.filter((friend) => friend['invited'])
   };
-
   eventFriendList = filterSelectedFriends();
-
   const getEventFriendList = (eventFriendListID) => {
     changeFriendSlot(eventFriendListID)
   };
@@ -38,7 +36,6 @@ export default function CreateEventFriends({ changeFriendSlot, userFriends, even
 
     changeFriendSlot(friendList)
   }
-
   return (
     <>
       <InviteFriends
@@ -58,17 +55,17 @@ export default function CreateEventFriends({ changeFriendSlot, userFriends, even
               title={friend['name']}
               bottomDivider
               rightElement={
-                <Button
-                  icon={
-                    <Icon
-                      name='account-remove'
-                      type='material-community'
-                      color='white'
-                    />
-                  }
-                  buttonStyle={styles.deleteButton}
-                  onPress={() => deleteEventFriend(friend['id'])}
-                />
+                  <Button
+                    icon={
+                      <Icon
+                        name='account-remove'
+                        type='material-community'
+                        color='white'
+                      />
+                    }
+                    buttonStyle={styles.deleteButton}
+                    onPress={() => deleteEventFriend(friend['id'])}
+                  />
               }
             />
           ))

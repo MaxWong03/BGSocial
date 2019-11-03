@@ -27,9 +27,23 @@ export default function useList (initial) {
     return updateList;
   }
 
+  const onSelectRecord = (friend_id) => {
+    console.log("onSelectRecord:", friend_id)
+    const updatedList = list.map((friend) => {
+      if (friend['id'] === friend_id) {
+        return { ...friend, selected: !friend['selected'] };
+      } else {
+        return friend;
+      }
+    });
+    setList(updatedList);
+    return updatedList;
+  }
+
   return {
     list,
     onSelectFriend,
-    onSelectGame
+    onSelectGame,
+    onSelectRecord
   }
 }

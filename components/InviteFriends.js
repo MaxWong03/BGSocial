@@ -4,7 +4,7 @@ import useVisibility from '../hooks/useVisibility';
 import InviteFriendsModal from './InviteFriendsModal';
 import useList from '../hooks/useList';
 
-export default function InviteFriends({ getEventFriendList, friendInviteList, onSelect, buttonText }) {
+export default function InviteFriends({ getEventFriendList, friendInviteList, onSelect, buttonText}) {
   const { visible, showModal, closeModal } = useVisibility(false);
 
   //Get all invited friends id
