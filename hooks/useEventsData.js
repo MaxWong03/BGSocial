@@ -1,7 +1,7 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import { api } from './../api';
 import reduceState from "../reducers/events";
-import { arrayToObject, getConfirmedAttendants } from './../utils';
+import { arrayToObject } from './../utils';
 
 
 export function useEventsData() {

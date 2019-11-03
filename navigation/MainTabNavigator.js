@@ -5,7 +5,7 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import PlaysScreen from '../screens/PlaysScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -48,7 +48,6 @@ const EventsStack = createStackNavigator(
     CreateEvent: CreateEventScreen,
     SingleEvent: SingleEventScreen,
     EditEvent: EditEventScreen
-
   },
   config
 );
@@ -62,21 +61,21 @@ EventsStack.navigationOptions = {
 
 EventsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const PlaysStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Plays: PlaysScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+PlaysStack.navigationOptions = {
+  tabBarLabel: 'Plays',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={'dice'} type={'FontAwesome5'} />
   ),
 };
 
-SettingsStack.path = '';
+PlaysStack.path = '';
 
 const TestStack = createStackNavigator(
   {
@@ -133,7 +132,7 @@ GamesStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
-  SettingsStack,
+  PlaysStack,
   TestStack,
   CreateEvent,
   GamesStack
