@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
 import PlaysScreen from '../screens/PlaysScreen';
+import SinglePlayScreen from '../screens/SinglePlayScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -64,6 +65,7 @@ EventsStack.path = '';
 const PlaysStack = createStackNavigator(
   {
     Plays: PlaysScreen,
+    SinglePlay: SinglePlayScreen
   },
   config
 );

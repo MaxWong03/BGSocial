@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Icon } from 'react-native-elements';
 import { api } from '../api';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { formatDateWithTime } from '../utils';
 
-export default function PlaysScreen() {
+export default function PlaysScreen({ navigation }) {
   const [state, setPlay] = useState({ plays: [], games: {} });
 
   async function loadPlays() {
@@ -19,33 +19,48 @@ export default function PlaysScreen() {
 
   function usersLine(play) {
     let string = play.playsUsers.map(playUser => state.users[playUser.user_id].name).join(', ');
-    // if (string.length > 20) {
-    //   return string.substring(0, 20) + '...';
-    // }
     return string;
   }
 
   return (
-    <ScrollView>
-      <NavigationEvents onWillFocus={onWillFocus} />
-      {
-        state.plays.map((play, i) => (
-          <ListItem
-            key={i}
-            rightAvatar={{ size: 120, rounded: false, source: { uri: state.games[play.game_id].image } }}
-            title={state.games[play.game_id].name}
-            subtitle={
-              <View>
-                <Text>Date: {formatDateWithTime(play.date)}</Text>
-                <Text>Duration: {play.duration}</Text>
-                <Text>Players: {usersLine(play)}</Text>
-              </View>
-            }
-            bottomDivider
+    <View style={{ height: "100%" }}>
+      <ScrollView >
+        <NavigationEvents onWillFocus={onWillFocus} />
+        {
+          state.plays.map((play) => (
+            <ListItem
+              key={play.id}
+              rightAvatar={{ size: 120, rounded: false, source: { uri: state.games[play.game_id].image } }}
+              title={state.games[play.game_id].name}
+              subtitle={
+                <View>
+                  <Text>Date: {formatDateWithTime(play.date)}</Text>
+                  <Text>Duration: {play.duration}</Text>
+                  <Text>Players: {usersLine(play)}</Text>
+                </View>
+              }
+              onPress={() => navigation.navigate('SinglePlay', {
+                play: play,
+                games: state.games,
+                users: state.users,
+                imageUrl: state.games[play.game_id].image
+              })}
+              bottomDivider
+            />
+          ))
+        }
+        <View style={styles.iconBox}>
+          <Icon
+            size={20}
+            name='plus-square'
+            type='font-awesome'
+            color='white'
+            onPress={() => console.log("add play")}
+            iconStyle={styles.icon}
           />
-        ))
-      }
-    </ScrollView>
+        </View>
+      </ScrollView>
+    </View>
   )
 }
 
