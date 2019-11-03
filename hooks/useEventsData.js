@@ -91,12 +91,12 @@ export function useEventsData() {
     loadEvents();
   }
 
-  useEffect(() => {
-    loadEvents()
-      .then(() => {
-        updateOpenEvents();
-      })
-  }, []);
+  // useEffect(() => {
+  //   loadEvents()
+  //     .then(() => {
+  //       updateOpenEvents();
+  //     })
+  // }, []);
 
   return {
     state,
