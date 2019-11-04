@@ -5,7 +5,8 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import PlaysScreen from '../screens/PlaysScreen';
+import SinglePlayScreen from '../screens/SinglePlayScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -33,8 +34,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-ios-home'${focused ? '' : '-outline'}`
+          : 'ios-home'
       }
     />
   ),
@@ -48,7 +49,6 @@ const EventsStack = createStackNavigator(
     CreateEvent: CreateEventScreen,
     SingleEvent: SingleEventScreen,
     EditEvent: EditEventScreen
-
   },
   config
 );
@@ -62,21 +62,22 @@ EventsStack.navigationOptions = {
 
 EventsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const PlaysStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Plays: PlaysScreen,
+    SinglePlay: SinglePlayScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+PlaysStack.navigationOptions = {
+  tabBarLabel: 'Plays',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={'dice'} type={'FontAwesome5'} />
   ),
 };
 
-SettingsStack.path = '';
+PlaysStack.path = '';
 
 const TestStack = createStackNavigator(
   {
@@ -124,7 +125,7 @@ const GamesStack = createStackNavigator(
 GamesStack.navigationOptions = {
   tabBarLabel: 'Games',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-logo-snapchat' : 'logo-snapchat'} />
   ),
 };
 
@@ -133,7 +134,7 @@ GamesStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
-  SettingsStack,
+  PlaysStack,
   TestStack,
   CreateEvent,
   GamesStack

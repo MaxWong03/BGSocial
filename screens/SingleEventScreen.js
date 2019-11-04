@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import { Icon } from 'react-native-elements'
+import { StyleSheet, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -13,15 +12,18 @@ import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 import { useNavigationParam } from 'react-navigation-hooks';
+import { Overlay, Button, Text } from 'react-native-elements';
 
 
 
 export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
+  const [overlay, setOverlay] = useState(false);
+  const [count, setCount] = useState(state.spots || 0);
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
 
-  function openDeleteModal() {
+  function deleteModal() {
     Alert.alert(
       'Delete Event',
       'Are you sure you want to delete this event?',
@@ -36,6 +38,23 @@ export default function SingleEventScreen({ navigation }) {
       { cancelable: false },
     );
   }
+
+  function cancelOpenModal() {
+    Alert.alert(
+      'Open Event Cancellation',
+      `Plese press confirm if you want to close your event only for your invited friends`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Confirm', onPress: () => setOpenEvent(state.event.id , false) },
+      ],
+      { cancelable: false },
+    );
+  }
+
   function notGoingModal() {
     Alert.alert(
       'Reject Event assistance',
@@ -101,6 +120,16 @@ export default function SingleEventScreen({ navigation }) {
     loadSingleEvent(eventId);
   }
 
+  async function setOpenEvent(eventId, isOpen) {
+    try {
+      console.log('setOpenEvent(eventId)', eventId);
+      await api.post(`/events/${eventId}`, { spots: (count + confirmedAttendants.length), is_open: isOpen })
+      setOverlay(false)
+      loadSingleEvent(eventId);
+    } catch(e) {
+      console.log(e)
+    }
+  }
 
   const userId = getUserInfo().userData.id;
 
@@ -203,17 +232,59 @@ export default function SingleEventScreen({ navigation }) {
   }
 
   function getOwnerButtons() {
-    return [
-      { iconName: 'trash-o', textInfo: 'Delete', onPress: openDeleteModal },
+    const buttons = [
+      {
+        iconName: 'edit', textInfo: 'Edit',
+        onPress: () => navigation.navigate('EditEvent', {
+          event: state.event,
+          userGames,
+          userFriends
+        })
+      },
     ];
+    if (state.event.is_open) {
+      const button = {
+        iconName: 'check',
+        textInfo: 'Open Event',
+        iconColor: 'blue',
+        onPress: () => cancelOpenModal()
+      }
+      buttons.push(button)
+    } else {
+      const button = {
+        iconName: 'check',
+        textInfo: 'Open Event',
+        onPress: () => setOverlay(true)
+      }
+      buttons.push(button)
+    }
+    buttons.push({ iconName: 'trash-o', textInfo: 'Delete', onPress: deleteModal });
+    return buttons;
   }
+
   function getAttendantButtons(eventAttendants) {
-    return [
-      chosenDate ? (checkIfUserIsGoing(eventAttendants, userId) ? { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id), iconColor: 'blue' }
-        : { iconName: 'check', iconType: 'EvilIcon', textInfo: 'Going', onPress: () => goingToEvent(state.event.id) })
-        : {},
-      { iconName: 'frown-o', iconType: 'font-awesome', textInfo: 'Not Going', onPress: notGoingModal },
-    ];
+    const attendantButtons = [];
+    if (eventAttendants.find(attendant => userId === attendant.attendant_id)) {
+      attendantButtons.push({
+        iconName: 'frown-o',
+        iconType: 'font-awesome',
+        textInfo: 'Not Going',
+        onPress: notGoingModal
+      });
+    }
+    if (chosenDate) {
+      const button = {
+        iconName: 'check',
+        iconType: 'EvilIcon',
+        textInfo: 'Going',
+        onPress: () => goingToEvent(state.event.id)
+      };
+      if (checkIfUserIsGoing(eventAttendants, userId)) {
+        button['iconColor'] = 'blue';
+      }
+      attendantButtons.push(button);
+    }
+    return attendantButtons;
   }
 
   function getVotesByDateId(eventVotes, eventDateId) {
@@ -233,7 +304,7 @@ export default function SingleEventScreen({ navigation }) {
   const chosenDate = getEventChosenEventDate(state.event);
   const confirmedAttendants = getConfirmedAttendants(state.event);
 
-  const iconBarItems = isOwner ? getOwnerButtons() : (getAttendantButtons(state.event.event_attendants));
+  const iconBarItems = isOwner ? getOwnerButtons() : getAttendantButtons(state.event.event_attendants);
 
 
   //Here start the component rendered
@@ -259,18 +330,46 @@ export default function SingleEventScreen({ navigation }) {
         {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
         {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
       </View>
-      <Icon
-        size={30}
-        name='qq'
-        type='font-awesome'
-        color='#0e92cf'
-        onPress={() => navigation.navigate('EditEvent', {
-          event: state.event,
-          userGames,
-          userFriends
-        })}
-        iconStyle={styles.icon}
-      />
+      <Overlay
+        isVisible={overlay}
+        windowBackgroundColor="rgba(0, 0, 0, .7)"
+        overlayBackgroundColor='white'
+        onBackdropPress={() => setOverlay(false)}
+        height="auto"
+      >
+        <View>
+          <Text h4 style={{ marginBottom: 10 }}>Open Event to friends</Text>
+
+          <Text>You are about to open your event to all your friends.
+           How many extra spots you want to leave available? So far your confirm attendants are {confirmedAttendants.length}
+          </Text>
+          <View style={{ marginVertical: 20, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+            <Button
+              title="-"
+              type="outline"
+              onPress={() => setCount(count - 1)}
+            />
+            <Text style={{ fontSize: 16, paddingHorizontal: 16 }}>{count}</Text>
+            <Button
+              title="+"
+              type="outline"
+              onPress={() => setCount(count + 1)}
+            />
+          </View>
+          <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+            <Button
+              title="Cancel"
+              type="clear"
+              onPress={() => setOverlay(false)}
+            />
+            <Button
+              title="Accept"
+              type="clear"
+              onPress={() => setOpenEvent(state.event.id , true)}
+            />
+          </View>
+        </View>
+      </Overlay>
     </ScrollView>
   );
 }
@@ -331,5 +430,5 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     height: 200
-  }
+  },
 });
