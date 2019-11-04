@@ -11,6 +11,7 @@ import RecordDuration from '../components/RecordDuration';
 import useScore from '../hooks/useScore';
 import { api } from './../api';
 import { useNavigation } from 'react-navigation-hooks';
+import useDuration from '../hooks/useDuration';
 
 export default function CreatePlayScreen() {
   const userFriends = useNavigationParam('userFriends');
@@ -22,11 +23,7 @@ export default function CreatePlayScreen() {
   const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(id);
   const [gameRecord, setGameRecord] = useState([]);
   const [date, setDate] = useState(new Date());
-  const [duration, setDuration] = useState('');
-
-  const changeDuration = (newDuration) => {
-    (/^\d+$/.test(newDuration) || !newDuration) && setDuration(newDuration);
-  }
+  const {hour, minute, second, changeHour, changeMinute, changeSecond} = useDuration();
 
   // {
   //   "date": "2019-09-11T00:00:00.000Z",
@@ -70,8 +67,12 @@ export default function CreatePlayScreen() {
           setDate={setDate}
         />
         <RecordDuration
-          duration={duration}
-          changeDuration={changeDuration}
+          hour={hour}
+          minute={minute}
+          second={second}
+          changeHour={changeHour}
+          changeMinute={changeMinute}
+          changeSecond={changeSecond}
         />
         <RecordGame
           userGames={userGames}
