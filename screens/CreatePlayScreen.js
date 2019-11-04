@@ -23,7 +23,7 @@ export default function CreatePlayScreen() {
   const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(id);
   const [gameRecord, setGameRecord] = useState([]);
   const [date, setDate] = useState(new Date());
-  const {hour, minute, second, changeHour, changeMinute, changeSecond} = useDuration();
+  const { hour, minute, second, changeHour, changeMinute, changeSecond } = useDuration();
 
   // {
   //   "date": "2019-09-11T00:00:00.000Z",
@@ -37,10 +37,23 @@ export default function CreatePlayScreen() {
   //   }]
   // }
 
+  const formatDuration = (hour, minute, second) => {
+    if (hour < 10) hour = '0' + hour;
+    if (minute < 10) minute = '0' + minute;
+    if (second < 10) second = '0' + second;
+    if (hour == 0) hour = '00';
+    if (minute == 0) minute = '00';
+    if (second == 0) second = '00';
+    return `${hour}:${minute}:${second}` 
+  };
+
   const createScoreAction = () => {
+    console.log('hour:',hour, 'minute:', minute, 'second:',second);
+    const duration = formatDuration(hour, minute, second);
+    console.log(duration);
     const newPlay = {
       "date": date,
-      "duration": "05:10:00",
+      "duration": duration,
       "game_id": Number(gameRecord[0]),
       "event_id": null,
       "playsUsers": scoreList.map(scoreObj => {
@@ -51,8 +64,6 @@ export default function CreatePlayScreen() {
         }
       })
     }
-
-    console.log(newPlay);
 
     api.post(`/plays/`, newPlay)
       .then(() => navigate('Plays'))

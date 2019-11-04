@@ -28,13 +28,13 @@ export default function RecordDuration({ hour, changeHour, minute, changeMinute,
               placeholder={'Minute(s):'}
               value={minute}
               onChangeText={newMinute => changeMinute(newMinute)}
-            inputContainerStyle={styles.inputContainerStyle}
+              inputContainerStyle={styles.inputContainerStyle}
             />
             <Input
               placeholder={'Second(s):'}
               value={second}
               onChangeText={newSecond => changeSecond(newSecond)}
-            inputContainerStyle={styles.inputContainerStyle}
+              inputContainerStyle={styles.inputContainerStyle}
             />
           </View>
         }
