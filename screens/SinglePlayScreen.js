@@ -97,7 +97,7 @@ export default function SinglePlayScreen({ navigation }) {
         />
       </View>
       <ListItem
-        title='Player Score'
+        title="Player's Score"
         bottomDivider
       />
       {

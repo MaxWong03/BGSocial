@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import EventItemDescription from './EventItemDescription';
 import EventItemImage from './EventItemImage';
 
-export default function EventItem({ imageUrl, chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
+export default function EventItem({eventTitle, imageUrl, chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
   return (
     <View style={styles.flexParent}>
       <EventItemImage imageUrl={imageUrl} />
@@ -14,6 +14,7 @@ export default function EventItem({ imageUrl, chosenDate, attendants, isOwner, c
         confirmedAssistance={confirmedAssistance}
         attendants={attendants}
         onPress={onPress}
+        eventTitle={eventTitle}
       />
     </View>
   );

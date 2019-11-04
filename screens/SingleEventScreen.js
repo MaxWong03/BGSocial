@@ -12,7 +12,7 @@ import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 import { useNavigationParam } from 'react-navigation-hooks';
-import { Overlay, Button, Text } from 'react-native-elements';
+import { Overlay, Button, Text, ListItem, CheckBox } from 'react-native-elements';
 
 
 
@@ -49,7 +49,7 @@ export default function SingleEventScreen({ navigation }) {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        { text: 'Confirm', onPress: () => setOpenEvent(state.event.id , false) },
+        { text: 'Confirm', onPress: () => setOpenEvent(state.event.id, false) },
       ],
       { cancelable: false },
     );
@@ -126,7 +126,7 @@ export default function SingleEventScreen({ navigation }) {
       await api.post(`/events/${eventId}`, { spots: (count + confirmedAttendants.length), is_open: isOpen })
       setOverlay(false)
       loadSingleEvent(eventId);
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -156,79 +156,138 @@ export default function SingleEventScreen({ navigation }) {
       }
     ];
     return (
-      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={10} />
+      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={2} />
     )
   }
 
   function renderOwnerEventBody(event) {
 
-    return event.event_dates.map((eventDate) => {
-      const iconBarData = [
-        {
-          iconName: 'map-pin',
-          textInfo: eventDate.location,
-        },
-        {
-          iconName: 'calendar-o',
-          textInfo: formatDateWithTime(eventDate.date),
-        },
-        {
-          iconName: 'group',
-          textInfo: `Votes: `,
-        }
-      ];
-      return (
-        <View key={eventDate.id} style={styles.eventDateChooseDateContainer}>
-          <View style={{ flex: 1 }}>
-            <IconBar iconsData={iconBarData} horizontal={false} padding={4} />
-          </View>
-          <View style={{ flex: 0, padding: 10 }}>
-            <IconVerticalWithLabel
-              iconName="calendar-o"
-              textInfo="Choose Date"
-              iconColor="blue"
-              onPress={() => confirmEvent(event.id, eventDate.id)}
+    return (
+      <View style={styles.boxShadow}>
+        {event.event_dates.map((eventDate) => {
+          const iconBarData = [
+            {
+              iconName: 'map-pin',
+              textInfo: eventDate.location,
+              iconColor: '#BBB'
+            },
+            {
+              iconName: 'calendar-o',
+              textInfo: formatDateWithTime(eventDate.date),
+              iconColor: '#BBB'
+            },
+            {
+              iconName: 'group',
+              textInfo: `Votes: `,
+              iconColor: '#BBB'
+            }
+          ];
+
+          return (
+            <ListItem
+              key={eventDate.id}
+              title={
+                <IconBar iconsData={iconBarData} horizontal={false} padding={3} />
+              }
+              rightElement={
+                <Button
+                  type='outline'
+                  title='CHOOSE'
+                  buttonStyle={{ paddingVertical: 4 }}
+                  titleStyle={{ fontSize: 12 }}
+                  onPress={() => confirmEvent(event.id, eventDate.id)}
+                />
+              }
+              bottomDivider
             />
-          </View>
-        </View>
-      )
-    });
+          );
+        })}
+      </View>
+    );
   }
 
   function renderVotesEventBody(event) {
-
-    return event.event_dates.map((eventDate) => {
-      const iconBarData = [
-        {
-          iconName: 'map-pin',
-          textInfo: eventDate.location,
-        },
-        {
-          iconName: 'calendar-o',
-          textInfo: formatDateWithTime(eventDate.date),
-        },
-        {
-          iconName: 'group',
-          textInfo: `Votes: ${getVotesByDateId(event.event_votes, eventDate.id).length}`,
-        }
-      ];
-      return (
-        <View key={eventDate.id} style={styles.eventDateChooseDateContainer}>
-          <View style={{ flex: 1 }}>
-            <IconBar iconsData={iconBarData} horizontal={false} padding={4} />
-          </View>
-          <View style={{ flex: 0, padding: 10 }}>
-            <IconVerticalWithLabel
-              iconName={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? "calendar-times-o" : "calendar-check-o"}
-              textInfo={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'Cancel Vote' : 'Vote!'}
-              iconColor={checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ? 'red' : 'blue'}
-              onPress={() => checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes) ?
-                cancelvoteEventDate(event.id, eventDate.id) : voteEventDate(event.id, eventDate.id)}
+    return (
+      <View style={styles.boxShadow}>
+        {event.event_dates.map((eventDate) => {
+          const iconBarData = [
+            {
+              iconName: 'map-pin',
+              textInfo: eventDate.location,
+            },
+            {
+              iconName: 'calendar-o',
+              textInfo: formatDateWithTime(eventDate.date),
+            },
+            {
+              iconName: 'group',
+              textInfo: `Votes: ${getVotesByDateId(event.event_votes, eventDate.id).length}`,
+            }
+          ];
+          const checked = !!checkVoteOfUserByDateId(userId, eventDate.id, event.event_votes);
+          return (
+            <ListItem
+              key={eventDate.id}
+              title={
+                <IconBar iconsData={iconBarData} horizontal={false} padding={3} />
+              }
+              checkBox={{
+                containerStyle: { backgroundColor: 'white', borderColor: 'white' },
+                checked: checked,
+                title: 'Vote',
+                onPress: () => {
+                  checked ?
+                    cancelvoteEventDate(event.id, eventDate.id) : voteEventDate(event.id, eventDate.id)
+                }
+              }}
+              bottomDivider
             />
-          </View>
-        </View>
-      )
-    });
+          );
+        })}
+      </View>
+    );
+  }
+
+  function renderConfirmAttendances(confirmedAttendants) {
+    return (
+      <View style={styles.boxShadow}>
+        <ListItem
+          topDivider
+          title='Attendants'
+          bottomDivider
+        />
+        {confirmedAttendants.map((attendant) => (
+          <ListItem
+            key={attendant.id}
+            leftAvatar={{ source: { uri: attendant.avatar } }}
+            title={attendant.name}
+            containerStyle={{ padding: 5 }}
+            bottomDivider
+          />
+        ))}
+      </View>
+    )
+  }
+
+  function renderGames(games) {
+    return (
+      <View style={styles.boxShadow}>
+        <ListItem
+          topDivider
+          title="Event's Games"
+          bottomDivider
+        />
+        {games.map((gameData) => (
+          <ListItem
+            key={gameData.id}
+            rightAvatar={{ size: 40, rounded: false, source: { uri: gameData.game.image } }}
+            title={gameData.game.name}
+            containerStyle={{ paddingVertical: 5, paddingHorizontal: 18 }}
+            bottomDivider
+          />
+        ))}
+      </View>
+    )
   }
 
   function getOwnerButtons() {
@@ -310,25 +369,31 @@ export default function SingleEventScreen({ navigation }) {
   //Here start the component rendered
   return (
     <ScrollView style={styles.mainContainer}>
-      <View style={styles.flexParent}>
-        <View style={styles.attendantsListContainer}>
-          <AttendanceList backgroundColor={'#fafafa'} />
+      <View style={styles.boxShadow}>
+        <ListItem
+          leftAvatar={{ size: 120, rounded: false, source: { uri: getEventMainImage(state.event) } }}
+          title={state.event.title ? state.event.title : state.event.event_games[0].game.name}
+          containerStyle={{ padding: 10 }}
+          pad={10}
+          titleStyle={{ paddingLeft: 8, paddingBottom: 10, fontSize: 18 }}
+          subtitle={
+            <View>
+              {chosenDate && renderChosenDateInfo(chosenDate, confirmedAttendants)}
+            </View>
+          }
+        />
+        <View style={styles.iconBar}>
+          <IconBar
+            iconsData={iconBarItems}
+            horizontal={true}
+          />
         </View>
-        <Image
-          style={styles.image}
-          source={{ uri: getEventMainImage(state.event) }}
-        />
       </View>
-      <View style={styles.iconBar}>
-        <IconBar
-          iconsData={iconBarItems}
-          horizontal={true}
-        />
-      </View>
-      <View style={styles.textContainer}>
-        {chosenDate && renderChosenDateInfo(chosenDate, confirmedAttendants)}
+      <View>
+        {chosenDate && renderConfirmAttendances(confirmedAttendants)}
         {isOwner && !chosenDate && renderOwnerEventBody(state.event)}
         {!isOwner && !chosenDate && renderVotesEventBody(state.event)}
+        {renderGames(state.event.event_games)}
       </View>
       <Overlay
         isVisible={overlay}
@@ -337,7 +402,7 @@ export default function SingleEventScreen({ navigation }) {
         onBackdropPress={() => setOverlay(false)}
         height="auto"
       >
-        <View>
+        <View style={{paddingHorizontal: 14, paddingVertical: 8}}>
           <Text h4 style={{ marginBottom: 10 }}>Open Event to friends</Text>
 
           <Text>You are about to open your event to all your friends.
@@ -365,7 +430,7 @@ export default function SingleEventScreen({ navigation }) {
             <Button
               title="Accept"
               type="clear"
-              onPress={() => setOpenEvent(state.event.id , true)}
+              onPress={() => setOpenEvent(state.event.id, true)}
             />
           </View>
         </View>
@@ -385,8 +450,25 @@ const styles = StyleSheet.create({
     marginTop: 15,
     justifyContent: 'center'
   },
+  boxShadow: {
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: '#ddd',
+    borderBottomWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 1,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,
+    marginBottom: 16,
+    backgroundColor: 'white'
+  },
   mainContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#F4F4F4'
   },
   button: {
     flex: 1
@@ -409,11 +491,10 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end'
   },
   iconBar: {
-    marginVertical: 6,
+    backgroundColor: 'white',
+    marginTop: 6,
     borderTopColor: '#DDD',
-    borderBottomColor: '#DDD',
     borderTopWidth: 1,
-    borderBottomWidth: 1,
     paddingVertical: 6
   },
   image: {

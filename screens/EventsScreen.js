@@ -68,6 +68,7 @@ export default function EventsScreen({ navigation }) {
               key={event.id}
               chosenDate={event.chosen_event_date.date}
               imageUrl={event.event_games[0].image}
+              eventTitle={event.title}
               isOwner={userId === event.owner_id}
               confirmedAssistance={userConfirmed(event, userId)}
               attendants={getConfirmedAttendants(event).length}
