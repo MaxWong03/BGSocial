@@ -6,7 +6,7 @@ import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
 import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner}) {
+export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner }) {
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
   })
@@ -56,32 +56,30 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
           />
         }
       />
-      <ScrollView>
-        {
+      {
+        <RecordListItem
+          id={creator.id}
+          title={creator.name}
+          leftAvatar={{ uri: creator.avatar }}
+          canDelete={false}
+          updateScoreList={updateScoreList}
+          isWinner={isWinner}
+        />
+      }
+      {
+        selectedFriends.map((friend) => (
           <RecordListItem
-            id={creator.id}
-            title={creator.name}
-            leftAvatar={{ uri: creator.avatar }}
-            canDelete={false}
+            key={friend.id}
+            id={friend.id}
+            title={friend.name}
+            leftAvatar={{ uri: friend.avatar }}
+            deleteRecordFriend={deleteRecordFriend}
+            canDelete={true}
             updateScoreList={updateScoreList}
             isWinner={isWinner}
           />
-        }
-        {
-          selectedFriends.map((friend) => (
-            <RecordListItem
-              key={friend.id}
-              id={friend.id}
-              title={friend.name}
-              leftAvatar={{ uri: friend.avatar }}
-              deleteRecordFriend={deleteRecordFriend}
-              canDelete={true}
-              updateScoreList={updateScoreList}
-              isWinner={isWinner}
-            />
-          ))
-        }
-      </ScrollView>
+        ))
+      }
     </>
   )
 }

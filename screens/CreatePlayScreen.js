@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import useFriendSlot from '../hooks/useFriendSlot';
 import { useNavigationParam } from 'react-navigation-hooks';
@@ -6,8 +7,8 @@ import { getUserInfo } from './../hooks/sessionContext';
 import RecordPlayer from '../components/RecordPlayer';
 import RecordGame from '../components/RecordGame';
 import RecordTime from '../components/RecordTime';
+import RecordDuration from '../components/RecordDuration';
 import useScore from '../hooks/useScore';
-
 
 export default function CreatePlayScreen() {
   const userFriends = useNavigationParam('userFriends');
@@ -29,24 +30,29 @@ export default function CreatePlayScreen() {
 
   return (
     <>
-      <RecordTime 
-        date={date}
-        setDate={setDate}
-      />
-      <RecordGame
-        userGames={userGames}
-        setGameRecord={setGameRecord}
-      />
-      <RecordPlayer
-        userFriends={userFriends}
-        friendSlots={friendSlots}
-        changeFriendSlot={changeFriendSlot}
-        creator={{ avatar, id, name }}
-        addScoreList={addScoreList}
-        updateScoreList={updateScoreList}
-        deleteScoreList={deleteScoreList}
-        isWinner={isWinner}
-      />
+      <ScrollView>
+        <RecordTime
+          date={date}
+          setDate={setDate}
+        />
+        <RecordDuration
+
+        />
+        <RecordGame
+          userGames={userGames}
+          setGameRecord={setGameRecord}
+        />
+        <RecordPlayer
+          userFriends={userFriends}
+          friendSlots={friendSlots}
+          changeFriendSlot={changeFriendSlot}
+          creator={{ avatar, id, name }}
+          addScoreList={addScoreList}
+          updateScoreList={updateScoreList}
+          deleteScoreList={deleteScoreList}
+          isWinner={isWinner}
+        />
+      </ScrollView>
       <Button
         title={'Create Score!'}
         icon={
