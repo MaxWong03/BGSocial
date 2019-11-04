@@ -9,10 +9,10 @@ export default function useDuration() {
     (/^\d+$/.test(newHour) || !newHour) && setHour(newHour);
   }
   const changeMinute = (newMinute) => {
-    (/^\d+$/.test(newMinute) || !newMinute) && setMinute(newMinute);
+    (/^\d+$/.test(newMinute) || !newMinute) && newMinute <= 60 && setMinute(newMinute);
   }
   const changeSecond = (newSecond) => {
-    (/^\d+$/.test(newSecond) || !newSecond) && setSecond(newSecond);
+    (/^\d+$/.test(newSecond) || !newSecond) && newSecond <= 60 && setSecond(newSecond);
   }
 
   return {
