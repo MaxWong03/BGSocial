@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native';
-import { ListItem, Button, Icon } from 'react-native-elements';
+import { Badge, Avatar, ListItem, Button, Icon } from 'react-native-elements';
 import { Slider } from 'react-native-elements';
 
 
 export default function RecordListItem({ title, leftAvatar, id, deleteRecordFriend, canDelete, updateScoreList }) {
+  console.log(leftAvatar)
   const [score, setScore] = useState(0)
   const onValueChange = (newValue) => {
     newValue = Math.round(newValue * 100)
@@ -14,7 +15,22 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
   return (
     <ListItem
       title={title}
-      leftAvatar={leftAvatar}
+      leftAvatar={
+        <View>
+          <Avatar
+            rounded
+            source={leftAvatar}
+            size="large"
+          />
+
+          <Badge
+            status="success"
+            containerStyle={styles.badgeContainer}
+            value={'👑'}
+            textStyle={{ fontSize: 15 }}
+          />
+        </View>
+      }
       bottomDivider
       rightElement={
         canDelete ?
@@ -56,6 +72,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     padding: 5,
     marginLeft: 5
-  }
+  },
+  badgeContainer: { 
+    position: 'absolute', 
+    top: -4, 
+    right: -4 
+  },
+
 })
 

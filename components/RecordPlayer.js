@@ -61,7 +61,7 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
           <RecordListItem
             id={creator.id}
             title={creator.name}
-            leftAvatar={{ source: { uri: creator.avatar } }}
+            leftAvatar={{ uri: creator.avatar }}
             canDelete={false}
             updateScoreList={updateScoreList}
           />
@@ -72,7 +72,7 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
               key={friend.id}
               id={friend.id}
               title={friend.name}
-              leftAvatar={{ source: { uri: friend.avatar } }}
+              leftAvatar={{ uri: friend.avatar }}
               deleteRecordFriend={deleteRecordFriend}
               canDelete={true}
               updateScoreList={updateScoreList}
