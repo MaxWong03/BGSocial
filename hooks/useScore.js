@@ -30,11 +30,18 @@ export default function useScore(id) {
     return score === maxScore;
   }
 
+  const getWinners = () => {
+    const winnerIDs = [];
+    scoreList.forEach(scoreObj => isWinner(scoreObj.score) && winnerIDs.push(scoreObj.id))
+    return winnerIDs;
+  }
+
   return {
     scoreList,
     addScoreList,
     updateScoreList,
     deleteScoreList,
-    isWinner
+    isWinner,
+    getWinners
   }
 }
