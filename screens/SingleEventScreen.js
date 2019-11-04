@@ -178,7 +178,7 @@ export default function SingleEventScreen({ navigation }) {
             },
             {
               iconName: 'group',
-              textInfo: `Votes: `,
+              textInfo: `Votes: ${getVotesByDateId(event.event_votes, eventDate.id).length}`,
               iconColor: '#BBB'
             }
           ];

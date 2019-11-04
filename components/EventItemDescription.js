@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Button, Icon, Text } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 
 
-export default function EventItem({eventTitle,  chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
+export default function EventItem({ eventTitle, chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
   let title = 'More info!';
   let icon = 'info-circle';
   if (chosenDate) {
@@ -27,42 +27,57 @@ export default function EventItem({eventTitle,  chosenDate, attendants, isOwner,
 
   return (
     <View style={styles.textContainer}>
-      {isOwner &&
-        <View style={styles.hostFlag}>
-          <Text style={{ color: 'white', paddingBottom: 6 }}>Hosting</Text>
-        </View>
-      }
-      <View style={{ paddingVertical: 15 }}>
-        <Text>{eventTitle ? eventTitle : ""}</Text>
-        <Text>{chosenDate ? formatDateWithTime(chosenDate) : ""}</Text>
-        <Text>{attendants ? `Attendants: ${attendants}` : (isOwner ? 'Choose a date for your event' : 'Friends going: 5')}</Text>
+      <View>
+        {!!eventTitle && <Text style={{ fontSize: 16 }}>{eventTitle}</Text>}
+        {!!chosenDate && <Text style={styles.subtitle}>Date: {formatDateWithTime(chosenDate)}</Text>}
+        {!!attendants && <Text style={styles.subtitle}>Attendants: {attendants}</Text>}
+        {!attendants && isOwner && <Text style={styles.subtitle}>Choose a date for your event</Text>}
+        {!attendants && !isOwner && <Text style={styles.subtitle}>Vote for the dates!</Text>}
       </View>
-      <Button
-        buttonStyle={styles.button}
-        title={title}
-        type='outline'
-        iconRight={true}
-        onPress={onPress}
-        icon={
-          <Icon
-            size={20}
-            name={icon}
-            type='font-awesome'
-            color='#bdbdbd'
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8 }}>
+        <Button
+          title={title}
+          type='outline'
+          iconRight={false}
+          onPress={onPress}
+          titleStyle={{ fontSize: 12 }}
+          buttonStyle={{ paddingVertical: 4, minWidth: 120 }}
+          icon={
+            <Icon
+              size={15}
+              name={icon}
+              type='font-awesome'
+              color='#bdbdbd'
+              iconStyle={{ marginRight: 10 }}
+            />
+          } />
+        {isOwner &&
+          <Button
+            title="Hosting"
+            type='outline'
+            iconRight={false}
+            onPress={onPress}
+            titleStyle={{ fontSize: 12, color: "white" }}
+            buttonStyle={{ paddingVertical: 4, backgroundColor: '#F38989' }}
+            type="solid"
           />
-        } />
+        }
+
+
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  subtitle: {
+    color: 'gray',
+    fontSize: 13
+  },
   textContainer: {
     flex: 1,
-    padding: 20,
-    justifyContent: 'space-between'
-  },
-  button: {
-    justifyContent: 'space-around',
+    padding: 14,
+    justifyContent: 'space-between',
   },
   hostFlag: {
     position: 'absolute',
