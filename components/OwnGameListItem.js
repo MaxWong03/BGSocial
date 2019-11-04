@@ -3,9 +3,13 @@ import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 import { api } from './../api';
+import { getUserInfo } from './../hooks/sessionContext';
 
 export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play, onPress }) {
-  const userID = 1;
+ 
+  const { userData } = getUserInfo();
+
+  const userId = userData.id;
 
   const removeEvent = function (game) {
     api.post(`games/user/${game.bgg_id}/delete`)

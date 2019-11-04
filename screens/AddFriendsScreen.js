@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { Avatar, Button, Icon } from "react-native-elements";
 // import useList from '../hooks/useList';
-// import { api } from './../api';
+import { api } from './../api';
 import FriendSearchBar from './../components/FriendSearchBar';
 import { getUserInfo } from './../hooks/sessionContext';
 
@@ -13,14 +14,50 @@ export default function AddFriendsScreen({navigation}) {
 
   // get all the User and then filter it from all the friends
   const allUsers = navigation.getParam("allUsersInDB");
-  const allFriends = navigation.getParam("allFriends").map(user => user['id']);
+  const allFriendsID = navigation.getParam("allFriends").map(user => user['id']);
 
+  const dispatchState = navigation.getParam("dispatchState");
+  const ADD_FRIEND = navigation.getParam("ADD_FRIEND");
 
-  console.log(allUsers);
+  let sentRequests = navigation.getParam("sentRequests");
+  const dispatchRequest = navigation.getParam("dispatchRequest");
+  const ADD_PENDING_REQ = navigation.getParam("ADD_PENDING_REQ");
+  const DELETE_PENDING_REQ = navigation.getParam("DELETE_PENDING_REQ");
+
+  // get all the id from the receivers
+  const receiverIDs = sentRequests.map(user => user['id']);
+
+  console.log("receiverIDs are", receiverIDs);
 
   // automatically update the search list
   const [search, setSearch] = useState('');
   const updateSearch = (userInput) => setSearch(userInput);
+
+  // const [button, setButton] = useState('blue');
+
+  // const [testingText, setText] = useState('beginning');
+
+  const addFriend = function(receiverID) {
+    api.post(`/users/request/${receiverID}`)
+    .then((res) => {
+      const user = res.data.user;
+      dispatchRequest({type: ADD_PENDING_REQ, value: user});
+      setButton("red");
+      setText("after hitting add friend button");
+    });
+  };
+
+  const cancelFriendRequest = function(receiverID) {
+    api.post(`/users/request/${receiverID}/delete`)
+    .then((res) => {
+      // console.log("in the cancelFriendRequest function");
+      const user = res.data.user;
+      dispatchRequest({type: DELETE_PENDING_REQ, value: user});
+      setButton("yellow");
+      setText("after hitting remove request button");
+    });
+  };
+
 
   return (
     <View>
@@ -28,32 +65,62 @@ export default function AddFriendsScreen({navigation}) {
         updateSearch={updateSearch} // keeping update for the text in the search bar
         search={search}
       />
+
+      {/* <Text>{testingText}</Text> */}
       <ScrollView style={styles.gameListContainer}>
         {
-          // allUsers.map((user, index) => (
-          //   user['name'].includes(search) && !allFriends.includes(game['id']) &&
-          //   <GameListItem
-          //     key={index}
-          //     game={game}
-          //     onSelect={onSelect}
-          //   />
-          // ))
+          allUsers.map((user, index) => (
+            user['name'].includes(search) && !allFriendsID.includes(user['id']) && (userId !== user['id']) &&
 
+            <View style={styles.flexParent} key= {index}>
+              <View style={styles.imageContainer}>
+                <Avatar
+                  rounded
+                  size="large"
+                  source={{uri: user.avatar}}
+                />
+              </View>
 
+              <View style={styles.textContainer}>
+                <Text style = {styles.nameStyle}>
+                  {user.name}
+                </Text>
 
+                {
+                  !receiverIDs.includes(user['id']) &&
+                  <Button
+                    buttonStyle={
+                      styles.button
+                      // {backgroundColor: button}
+                    }
+                    title={"Add friend "}
+                    type='outline'
+                    // iconRight={true}
+                    onPress={ ()=> {
+                      addFriend(user.id);
+                    }}
+                  />
+                }
 
+                {
+                  receiverIDs.includes(user['id']) &&
+                  <Button
+                    buttonStyle={styles.button}
+                    title={"Cancal request"}
+                    type='outline'
+                    // iconRight={true}
+                    onPress={ ()=> {
+                      cancelFriendRequest(user.id);
+                    }}
+                  />
+                }
 
-
-
-
-
+              </View>
+            </View>
+          ))
 
         }
       </ScrollView>
-      <Button
-        onPress={()=> ( chooseGameAction() )}
-        title={"Add Game"}
-      />
       <Button
         onPress={()=> navigation.goBack()}
         title={"back"}

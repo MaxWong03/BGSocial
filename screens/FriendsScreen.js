@@ -4,7 +4,8 @@ import { Header, Avatar, Button, Icon } from "react-native-elements";
 import { api } from '../api';
 import useFriendsData from '../hooks/useFriendsData';
 import { getUserInfo } from './../hooks/sessionContext';
-
+// get all pending request sent by this user
+import PendingRequest from '../hooks/PendingRequest';
 
 export default function FriendsScreen({ navigation }) {
 
@@ -18,14 +19,27 @@ export default function FriendsScreen({ navigation }) {
     api.get("/users").then((res) => {
       setAllUsers(res.data.users);
     });
-  }, [])
+  }, []);
+
+  const [requests, setRequests] = useState(["testing"]);
 
   const { state: friendsList, dispatchState } = useFriendsData();
+
+  const {state: sentRequests, dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ} = PendingRequest();
+
+
+
+  // console.log("the sent request is", sentRequests);
 
   const goToAddFriends = function (){
     navigation.navigate('AddFriends', {
       allUsersInDB: allUsers,
-      allFriends: friendsList
+      allFriends: friendsList,
+      dispatchState,
+      sentRequests,
+      dispatchRequest,
+      ADD_PENDING_REQ,
+      DELETE_PENDING_REQ
     })
   };
 
@@ -70,7 +84,11 @@ export default function FriendsScreen({ navigation }) {
                       title={"More info "}
                       type='outline'
                       iconRight={true}
-                      // onPress={ onPress }
+                      onPress={ 
+                        () => navigation.navigate('UserMoreInfo', {
+                          user: person
+                        })
+                       }
                       icon={
                         <Icon
                           size={20}

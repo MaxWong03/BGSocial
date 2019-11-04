@@ -15,6 +15,7 @@ import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 import AddFriendsScreen from '../screens/AddFriendsScreen'
+import FriendMoreInfoScreen from '../screens/FriendMoreInfo';
 
 
 const config = Platform.select({
@@ -102,6 +103,7 @@ const FriendsStack = createStackNavigator(
   {
     ShowFriends: FriendsScreen,
     AddFriends: AddFriendsScreen,
+    UserMoreInfo: FriendMoreInfoScreen
   },
   config
 )

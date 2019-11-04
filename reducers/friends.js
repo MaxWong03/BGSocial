@@ -1,9 +1,16 @@
 const SET_FRIENDS = "SET_FRIENDS"
+const ADD_FRIEND = "ADD_FRIEND"
 
 const stateLookup = {
   [SET_FRIENDS]: (state, value) => {
     return value;
-  }
+  },
+  ADD_FRIEND: (state, value) =>{
+    return [...state, value];
+  },
+  // REMOVE_FRIEND: (state, value) =>{
+  //   return 
+  // }
 }
 
 export default function reducer(state, action) {
@@ -14,4 +21,4 @@ export default function reducer(state, action) {
   }
 };
 
-export { SET_FRIENDS, stateLookup }
+export { SET_FRIENDS, stateLookup, ADD_FRIEND }
