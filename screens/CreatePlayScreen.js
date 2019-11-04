@@ -17,10 +17,10 @@ export default function CreatePlayScreen() {
   const { avatar, id, name } = userData;
   const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(id);
   const [gameRecord, setGameRecord] = useState([]);
-  const [recordDate, setRecordTime] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
   const createScoreAction = () => {
-    console.log('timeSlots:', timeSlots);
+    console.log('date:', date);
     console.log('scoreList:', scoreList);
     console.log('gameRecord:', gameRecord);
     console.log('winnerList:', getWinners());
@@ -30,8 +30,8 @@ export default function CreatePlayScreen() {
   return (
     <>
       <RecordTime 
-        recordDate={recordDate}
-        setRecordTime={setRecordTime}
+        date={date}
+        setDate={setDate}
       />
       <RecordGame
         userGames={userGames}
