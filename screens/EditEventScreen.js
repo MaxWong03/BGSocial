@@ -5,6 +5,7 @@ import MapView, { Marker } from 'react-native-maps';
 import EventDates from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
+import EventTitle from '../components/CreateEventTitle';
 import { useNavigationParam } from 'react-navigation-hooks';
 import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
@@ -19,6 +20,7 @@ export default function EditEventScreen() {
   const refreshEventScreen = useNavigationParam('refreshEventScreen')
   const { event_dates, event_attendants, event_games } = event;
   const { location: presetLocation } = event_dates[0];
+  const [eventTitle, setEventTitle] = useState(event.title);
 
   const timeArray = event_dates.map((date) => {
     return {
@@ -32,7 +34,6 @@ export default function EditEventScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot(event_attendants);
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot(timeArray);
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation(presetLocation);
-
 
   const editEventAction = () => {
     console.log('timeSlots:', timeSlots);
@@ -62,10 +63,10 @@ export default function EditEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              {/* <EventTitle
+              <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              /> */}
+              />
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />
