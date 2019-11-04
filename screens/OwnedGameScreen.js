@@ -78,7 +78,6 @@ export default function OwnedGameScreen({ navigation }) {
 }
 
 OwnedGameScreen.navigationOptions = ({navigation}) => { // title at the top
-  console.log('navigationOpeitons')
   const numberOfGames = navigation.getParam('numberOfGames') || 0;
 
   const options = {

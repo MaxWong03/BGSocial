@@ -1,17 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, Image, ScrollView, Alert } from 'react-native';
-import { formatDateWithTime } from './../utils';
-import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
+import { formatDateWithTime, formatTime } from './../utils';
 import IconBar from '../components/IconBar';
 import { api } from './../api';
-import { Overlay, Button, Text } from 'react-native-elements';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { Text, ListItem } from 'react-native-elements';
 
 export default function SinglePlayScreen({ navigation }) {
   const play = navigation.getParam('play');
-  const games = navigation.getParam('games');
+  const game = navigation.getParam('game');
   const users = navigation.getParam('users');
-  const imageUrl = navigation.getParam('imageUrl');
+
   const iconBarItems = [
     {
       iconName: 'edit', textInfo: 'Edit Play',
@@ -50,8 +48,8 @@ export default function SinglePlayScreen({ navigation }) {
     const winnerInfo = [];
     const winners = playsUsers.filter(player => player.is_winner === true);
 
-    winners.forEach((winner, index) => {
-      winnerInfo.push({ name: users[winner.id].name, score: winner.score })
+    winners.forEach((winner) => {
+      winnerInfo.push({ name: users[winner.user_id].name, score: winner.score })
     });
 
     return winnerInfo;
@@ -62,37 +60,62 @@ export default function SinglePlayScreen({ navigation }) {
     const chosenDateViewData = [
       {
         iconName: 'calendar-o',
-        iconColor: '#bdbdbd',
-        textInfo: formatDateWithTime(play.date),
+        textInfo: formatDateWithTime(play.date) || 'No Date',
       },
       {
         iconName: 'star-o',
-        iconColor: '#bdbdbd',
-        textInfo: `Winners: ${getWinners(play.playsUsers).map(winner => winner.name).join(', ')}`,
+        textInfo: `Winners: ${getWinners(play.playsUsers).map(winner => winner.name).join(', ') || 'None'}`,
+      },
+      {
+        iconName: 'clock-o',
+        textInfo: `Duration: ${formatTime(play.duration) || 'None'}`,
       }
     ];
     return (
-      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={10} />
+      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={2} />
     )
   }
 
   return (
     <ScrollView style={styles.mainContainer}>
-      <View style={styles.flexParent}>
-        <Image
-          style={styles.image}
-          source={{ uri: imageUrl }}
-        />
-      </View>
+      <ListItem
+        leftAvatar={{ size: 120, rounded: false, source: { uri: game.image } }}
+        title={game.name}
+        containerStyle={{ padding: 10 }}
+        pad={10}
+        titleStyle={{ paddingLeft: 8, paddingBottom: 10, fontSize: 18 }}
+        subtitle={
+          <View>
+            {renderPlayInfo()}
+          </View>
+        }
+      />
       <View style={styles.iconBar}>
         <IconBar
           iconsData={iconBarItems}
           horizontal={true}
         />
       </View>
-      <View style={styles.textContainer}>
-        {renderPlayInfo()}
-      </View>
+      <ListItem
+        title='Player Score'
+        bottomDivider
+      />
+      {
+        play.playsUsers.map((player) => (
+          <ListItem
+            key={player.id}
+            leftIcon={{ name: 'star-o', type: 'font-awesome', color: player.is_winner ? 'green' : 'gray' }}
+            title={users[player.user_id].name}
+            badge={{ value: `Score: ${player.score}`, badgeStyle: { padding: 10 } }}
+            subtitle={
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
+                <Text>{player.is_winner ? "Winner" : ""}</Text>
+              </View>
+            }
+            bottomDivider
+          />
+        ))
+      }
     </ScrollView>
   );
 }

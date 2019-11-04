@@ -3,7 +3,7 @@ import { ListItem, Icon } from 'react-native-elements';
 import { api } from '../api';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import { formatDateWithTime } from '../utils';
+import { formatDateWithTime, formatTime } from '../utils';
 
 export default function PlaysScreen({ navigation }) {
   const [state, setPlay] = useState({ plays: [], games: {} });
@@ -35,15 +35,14 @@ export default function PlaysScreen({ navigation }) {
               subtitle={
                 <View>
                   <Text>Date: {formatDateWithTime(play.date)}</Text>
-                  <Text>Duration: {play.duration}</Text>
+                  <Text>Duration: {formatTime(play.duration)}</Text>
                   <Text>Players: {usersLine(play)}</Text>
                 </View>
               }
               onPress={() => navigation.navigate('SinglePlay', {
                 play: play,
-                games: state.games,
+                game: state.games[play.game_id],
                 users: state.users,
-                imageUrl: state.games[play.game_id].image
               })}
               bottomDivider
             />

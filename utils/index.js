@@ -4,6 +4,21 @@ const formatDateWithTime = function (date) {
   return moment(date).format('ddd, MMM DD [at] hh:mm A');
 }
 
+const formatTime = function (time) {
+  if (!time) {
+    return '';
+  }
+  const [hour, minute] = time.split(':').map(i => Number(i));
+  let timeString = '';
+  if (hour) {
+    timeString += `${hour}h`;
+  }
+  if (minute) {
+    timeString += ` ${minute}m`;
+  }
+  return timeString.trim();
+}
+
 const arrayToObject = function (objectsArray, key) { // key === 'id'
   const object = {};
   objectsArray.forEach(item => {
@@ -26,6 +41,7 @@ function getConfirmedAttendants(event) {
 
 export {
   formatDateWithTime,
+  formatTime,
   arrayToObject,
   getEventChosenEventDate,
   getEventMainImage,

@@ -5,7 +5,6 @@ import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 
 
 export default function GameInfo({ game }) {
-  console.log("Entered into GameInfo component page");
   const userID = 1;
 
   const playTimeMin = game.play_time_min;
