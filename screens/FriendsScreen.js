@@ -6,6 +6,8 @@ import useFriendsData from '../hooks/useFriendsData';
 import { getUserInfo } from './../hooks/sessionContext';
 // get all pending request sent by this user
 import PendingRequest from '../hooks/PendingRequest';
+// get all received request
+import ReceivedRequest from '../hooks/ReceivedRequest';
 
 export default function FriendsScreen({ navigation }) {
 
@@ -21,26 +23,39 @@ export default function FriendsScreen({ navigation }) {
     });
   }, []);
 
-  const [requests, setRequests] = useState(["testing"]);
+  const { state: friendsList, dispatchFriends, ADD_FRIEND, REMOVE_FRIEND } = useFriendsData();
 
-  const { state: friendsList, dispatchState } = useFriendsData();
+  const { state: receivedRequests, dispatchReceivedRequest, REJECT_REQUEST } = ReceivedRequest();
 
   const {state: sentRequests, dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ} = PendingRequest();
-
-
-
-  // console.log("the sent request is", sentRequests);
 
   const goToAddFriends = function (){
     navigation.navigate('AddFriends', {
       allUsersInDB: allUsers,
       allFriends: friendsList,
-      dispatchState,
+      dispatchFriends,
       sentRequests,
       dispatchRequest,
       ADD_PENDING_REQ,
       DELETE_PENDING_REQ
     })
+  };
+
+  const confirmFriendRequest = function (senderID){
+    api.post(`/users/request/${senderID}/confirm`)
+    .then((res => {
+      const newFriend = res.data.user;
+      dispatchFriends({type: ADD_FRIEND, value: newFriend});
+      dispatchReceivedRequest( {type: REJECT_REQUEST, value: newFriend} );
+    }))
+  };
+
+  const unfriend = function (userID){
+    api.post(`/users/request/${userID}/delete`)
+    .then((res => {
+      const user = res.data.user;
+      dispatchFriends({type: REMOVE_FRIEND, value: user});
+    }))
   };
 
   return (
@@ -60,6 +75,49 @@ export default function FriendsScreen({ navigation }) {
         containerStyle={{height: 'auto'}}
       />
       <ScrollView style={styles.gameListContainer}>
+        <Text style={ styles.titleStyle }>Friend request</Text>
+        {
+          receivedRequests.length !== 0 ?
+            receivedRequests.map((person, index) => {
+              return (
+                <View style={styles.flexParent} key= {index}>
+                  <View style={styles.imageContainer}>
+                    <Avatar
+                      rounded
+                      size="large"
+                      source={{uri: person.avatar}}
+                    />
+                  </View>
+
+                  <View style={styles.textContainer}>
+                    <Text style = {styles.nameStyle}>
+                      {person.name}
+                    </Text>
+
+                    <Button
+                      buttonStyle={styles.button}
+                      title={"Confirm "}
+                      type='outline'
+                      iconRight={true}
+                      onPress={ 
+                        () => confirmFriendRequest(person.id)
+                       }
+                      icon={
+                        <Icon
+                          size={20}
+                          name={'info-circle'}
+                          type='font-awesome'
+                          color='#bdbdbd'
+                        />
+                      }
+                    />
+                  </View>
+                </View>
+              );
+            })
+          : <Text>No Friend Requests</Text>
+        }
+
         <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>
         {
           friendsList.length !== 0 ?
@@ -100,10 +158,10 @@ export default function FriendsScreen({ navigation }) {
                     />
                     <Button
                       buttonStyle={styles.button}
-                      title={"Unfriend "}
+                      title={"Unfriend"}
                       type='outline'
                       iconRight={true}
-                      // onPress={()=> ( removeEvent(game) )}
+                      onPress={()=> ( unfriend(person.id) )}
                       icon={
                         <Icon
                           name="minus-circle"

@@ -16,7 +16,7 @@ export default function AddFriendsScreen({navigation}) {
   const allUsers = navigation.getParam("allUsersInDB");
   const allFriendsID = navigation.getParam("allFriends").map(user => user['id']);
 
-  const dispatchState = navigation.getParam("dispatchState");
+  const dispatchFriends = navigation.getParam("dispatchFriends");
   const ADD_FRIEND = navigation.getParam("ADD_FRIEND");
 
   let sentRequests = navigation.getParam("sentRequests");
@@ -27,7 +27,7 @@ export default function AddFriendsScreen({navigation}) {
   // get all the id from the receivers
   const receiverIDs = sentRequests.map(user => user['id']);
 
-  console.log("receiverIDs are", receiverIDs);
+  // console.log("receiverIDs are", receiverIDs);
 
   // automatically update the search list
   const [search, setSearch] = useState('');
@@ -42,8 +42,8 @@ export default function AddFriendsScreen({navigation}) {
     .then((res) => {
       const user = res.data.user;
       dispatchRequest({type: ADD_PENDING_REQ, value: user});
-      setButton("red");
-      setText("after hitting add friend button");
+      // setButton("red");
+      // setText("after hitting add friend button");
     });
   };
 
@@ -53,11 +53,10 @@ export default function AddFriendsScreen({navigation}) {
       // console.log("in the cancelFriendRequest function");
       const user = res.data.user;
       dispatchRequest({type: DELETE_PENDING_REQ, value: user});
-      setButton("yellow");
-      setText("after hitting remove request button");
+      // setButton("yellow");
+      // setText("after hitting remove request button");
     });
   };
-
 
   return (
     <View>
