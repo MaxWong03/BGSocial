@@ -50,6 +50,16 @@ export default function FriendsScreen({ navigation }) {
       dispatchReceivedRequest( {type: REJECT_REQUEST, value: newFriend} );
     }))
   };
+  
+  const rejectFriendRequest = function (senderID){
+    api.post(`/users/request/${senderID}/delete`)
+    .then((res => {
+      const newFriend = res.data.user;
+      dispatchFriends({type: REMOVE_FRIEND, value: newFriend});
+      dispatchReceivedRequest( {type: REJECT_REQUEST, value: newFriend} );
+    }))
+  };
+
 
   const unfriend = function (userID){
     api.post(`/users/request/${userID}/delete`)
@@ -135,13 +145,13 @@ export default function FriendsScreen({ navigation }) {
             selectedIndex={screenState}
             onPress={slider}
           />
-        
+         <Text style={ styles.titleStyle }>Friend request</Text>
         {
           screenState === 1 && receivedRequests.length !== 0 ?
           receivedRequests.map((person, index) => {
             return (
               <View style={styles.flexParent} key= {index}>
-                <Text style={ styles.titleStyle }>Friend request</Text>
+               
                 <View style={styles.imageContainer}>
                   <Avatar
                     rounded
@@ -172,6 +182,24 @@ export default function FriendsScreen({ navigation }) {
                       />
                     }
                   />
+
+                  <Button
+                    buttonStyle={styles.button}
+                    title={"Reject "}
+                    type='outline'
+                    iconRight={true}
+                    onPress={ 
+                      () => rejectFriendRequest(person.id)
+                    }
+                    icon={
+                      <Icon
+                        size={20}
+                        name={'info-circle'}
+                        type='font-awesome'
+                        color='#bdbdbd'
+                      />
+                    }
+                  />
                 </View>
               </View>
             );
@@ -180,13 +208,13 @@ export default function FriendsScreen({ navigation }) {
         <Text>No Friend Requests</Text>
       }
 
-       
+       <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>
       {
         screenState === 0 && friendsList.length !== 0 ?
         friendsList.map((person, index) => {
           return (
             <View style={styles.flexParent} key= {index}>
-              <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>
+              
               <View style={styles.imageContainer}>
                 <Avatar
                   rounded

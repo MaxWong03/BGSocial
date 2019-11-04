@@ -4,9 +4,6 @@ import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 
 export default function FriendMoreInfoScreen({navigation}) {
   const individualUser = navigation.getParam("user");
-
-  console.log("Entered into User More Info Screen page");
-  console.log(individualUser);
   
   return (
     <View>

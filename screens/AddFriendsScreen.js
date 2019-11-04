@@ -6,6 +6,8 @@ import { api } from './../api';
 import FriendSearchBar from './../components/FriendSearchBar';
 import { getUserInfo } from './../hooks/sessionContext';
 
+import NotFriendUser from '../components/NotFriendUser';
+
 export default function AddFriendsScreen({navigation}) {
 
   // get the userID to avoid seeing this in the DB
@@ -33,28 +35,22 @@ export default function AddFriendsScreen({navigation}) {
   const [search, setSearch] = useState('');
   const updateSearch = (userInput) => setSearch(userInput);
 
-  // const [button, setButton] = useState('blue');
-
-  // const [testingText, setText] = useState('beginning');
+  // const [buttonText, setButtonText] = useState('Add friend');
+  // // const [testingText, setText] = useState('beginning');
 
   const addFriend = function(receiverID) {
     api.post(`/users/request/${receiverID}`)
     .then((res) => {
       const user = res.data.user;
       dispatchRequest({type: ADD_PENDING_REQ, value: user});
-      // setButton("red");
-      // setText("after hitting add friend button");
     });
   };
 
   const cancelFriendRequest = function(receiverID) {
     api.post(`/users/request/${receiverID}/delete`)
     .then((res) => {
-      // console.log("in the cancelFriendRequest function");
       const user = res.data.user;
       dispatchRequest({type: DELETE_PENDING_REQ, value: user});
-      // setButton("yellow");
-      // setText("after hitting remove request button");
     });
   };
 
@@ -70,6 +66,12 @@ export default function AddFriendsScreen({navigation}) {
         {
           allUsers.map((user, index) => (
             user['name'].includes(search) && !allFriendsID.includes(user['id']) && (userId !== user['id']) &&
+            // <NotFriendUser
+            //   dispatchRequest = { dispatchRequest }
+            //   ADD_PENDING_REQ = { ADD_PENDING_REQ }
+            //   DELETE_PENDING_REQ = { DELETE_PENDING_REQ }
+            // />
+            
 
             <View style={styles.flexParent} key= {index}>
               <View style={styles.imageContainer}>
