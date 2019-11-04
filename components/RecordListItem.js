@@ -5,7 +5,6 @@ import { Slider } from 'react-native-elements';
 
 
 export default function RecordListItem({ title, leftAvatar, id, deleteRecordFriend, canDelete, updateScoreList }) {
-  console.log(leftAvatar)
   const [score, setScore] = useState(0)
   const onValueChange = (newValue) => {
     newValue = Math.round(newValue * 100)

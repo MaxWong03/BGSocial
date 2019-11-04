@@ -20,8 +20,6 @@ export default function EditEventScreen() {
   const { event_dates, event_attendants, event_games } = event;
   const { location: presetLocation } = event_dates[0];
 
-  console.log(event.title);
-
   const timeArray = event_dates.map((date) => {
     return {
       id: id(),
