@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { ListItem, Icon, Button } from 'react-native-elements';
 import DatePicker from './DatePicker';
+import { formatDateWithTime } from '../utils'
 
 export default function TimeListItem({ id, changeTimeSlot, deleteTimeSlot, presetDate }) {
   const [date, setDate] = useState(presetDate ? new Date(presetDate) : new Date());
@@ -11,7 +12,7 @@ export default function TimeListItem({ id, changeTimeSlot, deleteTimeSlot, prese
   }
   return (
     <ListItem
-      title={date.toString()}
+      title={formatDateWithTime(date)}
       leftIcon={
         <Icon
           name='date-range'

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ListItem, Icon, Button } from 'react-native-elements';
 import DatePicker from './DatePicker';
+import { formatDateWithTime } from '../utils'
 
 
 export default function RecordTime({ date, setDate }) {
@@ -10,7 +11,7 @@ export default function RecordTime({ date, setDate }) {
       title={'Set Play Time'}
     />
     <ListItem
-      title={date.toString()}
+      title={formatDateWithTime(date)}
       leftIcon={
         <Icon
           name='date-range'
