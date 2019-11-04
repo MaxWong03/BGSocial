@@ -16,8 +16,11 @@ export default function EditEventScreen() {
   const event = useNavigationParam('event');
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
+  const refreshEventScreen = useNavigationParam('refreshEventScreen')
   const { event_dates, event_attendants, event_games } = event;
   const { location: presetLocation } = event_dates[0];
+
+  console.log(event.title);
 
   const timeArray = event_dates.map((date) => {
     return {

@@ -71,17 +71,14 @@ export default function useLocation(presetLocation) {
   //on load
   useEffect(() => {
     if (presetLocation) {
-      console.log('\ngetCordsByAddress')
       getCordsByAddress();
     } else {
-      console.log('\ngetAddressByIP')
       getAddressByIP();
     }
   }, []);
 
   //on lat/long change
   useEffect(() => {
-    console.log('\ngetAddressByCords')
     getAddressByCords();
   }, [longitude])
 

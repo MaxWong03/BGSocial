@@ -84,7 +84,8 @@ export default function EventsScreen({ navigation }) {
                 setConfirmEvent,
                 notGoingToEvent,
                 userGames,
-                userFriends
+                userFriends,
+                refreshEventScreen
               })}
             />
           );

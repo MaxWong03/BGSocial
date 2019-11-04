@@ -20,6 +20,7 @@ export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
+  const refreshEventScreen = useNavigationParam('refreshEventScreen')
 
   function openDeleteModal() {
     Alert.alert(
@@ -267,7 +268,8 @@ export default function SingleEventScreen({ navigation }) {
         onPress={() => navigation.navigate('EditEvent', {
           event: state.event,
           userGames,
-          userFriends
+          userFriends,
+          refreshEventScreen
         })}
         iconStyle={styles.icon}
       />
