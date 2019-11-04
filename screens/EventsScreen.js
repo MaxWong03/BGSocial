@@ -14,6 +14,11 @@ export default function EventsScreen({ navigation }) {
   const { state: userGames, loadGames } = useGamesData();
   const { state: userFriends } = useFriendsData();
 
+  function onWillFocus (payload) {
+    loadGames();
+    refreshEventScreen();
+  }
+
   const {
     state,
     confirmEvents,
@@ -23,15 +28,9 @@ export default function EventsScreen({ navigation }) {
     goingToEvent,
     setConfirmEvent,
     refreshEventScreen,
-    notGoingToEvent
+    notGoingToEvent,
+    openEvents
   } = useEventsData();
-
-  //third view
-  // useEffect(()={
-  //   if (screenState == 2 ) {
-  //     updateOpenEvents();
-  //   }
-  // }, screenState );
 
   const slider = function (currentScreen) {
     setButtonGroup(currentScreen);
@@ -50,17 +49,12 @@ export default function EventsScreen({ navigation }) {
   else if (screenState == 1) {
     eventsToShow = pendingEvents(state, userId);
   }
-  //third view
-  // else if (screenState ==2) {
-  //   eventsToShow = state.openEvents;
-  // }
+  else if (screenState == 2) {
+    eventsToShow = openEvents(state, userId);
+  }
   return (
     <View style={{ height: "100%" }}>
-      <NavigationEvents
-      onWillFocus={payload => {
-        loadGames();
-      }}
-      />
+      <NavigationEvents onWillFocus={onWillFocus}/>
       <ScrollView>
         <ButtonGroup
           buttons={buttons}

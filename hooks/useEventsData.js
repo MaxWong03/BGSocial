@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import { api } from './../api';
 import reduceState from "../reducers/events";
 import { arrayToObject } from './../utils';
@@ -11,13 +11,17 @@ export function useEventsData() {
     openEvents: {}
   });
 
-  //third view
-  // const updateOpenEvents() {
-  //   Axios.get()
-  //     .then(events -> {
-  //       dispatchState(events, 'openEvents')
-  //     })
-  // }
+  async function updateOpenEvents() {
+    try {
+      const response = await api.get('events/open-events');
+      const eventsAsObject = arrayToObject(response.data, 'id');
+      dispatchState({ value: eventsAsObject, type: 'setOpenEvents' });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+
 
   function confirmEvents(state, userId) {
     return Object.values(state.events).filter(event => (event.chosen_event_date.date && userConfirmed(event, userId) && isUserGoing(event, userId)))
@@ -33,8 +37,15 @@ export function useEventsData() {
   };
 
   function pendingEvents(state, userId) {
-    return Object.values(state.events).filter(event => (!event.chosen_event_date.date && isUserGoing(event, userId))
-      || (!userConfirmed(event, userId) && isUserGoing(event, userId)))
+    return Object
+      .values(state.events)
+      .filter(event => (!event.chosen_event_date.date && isUserGoing(event, userId))
+        || (!userConfirmed(event, userId) && isUserGoing(event, userId)))
+  };
+
+  function openEvents(state, userId) {
+    console.log('from openEvents function', state.openEvents)
+    return Object.values(state.openEvents);
   };
 
   async function loadEvents() {
@@ -62,22 +73,30 @@ export function useEventsData() {
   }
 
   function goingToEvent(eventId, userId) {
+    // Assistance confirmation
+    console.log('goingToEvent')
     refreshEventScreen()
   }
 
   function setConfirmEvent(eventId, eventDateId) {
+    // This is when the owner chooses a date (NOT FOR ASSISTANCE CONFIRMATION)
+    console.log('setConfirmEvent')
     return api
       .post(`/events/${eventId}/dates/${eventDateId}`)
-      .then((res) => loadEvents());
+      .then((res) => refreshEventScreen());
   }
 
   function refreshEventScreen() {
+    updateOpenEvents();
     loadEvents();
   }
 
-  useEffect(() => {
-    loadEvents();
-  }, []);
+  // useEffect(() => {
+  //   loadEvents()
+  //     .then(() => {
+  //       updateOpenEvents();
+  //     })
+  // }, []);
 
   return {
     state,
@@ -89,7 +108,9 @@ export function useEventsData() {
     goingToEvent,
     setConfirmEvent,
     refreshEventScreen,
-    notGoingToEvent
+    notGoingToEvent,
+    updateOpenEvents,
+    openEvents
   };
 
 };

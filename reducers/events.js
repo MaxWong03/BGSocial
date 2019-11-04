@@ -22,7 +22,11 @@ const stateLookup = {
     const eventAttendants = { ...state.events[value.event].event_attendants }; // Copy (immutability)
     delete events[value];
     return { ...state, events };
-  }
+  },
+  setOpenEvents: (state, value) => { // value = { eventId: event }
+  // For setting all events together
+  return { ...state, openEvents: value };
+}
 };
 
 export default function reduceState(state, action) {

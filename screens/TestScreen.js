@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, Alert } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
-import {
-  formatDateWithTime,
-  getEventMainImage,
-  getEventChosenEventDate,
-  getConfirmedAttendants
-} from './../utils';
-import AttendanceList from '../components/AttendanceList';
-import EventItem from '../components/EventItem';
+import React from 'react';
+import { Text } from 'react-native';
 
 
 

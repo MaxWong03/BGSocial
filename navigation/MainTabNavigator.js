@@ -5,7 +5,8 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
-import PlayScreen from '../screens/PlayScreen';
+import PlaysScreen from '../screens/PlaysScreen';
+import SinglePlayScreen from '../screens/SinglePlayScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -34,8 +35,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-home`
+          : 'md-home'
       }
     />
   ),
@@ -49,7 +50,6 @@ const EventsStack = createStackNavigator(
     CreateEvent: CreateEventScreen,
     SingleEvent: SingleEventScreen,
     EditEvent: EditEventScreen
-
   },
   config
 );
@@ -65,16 +65,17 @@ EventsStack.path = '';
 
 const PlaysStack = createStackNavigator(
   {
-    Play: PlayScreen,
+    Plays: PlaysScreen,
+    SinglePlay: SinglePlayScreen,
     CreatePlay: CreatePlayScreen
   },
   config
 );
 
 PlaysStack.navigationOptions = {
-  tabBarLabel: 'Records',
+  tabBarLabel: 'Plays',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-stats' : 'md-stats'} />
+    <TabBarIcon focused={focused} name={'dice'} type={'FontAwesome5'} />
   ),
 };
 
@@ -96,24 +97,6 @@ TestStack.navigationOptions = {
 
 TestStack.path = '';
 
-
-const CreateEvent = createStackNavigator(
-  {
-    CreateEvents: CreateEventScreen,
-  },
-  config
-)
-
-CreateEvent.navigationOptions = {
-  tabBarLabel: 'Create',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-};
-
-CreateEvent.path = '';
-
-
 const GamesStack = createStackNavigator(
   {
     OwnedGame: OwnedGameScreen,
@@ -126,7 +109,7 @@ const GamesStack = createStackNavigator(
 GamesStack.navigationOptions = {
   tabBarLabel: 'Games',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'logo-snapchat' : 'logo-snapchat'} />
   ),
 };
 
@@ -137,7 +120,6 @@ const tabNavigator = createBottomTabNavigator({
   EventsStack,
   PlaysStack,
   TestStack,
-  CreateEvent,
   GamesStack
 });
 
