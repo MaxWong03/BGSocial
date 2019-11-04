@@ -4,9 +4,15 @@ import { api } from '../api';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { formatDateWithTime, formatTime } from '../utils';
+import { useNavigation } from 'react-navigation-hooks';
+import useFriendsData from '../hooks/useFriendsData';
+import useGamesData from '../hooks/useGamesData';
 
 export default function PlaysScreen({ navigation }) {
   const [state, setPlay] = useState({ plays: [], games: {} });
+  const { navigate } = useNavigation();
+  const { state: userFriends } = useFriendsData();
+  const { state: userGames } = useGamesData();
 
   async function loadPlays() {
     const plays = await api.get(`/plays/`);
@@ -54,7 +60,10 @@ export default function PlaysScreen({ navigation }) {
             name='plus-square'
             type='font-awesome'
             color='white'
-            onPress={() => console.log("add play")}
+            onPress={() => navigate('CreatePlay', {
+              userFriends,
+              userGames
+            })}
             iconStyle={styles.icon}
           />
         </View>

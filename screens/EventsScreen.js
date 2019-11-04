@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { useEventsData } from './../hooks/useEventsData';

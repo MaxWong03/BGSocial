@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-export default function useLocation() {
+export default function useLocation(presetLocation) {
   const [location, setLocation] = useState();
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
@@ -27,7 +27,7 @@ export default function useLocation() {
 
     } catch (e) {
       console.log(e);
-      const lighthouseLocation = {latitude: 49.281233, longitude: -123.115241};
+      const lighthouseLocation = { latitude: 49.281233, longitude: -123.115241 };
       setLatitude(lighthouseLocation.latitude);
       setLongitude(lighthouseLocation.longitude);
       return { latitude, longitude };
@@ -48,24 +48,39 @@ export default function useLocation() {
 
   async function getAddressByCords() {
     try {
-      let addressResponse = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=5bd73585b2364285bae1cf2cf7e09da7`)
-      const { formatted: address } = addressResponse.data.results[0];
-      setLocation(address);
-
+      if (latitude && longitude) {
+        let addressResponse = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=5bd73585b2364285bae1cf2cf7e09da7`)
+        const { formatted: address } = addressResponse.data.results[0];
+        setLocation(address);
+      }
     } catch (e) {
       console.log(e);
     }
   }
 
+  async function getCordsByAddress() {
+    try {
+        let cordsResponse = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${presetLocation}&key=5bd73585b2364285bae1cf2cf7e09da7`)
+        const { geometry } = cordsResponse.data.results[0]
+        setLatitude(geometry.lat);
+        setLongitude(geometry.lng);
+    } catch (e) {
+      console.log('getCordsByAddress Error:', e)
+    }
+  }
   //on load
   useEffect(() => {
-    getAddressByIP();
+    if (presetLocation) {
+      getCordsByAddress();
+    } else {
+      getAddressByIP();
+    }
   }, []);
 
   //on lat/long change
   useEffect(() => {
     getAddressByCords();
-  }, [longitude, latitude])
+  }, [longitude])
 
   return {
     location,

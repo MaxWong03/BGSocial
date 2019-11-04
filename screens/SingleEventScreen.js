@@ -22,6 +22,7 @@ export default function SingleEventScreen({ navigation }) {
   const [count, setCount] = useState(state.spots || 0);
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
+  const refreshEventScreen = useNavigationParam('refreshEventScreen')
 
   function deleteModal() {
     Alert.alert(
@@ -297,7 +298,8 @@ export default function SingleEventScreen({ navigation }) {
         onPress: () => navigation.navigate('EditEvent', {
           event: state.event,
           userGames,
-          userFriends
+          userFriends,
+          refreshEventScreen
         })
       },
     ];
