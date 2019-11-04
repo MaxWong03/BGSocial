@@ -58,6 +58,9 @@ export default function FriendsScreen({ navigation }) {
     }))
   };
 
+
+  // 
+
   return (
     <>
       <Header

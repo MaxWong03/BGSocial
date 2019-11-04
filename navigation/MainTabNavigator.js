@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -108,10 +109,26 @@ const FriendsStack = createStackNavigator(
   config
 )
 
+const BadgedIcon = withBadge(4)(Icon)
+// @connect(state => ({
+//   notifications: state.notifications,
+// }))
+// @withBadge(props => props.notifications.length)
+
 FriendsStack.navigationOptions = {
   tabBarLabel: 'Friends',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+    <>
+      <BadgedIcon type="ionicon" containerStyle = { { position:'absolute', top: 0, right: -100 } }/>
+      <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+      {/* <Badge
+        status="error"
+        containerStyle={{ position: 'absolute', top: 0, right: 0,  }}
+        size={50}
+        selected={focused}
+      /> */}
+      
+    </>
   ),
 };
 
