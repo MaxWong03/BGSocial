@@ -28,36 +28,38 @@ export default function CreatePlayScreen() {
     (/^\d+$/.test(newDuration) || !newDuration) && setDuration(newDuration);
   }
 
+  // {
+  //   "date": "2019-09-11T00:00:00.000Z",
+  //   "duration": "05:10:00",
+  //   "game_id": 4,
+  //   "event_id": null,
+  //   "playsUsers": [{
+  //       "score": 56,
+  //       "is_winner": false,
+  //       "user_id": 1
+  //   }]
+  // }
+
   const createScoreAction = () => {
-    console.log('date:', date);
-    console.log('scoreList:', scoreList);
-    console.log('gameRecord:', gameRecord);
-    console.log('duration:', duration);
-    console.log('winnerList:', getWinners());
     const newPlay = {
-      date,
-      duration: "05:10:00",
-      game_id: gameRecord[0],
-      playUsers: scoreList.map(scoreObj => {
+      "date": date,
+      "duration": "05:10:00",
+      "game_id": Number(gameRecord[0]),
+      "event_id": null,
+      "playsUsers": scoreList.map(scoreObj => {
         return {
-          score: scoreObj.score,
-          user_id: scoreObj.id,
-          is_winner: getWinners().includes(scoreObj.id)
+          "score": Number(scoreObj.score),
+          "is_winner": getWinners().includes(scoreObj.id),
+          "user_id": Number(scoreObj.id)
         }
       })
     }
-    api.post(`/plays/`, {
-      "date": "2019-09-11T00:00:00.000Z",
-      "duration": "05:10:00",
-      "game_id": 4,
-      "event_id": null,
-      "playsUsers": [{
-        "score": 56,
-        "is_winner": false,
-        "user_id": 1
-      }]
-    })
+
+    console.log(newPlay);
+
+    api.post(`/plays/`, newPlay)
       .then(() => navigate('Plays'))
+      .catch(err => console.log(err));
   }
 
   return (
