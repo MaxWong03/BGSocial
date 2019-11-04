@@ -14,7 +14,7 @@ export default function EventsScreen({ navigation }) {
   const { state: userGames, loadGames } = useGamesData();
   const { state: userFriends } = useFriendsData();
 
-  function onWillFocus (payload) {
+  function onWillFocus(payload) {
     loadGames();
     refreshEventScreen();
   }
@@ -54,7 +54,7 @@ export default function EventsScreen({ navigation }) {
   }
   return (
     <View style={{ height: "100%" }}>
-      <NavigationEvents onWillFocus={onWillFocus}/>
+      <NavigationEvents onWillFocus={onWillFocus} />
       <ScrollView>
         <ButtonGroup
           buttons={buttons}
@@ -62,29 +62,30 @@ export default function EventsScreen({ navigation }) {
           selectedIndex={screenState}
           onPress={slider}
         />
-        {eventsToShow.map((event) => {
-          return (
-            <EventItem
-              key={event.id}
-              chosenDate={event.chosen_event_date.date}
-              imageUrl={event.event_games[0].image}
-              isOwner={userId === event.owner_id}
-              confirmedAssistance={userConfirmed(event, userId)}
-              attendants={getConfirmedAttendants(event).length}
-              onPress={() => navigation.navigate('SingleEvent', {
-                eventID: event.id,
-                removeEvent,
-                goingToEvent,
-                setConfirmEvent,
-                notGoingToEvent,
-                userGames,
-                userFriends,
-                refreshEventScreen
-              })}
-            />
-          );
-        })}
-
+        <View style={{paddingHorizontal: 14}}>
+          {eventsToShow.map((event) => {
+            return (
+              <EventItem
+                key={event.id}
+                chosenDate={event.chosen_event_date.date}
+                imageUrl={event.event_games[0].image}
+                eventTitle={event.title || event.event_games[0].name}
+                isOwner={userId === event.owner_id}
+                confirmedAssistance={userConfirmed(event, userId)}
+                attendants={getConfirmedAttendants(event).length}
+                onPress={() => navigation.navigate('SingleEvent', {
+                  eventID: event.id,
+                  removeEvent,
+                  goingToEvent,
+                  setConfirmEvent,
+                  notGoingToEvent,
+                  userGames,
+                  userFriends
+                })}
+              />
+            );
+          })}
+        </View>
       </ScrollView>
       <View style={styles.iconBox}>
         <Icon
@@ -122,7 +123,6 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: '#0e92cf',
     borderRadius: 1000,
-    // opacity: 0.8,
     height: 40,
     width: 40,
     justifyContent: 'center',
