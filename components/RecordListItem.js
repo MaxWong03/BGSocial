@@ -22,7 +22,7 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
             size="large"
           />
           {
-            isWinner(score) &&
+            isWinner(score) && score !== 0 &&
             <Badge
               status="success"
               badgeStyle={styles.badgeStyle}

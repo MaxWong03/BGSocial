@@ -11,7 +11,7 @@ export default function RecordDuration() {
         title={'Duration: '}
         leftIcon={
           <Icon
-            name='date-range'
+            name='timer'
             type='material-icons'
           />
         }
