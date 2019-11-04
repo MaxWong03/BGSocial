@@ -24,10 +24,17 @@ export default function useScore(id) {
     setScoreList(newList);
   }
 
+  const isWinner = (score) => {
+    const scoreOnly = scoreList.map(scoreObj => scoreObj.score);
+    const maxScore = Math.max(...scoreOnly);
+    return score === maxScore;
+  }
+
   return {
     scoreList,
     addScoreList,
     updateScoreList,
-    deleteScoreList
+    deleteScoreList,
+    isWinner
   }
 }

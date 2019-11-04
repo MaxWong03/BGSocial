@@ -13,7 +13,7 @@ export default function CreatePlayScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot();
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
-  const {scoreList, addScoreList, updateScoreList, deleteScoreList} = useScore(id);
+  const {scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner} = useScore(id);
   const [gameRecord, setGameRecord] = useState([]);
 
   const createScoreAction = () => {
@@ -35,6 +35,7 @@ export default function CreatePlayScreen() {
         addScoreList={addScoreList}
         updateScoreList={updateScoreList}
         deleteScoreList={deleteScoreList}
+        isWinner={isWinner}
       />
       <Button
         title={'Create Score!'}

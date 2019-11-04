@@ -6,7 +6,7 @@ import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
 import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList }) {
+export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner}) {
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
   })
@@ -64,6 +64,7 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
             leftAvatar={{ uri: creator.avatar }}
             canDelete={false}
             updateScoreList={updateScoreList}
+            isWinner={isWinner}
           />
         }
         {
@@ -76,6 +77,7 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
               deleteRecordFriend={deleteRecordFriend}
               canDelete={true}
               updateScoreList={updateScoreList}
+              isWinner={isWinner}
             />
           ))
         }

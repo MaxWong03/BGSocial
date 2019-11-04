@@ -4,7 +4,7 @@ import { Badge, Avatar, ListItem, Button, Icon } from 'react-native-elements';
 import { Slider } from 'react-native-elements';
 
 
-export default function RecordListItem({ title, leftAvatar, id, deleteRecordFriend, canDelete, updateScoreList }) {
+export default function RecordListItem({ title, leftAvatar, id, deleteRecordFriend, canDelete, updateScoreList, isWinner }) {
   const [score, setScore] = useState(0)
   const onValueChange = (newValue) => {
     newValue = Math.round(newValue * 100)
@@ -21,14 +21,16 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
             source={leftAvatar}
             size="large"
           />
-
-          <Badge
-            status="success"
-            badgeStyle={styles.badgeStyle}
-            containerStyle={styles.badgeContainer}
-            value={'👑'}
-            textStyle={styles.textContainer}
-          />
+          {
+            isWinner(score) &&
+            <Badge
+              status="success"
+              badgeStyle={styles.badgeStyle}
+              containerStyle={styles.badgeContainer}
+              value={'👑'}
+              textStyle={styles.textContainer}
+            />
+          }
         </View>
       }
       bottomDivider
