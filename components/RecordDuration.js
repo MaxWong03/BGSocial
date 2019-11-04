@@ -1,7 +1,8 @@
 import React from 'react';
-import { ListItem, Icon, Button } from 'react-native-elements';
+import { StyleSheet } from 'react-native';
+import { ListItem, Icon, Button, Input } from 'react-native-elements';
 
-export default function RecordDuration() {
+export default function RecordDuration({ duration, changeDuration }) {
   return (
     <>
       <Button
@@ -15,8 +16,22 @@ export default function RecordDuration() {
             type='material-icons'
           />
         }
+        rightElement={
+          <Input
+            placeholder={'Enter Duration (Minutes):'}
+            value={duration}
+            onChangeText={newDuration => changeDuration(newDuration)}
+            inputContainerStyle={styles.inputContainerStyle}
+          />
+        }
         bottomDivider
       />
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  inputContainerStyle: {
+    width: 250
+  }
+})
