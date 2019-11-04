@@ -29,7 +29,7 @@ export default function RecordGameModal({ gameSelectList, closeModal, onSelect, 
           onPress={closeModal}
           style={styles.backIcon}
         />
-        <Text style={styles.headerText}>Select Games</Text>
+        <Text style={styles.headerText}>Select A Game</Text>
       </View>
       <GameSearchBar
         updateSearch={updateSearch}

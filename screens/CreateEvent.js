@@ -58,6 +58,8 @@ export default function createEventScreen() {
 
     const newEvent = {
       "owner_id": 1,
+      title: eventTitle,
+      spots: eventAttendants.length,
       eventDates,
       eventAttendants,
       eventGames
@@ -96,10 +98,10 @@ export default function createEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              {/* <EventTitle
+              <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              /> */}
+              />
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />
