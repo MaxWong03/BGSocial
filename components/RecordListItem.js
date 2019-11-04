@@ -25,9 +25,10 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
 
           <Badge
             status="success"
+            badgeStyle={styles.badgeStyle}
             containerStyle={styles.badgeContainer}
             value={'👑'}
-            textStyle={{ fontSize: 15 }}
+            textStyle={styles.textContainer}
           />
         </View>
       }
@@ -73,11 +74,17 @@ const styles = StyleSheet.create({
     padding: 5,
     marginLeft: 5
   },
-  badgeContainer: { 
-    position: 'absolute', 
-    top: -4, 
-    right: -4 
+  badgeContainer: {
+    position: 'absolute',
+    top: -4,
+    right: -4,
   },
+  textContainer: {
+    fontSize: 20
+  },
+  badgeStyle: {
+    height: 30
+  }
 
 })
 
