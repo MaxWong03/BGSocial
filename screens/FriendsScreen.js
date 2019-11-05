@@ -100,7 +100,7 @@ export default function FriendsScreen({ navigation }) {
     setButtonGroup(currentScreen);
   };
 
-  const buttons = ['My friend', 'Received Request', 'Sent Request']; // title for different screens
+  const buttons = ['My friend', 'Friend Request', 'Sent Request']; // title for different screens
 
   // set up the title based on the screen state and number
   let title;
@@ -122,7 +122,7 @@ export default function FriendsScreen({ navigation }) {
 
   // refreshing attempt
 
-  const fetchData = async() =>{
+  const fetchData = async() =>{ // get the data again
     loadRequest();
     loadAllFriends();
     loadPendings();
@@ -139,11 +139,11 @@ export default function FriendsScreen({ navigation }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchData().then(()=>{
-      wait(500).then(() => setRefreshing(false));
+      // wait(500).then(() =>
+        setRefreshing(false)
+      // );
     })
-   
   }, [refreshing]);
-
 
   return (
     <>
@@ -165,25 +165,28 @@ export default function FriendsScreen({ navigation }) {
         style={styles.gameListContainer}
         // contentContainerStyle={styles.scrollView}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
         }  
       >
 
-        <ButtonGroup
-            buttons={buttons}
-            containerStyle={styles.buttonGroup}
-            selectedIndex={screenState}
-            onPress={slider}
-          />
-         <Text style={ styles.titleStyle }>{title}</Text>
+        {/* the top buttons at the top */}
+        <ButtonGroup 
+          buttons={buttons}
+          containerStyle={styles.buttonGroup}
+          selectedIndex={screenState}
+          onPress={slider}
+        />
+        
+        <Text style={ styles.titleStyle }>{title}</Text>
 
-         {
+        {
           screenState === 0 &&
           friendsList.map((friend, index) => (
             <FriendPageItem
               key = { index }
               person = { friend }
               unfriend = { unfriend }
+              navigation = { navigation }
             />
           ))
         }
@@ -224,4 +227,5 @@ const styles = StyleSheet.create({
     textAlign: 'center', // <-- the magic
     fontSize: 40,
   },
+
 });
