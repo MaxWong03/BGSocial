@@ -14,6 +14,7 @@ import { id } from '../utils/makeNewID';
 import useLocation from '../hooks/useLocation';
 import { getUserInfo } from '../hooks/sessionContext';
 import { api } from '../api';
+import useButtonProps from '../hooks/useButtonProps';
 
 export default function EditEventScreen() {
   const { navigate } = useNavigation();
@@ -38,73 +39,85 @@ export default function EditEventScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot(event_attendants);
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot(timeArray);
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation(presetLocation);
+  const { buttonTitle, setButtonTitle, buttonColor, setButtonColor }
+    = useButtonProps('Edit Event!', '#2089dc');
 
   const editEventAction = () => {
+    if (!gameSlots.length) {
+      setButtonColor('red');
+      setButtonTitle('Select At Least One Game');
+    } else if (!friendSlots.length) {
+      setButtonColor('red')
+      setButtonTitle('Invite At Least One Friend');
+    } else {
+      setButtonColor('#2089dc');
+      setButtonTitle('Edit Event!');
+      const eventAttendants = friendSlots.map(friend => {
+        const attendant = event_attendants.find(attendant => attendant.id === friend || attendant.id === friend.id);
+        if (attendant) return {
+          is_confirmed: attendant.is_confirmed,
+          is_invited: attendant.is_invited,
+          is_not_assisting: attendant.is_not_assisting,
+          attendant_id: attendant.id,
+          event_id: attendant.event_id
+        }
+        else return {
+          is_confirmed: false,
+          is_invited: true,
+          is_not_assisting: false,
+          attendant_id: friend,
+          event_id: eventID
 
-    const eventAttendants = friendSlots.map(friend => {
-      const attendant = event_attendants.find(attendant => attendant.id === friend || attendant.id === friend.id);
-      if (attendant) return {
-        is_confirmed: attendant.is_confirmed,
-        is_invited: attendant.is_invited,
-        is_not_assisting: attendant.is_not_assisting,
-        attendant_id: attendant.id,
-        event_id: attendant.event_id
-      }
-      else return {
-        is_confirmed: false,
+        }
+      });
+
+      eventAttendants.push({
+        is_confirmed: true,
         is_invited: true,
         is_not_assisting: false,
-        attendant_id: friend,
+        attendant_id: userData.id,
         event_id: eventID
+      })
 
-      }
-    });
+      const eventDates = timeSlots.map(time => {
+        const eventTime = event_dates.find(dateObj => dateObj.date === time.date);
+        if (eventTime) return {
+          is_chosen: eventTime.is_chosen,
+          is_open,
+          date: eventTime.date,
+          location: location
+        }
+        else return {
+          is_chosen: false,
+          is_open: true,
+          location: location,
+          date: time.date
+        }
+      })
 
-    eventAttendants.push({
-      is_confirmed: true,
-      is_invited: true,
-      is_not_assisting: false,
-      attendant_id: userData.id,
-      event_id: eventID
-    })
+      const eventGames = gameSlots.map(game => {
+        return {
+          "game_id": game.game_id || game
+        }
+      })
 
-    const eventDates = timeSlots.map(time => {
-      const eventTime = event_dates.find(dateObj => dateObj.date === time.date);
-      if (eventTime) return {
-        is_chosen: eventTime.is_chosen,
+      const editEvent = {
+        eventId: eventID,
+        title: eventTitle,
+        spots: eventAttendants.length,
         is_open,
-        date: eventTime.date,
-        location: location
+        owner_id: userData.id,
+        eventDates,
+        eventAttendants,
+        eventGames
       }
-      else return {
-        is_chosen: false,
-        is_open: true,
-        location: location,
-        date: time.date
-      }
-    })
 
-    const eventGames = gameSlots.map(game => {
-      return {
-        "game_id": game.game_id || game
-      }
-    })
-
-    const editEvent = {
-      eventId: eventID,
-      title: eventTitle,
-      spots: eventAttendants.length,
-      is_open,
-      owner_id: userData.id,
-      eventDates,
-      eventAttendants,
-      eventGames
+      api.post(`/events/${eventID}/`, editEvent).then((res) => {
+        navigate('Events');
+      })
+        .catch(err => console.log(err));
     }
 
-    api.post(`/events/${eventID}/`, editEvent).then((res) => {
-      navigate('Events');
-    })
-    .catch(err => console.log(err));
   }
   return (
     <>
@@ -170,7 +183,7 @@ export default function EditEventScreen() {
         />
       </ScrollView>
       <Button
-        title='Edit Event!'
+        title={buttonTitle}
         icon={
           <Icon
             name='check-circle'
@@ -178,6 +191,7 @@ export default function EditEventScreen() {
             color='white'
           />
         }
+        buttonStyle={{ backgroundColor: buttonColor }}
         onPress={editEventAction}
       />
     </>

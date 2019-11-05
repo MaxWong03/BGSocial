@@ -13,6 +13,7 @@ import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { getUserInfo } from './../hooks/sessionContext';
 import { api } from './../api';
+import useButtonProps from '../hooks/useButtonProps';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
@@ -25,10 +26,10 @@ export default function createEventScreen() {
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
   const { userData } = getUserInfo();
-  const [createButtonTitle, setButtonTitle] = useState('Create Event!');
-  const [createButtonColor, setButtonColor] = useState('#0e92cf');
+  const {buttonTitle, setButtonTitle, buttonColor, setButtonColor} 
+  = useButtonProps('Create Event!', '#2089dc');
+  
   const createEventAction = () => {
-
     if (!gameSlots.length) {
       setButtonColor('red');
       setButtonTitle('Select At Least One Game');
@@ -37,7 +38,7 @@ export default function createEventScreen() {
       setButtonTitle('Invite At Least One Friend');
     } else {
       const eventDates = timeSlots.map(time => {
-        setButtonColor('#0e92cf');
+        setButtonColor('#2089dc');
         setButtonTitle('Create Event!');
         return {
           "date": JSON.stringify(time["date"]),
@@ -141,7 +142,7 @@ export default function createEventScreen() {
         />
       </ScrollView>
       <Button
-        title={createButtonTitle}
+        title={buttonTitle}
         icon={
           <Icon
             name='check-circle'
@@ -150,7 +151,7 @@ export default function createEventScreen() {
           />
         }
         onPress={createEventAction}
-        buttonStyle={{backgroundColor: createButtonColor}}
+        buttonStyle={{backgroundColor: buttonColor}}
       />
     </>
   );
