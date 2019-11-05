@@ -25,56 +25,68 @@ export default function createEventScreen() {
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
   const { userData } = getUserInfo();
+  const [createButtonTitle, setButtonTitle] = useState('Create Event!');
+  const [createButtonColor, setButtonColor] = useState('#0e92cf');
   const createEventAction = () => {
 
-    const eventDates = timeSlots.map(time => {
-      return {
-        "date": JSON.stringify(time["date"]),
-        "is_chosen": false,
-        "is_open": true,
-        "location": location
-      }
-    });
+    if (!gameSlots.length) {
+      setButtonColor('red');
+      setButtonTitle('Select At Least One Game');
+    } else if (!friendSlots.length) {
+      setButtonColor('red')
+      setButtonTitle('Invite At Least One Friend');
+    } else {
+      const eventDates = timeSlots.map(time => {
+        setButtonColor('#0e92cf');
+        setButtonTitle('Create Event!');
+        return {
+          "date": JSON.stringify(time["date"]),
+          "is_chosen": false,
+          "is_open": true,
+          "location": location
+        }
+      });
 
-    const eventAttendants = friendSlots.map(friend => {
-      return {
-        "is_confirmed": false,
+      const eventAttendants = friendSlots.map(friend => {
+        return {
+          "is_confirmed": false,
+          "is_not_assisting": false,
+          "attendant_id": friend
+        }
+      });
+
+      eventAttendants.push({
+        "is_confirmed": true,
         "is_not_assisting": false,
-        "attendant_id": friend
-      }
-    });
+        "attendant_id": userData.id
+      })
 
-    eventAttendants.push({
-      "is_confirmed": true,
-      "is_not_assisting": false,
-      "attendant_id": userData.id
-    })
-
-    const eventGames = gameSlots.map(game => {
-      return {
-        "game_id": game
-      }
-    })
+      const eventGames = gameSlots.map(game => {
+        return {
+          "game_id": game
+        }
+      })
 
 
-    const newEvent = {
-      "owner_id": userData.id,
-      title: eventTitle,
-      spots: eventAttendants.length,
-      eventDates,
-      eventAttendants,
-      eventGames
-    };
-
-    api.post(`/events/`, newEvent).then((res) => {
-      const { data: createdEvent } = res;
-      createdEvent['chosen_event_date'] = {
-        date: null,
-        location: null
+      const newEvent = {
+        "owner_id": userData.id,
+        title: eventTitle,
+        spots: eventAttendants.length,
+        eventDates,
+        eventAttendants,
+        eventGames
       };
-      refreshEventScreen();
-      navigate('Events');
-    })
+
+      api.post(`/events/`, newEvent).then((res) => {
+        const { data: createdEvent } = res;
+        createdEvent['chosen_event_date'] = {
+          date: null,
+          location: null
+        };
+        refreshEventScreen();
+        navigate('Events');
+      })
+    }
   };
 
   return (
@@ -129,7 +141,7 @@ export default function createEventScreen() {
         />
       </ScrollView>
       <Button
-        title='Create Event!'
+        title={createButtonTitle}
         icon={
           <Icon
             name='check-circle'
@@ -138,6 +150,7 @@ export default function createEventScreen() {
           />
         }
         onPress={createEventAction}
+        buttonStyle={{backgroundColor: createButtonColor}}
       />
     </>
   );
