@@ -24,6 +24,7 @@ export default function SelectGames({ getEventGameList, gameSelectList, onSelect
             name='videogame-asset'
             type='material-icons'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
       />

@@ -148,6 +148,7 @@ export default function createEventScreen() {
             name='check-circle'
             type='font-awesome'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
         onPress={createEventAction}

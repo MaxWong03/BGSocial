@@ -27,6 +27,7 @@ export default function InviteFriends({ getEventFriendList, friendInviteList, on
             name='group-add'
             type='material-icons'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
       />
