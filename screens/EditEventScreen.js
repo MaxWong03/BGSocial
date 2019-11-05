@@ -6,7 +6,7 @@ import EventDates from '../components/CreateEventDate';
 import EventGames from '../components/CreateEventGames';
 import EventFriends from '../components/CreateEventFriends';
 import EventTitle from '../components/CreateEventTitle';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import useTimeSlot from '../hooks/useTimeSlot';
 import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
@@ -16,6 +16,7 @@ import { getUserInfo } from '../hooks/sessionContext';
 import { api } from '../api';
 
 export default function EditEventScreen() {
+  const { navigate } = useNavigation();
   const event = useNavigationParam('event');
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
@@ -40,29 +41,72 @@ export default function EditEventScreen() {
 
   const editEventAction = () => {
 
+    const eventAttendants = friendSlots.map(friend => {
+      const attendant = event_attendants.find(attendant => attendant.id === friend || attendant.id === friend.id);
+      if (attendant) return {
+        is_confirmed: attendant.is_confirmed,
+        is_invited: attendant.is_invited,
+        is_not_assisting: attendant.is_not_assisting,
+        attendant_id: attendant.id,
+        event_id: attendant.event_id
+      }
+      else return {
+        is_confirmed: false,
+        is_invited: true,
+        is_not_assisting: false,
+        attendant_id: friend,
+        event_id: eventID
+
+      }
+    });
+
+    eventAttendants.push({
+      is_confirmed: true,
+      is_invited: true,
+      is_not_assisting: false,
+      attendant_id: userData.id,
+      event_id: eventID
+    })
+
     const eventDates = timeSlots.map(time => {
-      return {
-        
+      const eventTime = event_dates.find(dateObj => dateObj.date === time.date);
+      if (eventTime) return {
+        is_chosen: eventTime.is_chosen,
+        is_open,
+        date: eventTime.date,
+        location: location
+      }
+      else return {
+        is_chosen: false,
+        is_open: true,
+        location: location,
+        date: time.date
       }
     })
 
-    // const editEvent = {
-    //   id: eventID,
-    //   title: title,
-    //   spots: spots,
-    //   is_open,
-    //   "owner_id": userData.id,
-    //   eventDates: event_dates,
-    //   eventAttendants: event_attendants,
-    //   eventGames: event_games
-    // }
+    const eventGames = gameSlots.map(game => {
+      return {
+        "game_id": game.game_id || game
+      }
+    })
 
-    // console.log(editEvent);
+    const editEvent = {
+      eventId: eventID,
+      title: eventTitle,
+      spots: eventAttendants.length,
+      is_open,
+      owner_id: userData.id,
+      eventDates,
+      eventAttendants,
+      eventGames
+    }
 
-    // api.post(`/events/${id}`, editEvent).then((res) => {
-    //   refreshEventScreen();
-    //   navigate('Events');
-    // })
+    console.log('\n\n\n', editEvent);
+
+    api.post(`/events/${eventID}/`, editEvent).then((res) => {
+      navigate('Events');
+    })
+    .catch(err => console.log(err));
   }
   return (
     <>

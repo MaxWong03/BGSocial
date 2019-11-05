@@ -38,7 +38,7 @@ export default function createEventScreen() {
 
     const eventAttendants = friendSlots.map(friend => {
       return {
-        "is_confirmed": true,
+        "is_confirmed": false,
         "is_not_assisting": false,
         "attendant_id": friend
       }
