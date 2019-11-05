@@ -72,7 +72,7 @@ export default function GameInfo({ game }) {
                 <Text>Play time: {playTimeMin} to {playTimeMax} mins</Text>
               }
 
-              <Text>Average Rating in Bgg: {game.average_bgg_rating}</Text>
+              <Text>Average Rating in Bgg: {Math.round(game.average_bgg_rating * 100) / 100 }</Text>
 
               <Text>Category: {game.category}</Text>
               <Text>Published year: {game.year_published}</Text>

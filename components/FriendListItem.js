@@ -6,7 +6,7 @@ export default function FriendListItem({ friend, onSelect }) {
     <ListItem
       leftAvatar={{ source: { uri: friend['avatar'] } }}
       title={friend['name']}
-      subtitle={"Skill Level:"}
+      // subtitle={"Skill Level:"}
       bottomDivider
       rightElement={
         <CheckBox
