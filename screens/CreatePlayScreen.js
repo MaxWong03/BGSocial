@@ -48,9 +48,7 @@ export default function CreatePlayScreen() {
   };
 
   const createScoreAction = () => {
-    console.log('hour:',hour, 'minute:', minute, 'second:',second);
     const duration = formatDuration(hour, minute, second);
-    console.log(duration);
     const newPlay = {
       "date": date,
       "duration": duration,
