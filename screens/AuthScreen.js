@@ -24,11 +24,12 @@ export default function AuthScreen({ navigation }) {
 
 
   return (
-    <ImageBackground source={{ uri: 'http://yesofcorsa.com/wp-content/uploads/2018/01/Board-Games-Wallpaper-Download.jpg' }} style={{ width: '100%', height: '100%' }}>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <ImageBackground source={{ uri: 'https://images.squarespace-cdn.com/content/v1/5a3fb191cd39c31f96b9b371/1550461524147-P22HG427FJBXT843PEQ3/ke17ZwdGBToddI8pDm48kPTrHXgsMrSIMwe6YW3w1AZ7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0k5fwC0WRNFJBIXiBeNI5fKTrY37saURwPBw8fO2esROAxn-RKSrlQamlL27g22X2A/633A6964-Edit.jpg' }} style={{ width: '100%', height: '100%' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 300 }}>
         <Button
           title="BG Social"
           buttonStyle={styles.logoContainer}
+          titleStyle={styles.logoTitle}
         />
         <FBAuth title={"Sign In With Facebook"} />
         <SocialIcon
@@ -46,9 +47,14 @@ export default function AuthScreen({ navigation }) {
 const styles = StyleSheet.create({
   logoContainer: {
     padding: 5,
-    height: 100,
-    width: 100,
+    height: 150,
+    width: 150,
     borderRadius: 400,
-    marginBottom: 30
+    marginBottom: 30,
+    backgroundColor: '#8CC2FF'
+  },
+  logoTitle:{
+    fontWeight: 'bold',
+    fontSize: 30
   }
 })
