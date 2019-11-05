@@ -7,7 +7,7 @@ import { Slider } from 'react-native-elements';
 export default function RecordListItem({ title, leftAvatar, id, deleteRecordFriend, canDelete, updateScoreList, isWinner, presetScore }) {
   const [score, setScore] = useState(presetScore || 0)
   const onValueChange = (newValue) => {
-    newValue = Math.round(newValue * 100)
+    newValue = Math.round(newValue)
     setScore(newValue);
     updateScoreList(id, newValue);
   }
@@ -41,6 +41,7 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
               <Slider
                 value={presetScore || 0}
                 onValueChange={onValueChange}
+                maximumValue={100}
               />
               <Text>Score: {score}</Text>
             </View>
@@ -59,8 +60,9 @@ export default function RecordListItem({ title, leftAvatar, id, deleteRecordFrie
           :
           <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'center' }}>
             <Slider
-              value={0}
+              value={presetScore || 0}
               onValueChange={onValueChange}
+              maximumValue={100}
             />
             <Text>Score: {score}</Text>
           </View>
