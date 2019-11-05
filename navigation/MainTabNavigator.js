@@ -14,6 +14,7 @@ import GamesLibraryScreen from '../screens/GamesLibraryScreen';
 import SingleEventScreen from '../screens/SingleEventScreen';
 import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
+import CreatePlayScreen from '../screens/CreatePlayScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -65,7 +66,8 @@ EventsStack.path = '';
 const PlaysStack = createStackNavigator(
   {
     Plays: PlaysScreen,
-    SinglePlay: SinglePlayScreen
+    SinglePlay: SinglePlayScreen,
+    CreatePlay: CreatePlayScreen
   },
   config
 );
