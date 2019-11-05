@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
-import { Header, Avatar, Button, Icon, ButtonGroup } from "react-native-elements";
+import { Header, Avatar, Button, Icon, ButtonGroup, ListItem } from "react-native-elements";
 import { api } from '../api';
 import useFriendsData from '../hooks/useFriendsData';
 import { getUserInfo } from './../hooks/sessionContext';
@@ -9,7 +9,7 @@ import PendingRequest from '../hooks/PendingRequest';
 // get all received request
 import ReceivedRequest from '../hooks/ReceivedRequest';
 
-export default function FriendsScreen({ navigation }) {
+export default function FriendsScreen({ navigation, screenProps }) {
 
   const { userData } = getUserInfo();
 
@@ -17,20 +17,20 @@ export default function FriendsScreen({ navigation }) {
 
   const [allUsers, setAllUsers] = useState([]);
 
-  useEffect(() => {
-    api.get("/users").then((res) => {
-      setAllUsers(res.data.users);
-    });
-  }, []);
-
-
   const { state: friendsList, dispatchFriends, ADD_FRIEND, REMOVE_FRIEND } = useFriendsData();
 
   const { state: receivedRequests, dispatchReceivedRequest, REJECT_REQUEST } = ReceivedRequest();
 
   const {state: sentRequests, dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ} = PendingRequest();
 
+  useEffect(() => {
+    api.get("/users").then((res) => {
+      setAllUsers(res.data.users);
+    });
+  }, []);
+
   const goToAddFriends = function (){
+    console.log("fasfds", sentRequests);
     navigation.navigate('AddFriends', {
       allUsersInDB: allUsers,
       allFriends: friendsList,
@@ -60,7 +60,6 @@ export default function FriendsScreen({ navigation }) {
     }))
   };
 
-
   const unfriend = function (userID){
     api.post(`/users/request/${userID}/delete`)
     .then((res => {
@@ -78,48 +77,6 @@ export default function FriendsScreen({ navigation }) {
   };
 
   const buttons = ['My friend', 'Received Request'];
-
-  let listToShow = [];
-
-  // if (screenState === 0) {
-  //   listToShow = confirmEvents(state, userId);
-  // }
-  // else if (screenState == 1) {
-  //   listToShow = pendingEvents(state, userId);
-  // }
-
-
-  // infinite refreshing
-  // const [showLoading, setShowLoading] = useState(true)
-  // let timer1 = setTimeout(() => setShowLoading(true), 1000)
-  // useEffect(
-  //   () => {
-  //     // return () => {
-  //     //   clearTimeout(timer1)
-  //     // }
-  //     console.log("refreshing");
-  //   },
-  //   [showLoading]
-  // )
-
-  const [showLoading, setShowLoading] = useState(false)
-
-  useEffect(
-     () => {
-       let timer1 = setTimeout(() => setShowLoading(true), 1000)
-
-       // this will clear Timeout when component unmont like in willComponentUnmount
-      //  return () => {
-         console.log("refreshi8gn");
-      //  }
-     },
-     [showLoading]
-   )
-
-   setTimeout(() => {
-    console.log('Hello, World!')
-  }, 500);
-
 
   return (
     <>
@@ -148,61 +105,35 @@ export default function FriendsScreen({ navigation }) {
          <Text style={ styles.titleStyle }>Friend request</Text>
         {
           screenState === 1 && receivedRequests.length !== 0 ?
-          receivedRequests.map((person, index) => {
-            return (
-              <View style={styles.flexParent} key= {index}>
-               
-                <View style={styles.imageContainer}>
-                  <Avatar
-                    rounded
-                    size="large"
-                    source={{uri: person.avatar}}
-                  />
-                </View>
-
-                <View style={styles.textContainer}>
-                  <Text style = {styles.nameStyle}>
-                    {person.name}
-                  </Text>
-
-                  <Button
-                    buttonStyle={styles.button}
-                    title={"Confirm "}
-                    type='outline'
-                    iconRight={true}
-                    onPress={ 
-                      () => confirmFriendRequest(person.id)
-                    }
-                    icon={
-                      <Icon
-                        size={20}
-                        name={'info-circle'}
-                        type='font-awesome'
-                        color='#bdbdbd'
-                      />
-                    }
-                  />
-
-                  <Button
-                    buttonStyle={styles.button}
-                    title={"Reject "}
-                    type='outline'
-                    iconRight={true}
-                    onPress={ 
-                      () => rejectFriendRequest(person.id)
-                    }
-                    icon={
-                      <Icon
-                        size={20}
-                        name={'info-circle'}
-                        type='font-awesome'
-                        color='#bdbdbd'
-                      />
-                    }
-                  />
-                </View>
+          receivedRequests.map((friend, index) => {
+            <ListItem
+             key={friend.id}
+             leftAvatar={{ size: 60, rounded: true, source: { uri: friend.avatar } }}
+             title={ friend.name }
+             subtitle = {
+              <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
+                <Button
+                  // buttonStyle={styles}
+                  title={"More info "}
+                  type='outline'
+                  iconRight={true}
+                  onPress={ 
+                    () => navigation.navigate('UserMoreInfo', {
+                      user: friend
+                    })
+                  }
+                />
+                <Button
+                  // buttonStyle={ { size: 30 }}
+                  title={"Unfriend"}
+                  type='outline'
+                  iconRight={true}
+                  onPress={()=> ( unfriend(friend.id) )}
+                />
               </View>
-            );
+             }
+             bottomDivider
+           />
           })
         : 
         <Text>No Friend Requests</Text>
@@ -211,61 +142,36 @@ export default function FriendsScreen({ navigation }) {
        <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>
       {
         screenState === 0 && friendsList.length !== 0 ?
-        friendsList.map((person, index) => {
-          return (
-            <View style={styles.flexParent} key= {index}>
-              
-              <View style={styles.imageContainer}>
-                <Avatar
-                  rounded
-                  size="large"
-                  source={{uri: person.avatar}}
-                />
-              </View>
-
-              <View style={styles.textContainer}>
-                <Text style = {styles.nameStyle}>
-                  {person.name}
-                </Text>
-
-                <Button
-                  buttonStyle={styles.button}
-                  title={"More info "}
-                  type='outline'
-                  iconRight={true}
-                  onPress={ 
-                    () => navigation.navigate('UserMoreInfo', {
-                      user: person
-                    })
-                    }
-                  icon={
-                    <Icon
-                      size={20}
-                      name={'info-circle'}
-                      type='font-awesome'
-                      color='#bdbdbd'
-                    />
-                  }
-                />
-                <Button
-                  buttonStyle={styles.button}
-                  title={"Unfriend"}
-                  type='outline'
-                  iconRight={true}
-                  onPress={()=> ( unfriend(person.id) )}
-                  icon={
-                    <Icon
-                      name="minus-circle"
-                      type="font-awesome"
-                      size={20}
-                      color='#bdbdbd'
-                    />
-                  }
-                />
-              </View>
-            </View>
-          );
-        })
+        friendsList.map((friend) => (
+          <ListItem
+            key={friend.id}
+            leftAvatar={{ size: 60, rounded: true, source: { uri: friend.avatar } }}
+            title={ friend.name }
+            subtitle = {
+             <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
+               <Button
+                 // buttonStyle={styles}
+                 title={"More info "}
+                 type='outline'
+                 iconRight={true}
+                 onPress={ 
+                   () => navigation.navigate('UserMoreInfo', {
+                     user: friend
+                   })
+                 }
+               />
+               <Button
+                 // buttonStyle={ { size: 30 }}
+                 title={"Unfriend"}
+                 type='outline'
+                 iconRight={true}
+                 onPress={()=> ( unfriend(friend.id) )}
+               />
+             </View>
+            }
+            bottomDivider
+          />
+        ))
         : <Text>No friend in your library</Text>
         }
 

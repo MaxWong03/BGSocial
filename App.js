@@ -9,7 +9,7 @@ import { initializeUserinfoState } from './hooks/sessionContext';
 
 
 export default function App(props) {
-  const [SessionContext, contextValue] = initializeUserinfoState();
+  const [SessionContext, contextValue] = initializeUserinfoState()
 
   const [isLoadingComplete, setLoadingComplete] = useState(false);
   if (!isLoadingComplete && !props.skipLoadingScreen) {

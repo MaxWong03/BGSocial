@@ -29,8 +29,6 @@ export default function AddFriendsScreen({navigation}) {
   // get all the id from the receivers
   const receiverIDs = sentRequests.map(user => user['id']);
 
-  // console.log("receiverIDs are", receiverIDs);
-
   // automatically update the search list
   const [search, setSearch] = useState('');
   const updateSearch = (userInput) => setSearch(userInput);

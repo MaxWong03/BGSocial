@@ -7,7 +7,7 @@ export default function ReceivedRequest() {
   
   async function loadRequest() {
     const games = await api.get(`/users/request/received`);
-    dispatchReceivedRequest({ type: GET_REQUEST, value: games.data.users })
+    dispatchReceivedRequest({ type: GET_REQUEST, value: games.data.receivedRequest })
   };
 
   useEffect(() => {

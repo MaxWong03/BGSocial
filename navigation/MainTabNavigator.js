@@ -109,26 +109,11 @@ const FriendsStack = createStackNavigator(
   config
 )
 
-const BadgedIcon = withBadge(4)(Icon)
-// @connect(state => ({
-//   notifications: state.notifications,
-// }))
-// @withBadge(props => props.notifications.length)
 
 FriendsStack.navigationOptions = {
   tabBarLabel: 'Friends',
   tabBarIcon: ({ focused }) => (
-    <>
-      <BadgedIcon type="ionicon" containerStyle = { { position:'absolute', top: 0, right: -100 } }/>
       <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
-      {/* <Badge
-        status="error"
-        containerStyle={{ position: 'absolute', top: 0, right: 0,  }}
-        size={50}
-        selected={focused}
-      /> */}
-      
-    </>
   ),
 };
 

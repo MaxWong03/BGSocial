@@ -7,7 +7,7 @@ export default function useGamesData() {
   
   async function loadGames() {
     const requests = await api.get(`/users/request/sent`);
-    dispatchRequest({ type: SET_PENDING_REQ, value: requests.data.users })
+    dispatchRequest({ type: SET_PENDING_REQ, value: requests.data.sentRequest })
   };
 
   useEffect(() => {
