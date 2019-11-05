@@ -12,6 +12,7 @@ import useScore from '../hooks/useScore';
 import { api } from './../api';
 import { useNavigation } from 'react-navigation-hooks';
 import useDuration from '../hooks/useDuration';
+import { formatDuration } from '../utils/formatDuration';
 
 export default function CreatePlayScreen() {
   const userFriends = useNavigationParam('userFriends');
@@ -24,28 +25,6 @@ export default function CreatePlayScreen() {
   const [gameRecord, setGameRecord] = useState([]);
   const [date, setDate] = useState(new Date());
   const { hour, minute, second, changeHour, changeMinute, changeSecond } = useDuration();
-
-  // {
-  //   "date": "2019-09-11T00:00:00.000Z",
-  //   "duration": "05:10:00",
-  //   "game_id": 4,
-  //   "event_id": null,
-  //   "playsUsers": [{
-  //       "score": 56,
-  //       "is_winner": false,
-  //       "user_id": 1
-  //   }]
-  // }
-
-  const formatDuration = (hour, minute, second) => {
-    if (hour < 10) hour = '0' + hour;
-    if (minute < 10) minute = '0' + minute;
-    if (second < 10) second = '0' + second;
-    if (hour == 0) hour = '00';
-    if (minute == 0) minute = '00';
-    if (second == 0) second = '00';
-    return `${hour}:${minute}:${second}` 
-  };
 
   const createScoreAction = () => {
     const duration = formatDuration(hour, minute, second);
