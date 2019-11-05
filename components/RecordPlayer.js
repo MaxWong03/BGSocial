@@ -47,6 +47,7 @@ export default function RecordPlayer({ userFriends, recordFriendList, changeFrie
             name='group-add'
             type='material-icons'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
       />

@@ -47,6 +47,7 @@ export default function RecordGame({ userGames, setGameRecord, presetGame }) {
             name='videogame-asset'
             type='material-icons'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
       />

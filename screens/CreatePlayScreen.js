@@ -95,6 +95,7 @@ export default function CreatePlayScreen() {
             name='check-circle'
             type='font-awesome'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
         buttonStyle={{ backgroundColor: buttonColor }}

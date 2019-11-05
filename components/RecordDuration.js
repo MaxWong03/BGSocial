@@ -7,6 +7,14 @@ export default function RecordDuration({ hour, changeHour, minute, changeMinute,
     <>
       <Button
         title={'Set Duration'}
+        icon={
+          <Icon
+            name='timer-sand'
+            type='material-community'
+            color='white'
+            iconStyle={{ marginRight: 5 }}
+          />
+        }
       />
       <ListItem
         title={'Duration: '}
