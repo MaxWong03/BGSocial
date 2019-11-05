@@ -7,6 +7,7 @@ import RecordTime from '../components/RecordTime';
 import RecordDuration from '../components/RecordDuration';
 import { formatDuration } from '../utils/formatDuration';
 import { deformatDuration } from '../utils/deformatDuration';
+import { parsePresetDuration } from '../utils/parsePresetDuration';
 import useDuration from '../hooks/useDuration';
 
 
@@ -17,9 +18,20 @@ export default function EditPlayScreen() {
   const { date: presetDate, duration, game_id, id: playID, playsUsers } = play;
   const { hour: presetHour, minute: presetMinute, second: presetSecond } = deformatDuration(duration);
 
+
+  console.log('presetHour:', presetHour);
+  console.log('presetMinute:', presetMinute);
+  console.log('presetSecond:', presetSecond);
+
+
   //states
   const [date, setDate] = useState(new Date(presetDate));
-  const { hour, minute, second, changeHour, changeMinute, changeSecond } = useDuration(presetHour, presetMinute, presetSecond);
+  const { hour, minute, second, changeHour, changeMinute, changeSecond }
+  = useDuration(
+    parsePresetDuration(presetHour),
+    parsePresetDuration(presetMinute),
+    parsePresetDuration(presetSecond)
+  );
 
   const editScoreAction = () => {
     console.log('date:', date);
