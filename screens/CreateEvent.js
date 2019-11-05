@@ -12,7 +12,6 @@ import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { getUserInfo } from './../hooks/sessionContext';
-
 import { api } from './../api';
 
 export default function createEventScreen() {

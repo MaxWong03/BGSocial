@@ -12,15 +12,18 @@ import useGameSlot from '../hooks/useGameSlot';
 import useFriendSlot from '../hooks/useFriendSlot';
 import { id } from '../utils/makeNewID';
 import useLocation from '../hooks/useLocation';
+import { getUserInfo } from '../hooks/sessionContext';
+import { api } from '../api';
 
 export default function EditEventScreen() {
   const event = useNavigationParam('event');
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
   const refreshEventScreen = useNavigationParam('refreshEventScreen')
-  const { event_dates, event_attendants, event_games } = event;
+  const { id: eventID, title, spots, is_open, event_dates, event_attendants, event_games } = event;
   const { location: presetLocation } = event_dates[0];
-  const [eventTitle, setEventTitle] = useState(event.title);
+  const [eventTitle, setEventTitle] = useState(title);
+  const { userData } = getUserInfo();
 
   const timeArray = event_dates.map((date) => {
     return {
@@ -36,10 +39,33 @@ export default function EditEventScreen() {
   const { location, latitude, longitude, setLatitude, setLongitude } = useLocation(presetLocation);
 
   const editEventAction = () => {
-    console.log('timeSlots:', timeSlots);
-    console.log('gamesSlot', gameSlots);
-    console.log('friendSlots', friendSlots);
-    console.log('location', location);
+
+    // console.log('timeSlots:', timeSlots);
+    // console.log('gamesSlot', gameSlots);
+    // console.log('friendSlots', friendSlots);
+    // console.log('location', location);
+
+    console.log('eventDates', event_dates);
+    console.log('event_attendants', event_attendants);
+    console.log('event_games', event_games);
+
+    const editEvent = {
+      id: eventID,
+      title: title,
+      spots: spots,
+      is_open,
+      "owner_id": userData.id,
+      eventDates: event_dates,
+      eventAttendants: event_attendants,
+      eventGames: event_games
+    }
+
+    console.log(editEvent);
+
+    // api.post(`/events/${id}`, editEvent).then((res) => {
+    //   refreshEventScreen();
+    //   navigate('Events');
+    // })
   }
   return (
     <>
@@ -103,18 +129,18 @@ export default function EditEventScreen() {
           })}
           buttonText={'Edit Attendance'}
         />
-        <Button
-          title='Edit Event!'
-          icon={
-            <Icon
-              name='check-circle'
-              type='font-awesome'
-              color='white'
-            />
-          }
-          onPress={editEventAction}
-        />
       </ScrollView>
+      <Button
+        title='Edit Event!'
+        icon={
+          <Icon
+            name='check-circle'
+            type='font-awesome'
+            color='white'
+          />
+        }
+        onPress={editEventAction}
+      />
     </>
   )
 }
