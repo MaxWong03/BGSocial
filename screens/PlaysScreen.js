@@ -19,6 +19,7 @@ export default function PlaysScreen({ navigation }) {
     setPlay({ state, plays: plays.data.plays, games: plays.data.games, users: plays.data.users });
   };
 
+
   function onWillFocus() {
     loadPlays();
   }
