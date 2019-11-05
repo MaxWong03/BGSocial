@@ -26,6 +26,8 @@ export default function EditPlayScreen() {
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
 
+  console.log(playsUsers);
+
   //states
   const [date, setDate] = useState(new Date(presetDate));
   const { hour, minute, second, changeHour, changeMinute, changeSecond }
@@ -68,7 +70,9 @@ export default function EditPlayScreen() {
         />
         <RecordPlayer
           userFriends={userFriends}
-          friendSlots={friendSlots}
+          recordFriendList={
+            playsUsers.map(user => user.user_id)
+          }
           changeFriendSlot={changeFriendSlot}
           creator={{ avatar, id, name }}
           addScoreList={addScoreList}

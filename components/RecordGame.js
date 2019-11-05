@@ -9,8 +9,6 @@ import useList from '../hooks/useList';
 export default function RecordGame({ userGames, setGameRecord, presetGame }) {
   const { visible, showModal, closeModal } = useVisibility(false);
 
-  console.log(presetGame);
-
   userGames = userGames.map(game => {
     return { ...game, 'selected': false }
   })
@@ -22,8 +20,6 @@ export default function RecordGame({ userGames, setGameRecord, presetGame }) {
       else return game;
     })
   }
-
-  console.log(userGames);
 
   const { list: gameSelectList, onSelectRecordGame: onSelect } = useList(userGames);
 

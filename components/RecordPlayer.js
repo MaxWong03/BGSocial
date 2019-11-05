@@ -6,10 +6,18 @@ import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
 import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner }) {
+export default function RecordPlayer({ userFriends, recordFriendList, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner }) {
+
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
   })
+
+  if (recordFriendList) {
+    userFriends = userFriends.map(friend => {
+      if (recordFriendList.includes(friend.id)) return { ...friend, 'selected': true }
+      else return friend;
+    })
+  }
 
   const { visible, showModal, closeModal } = useVisibility(false);
   const { list: friendSelectList, onSelectRecord: onSelect } = useList(userFriends);

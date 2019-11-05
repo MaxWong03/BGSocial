@@ -68,7 +68,6 @@ export default function CreatePlayScreen() {
         />
         <RecordPlayer
           userFriends={userFriends}
-          friendSlots={friendSlots}
           changeFriendSlot={changeFriendSlot}
           creator={{ avatar, id, name }}
           addScoreList={addScoreList}

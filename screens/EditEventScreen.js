@@ -101,8 +101,6 @@ export default function EditEventScreen() {
       eventGames
     }
 
-    console.log('\n\n\n', editEvent);
-
     api.post(`/events/${eventID}/`, editEvent).then((res) => {
       navigate('Events');
     })
