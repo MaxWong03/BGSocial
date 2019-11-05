@@ -1,13 +1,13 @@
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import { Button } from 'react-native-elements'
+import { Button, SocialIcon } from 'react-native-elements'
 import { useNavigation } from 'react-navigation-hooks';
 import { NavigationActions } from 'react-navigation';
 import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 
 import { facebookLogin } from './../api';
- 
+
 import { getUserInfoContext } from './../hooks/sessionContext';
 
 async function loginWithFacebook() {
@@ -29,7 +29,7 @@ async function loginWithFacebook() {
       const { responseURL: profilePicture } = profileResponse.request;
       const userData = await facebookLogin(fbID);
 
-      return { type, fbID, profilePicture, name, userData  }
+      return { type, fbID, profilePicture, name, userData }
     } else { //type === 'cancel', user doesn't wanna login
       return { type };
     }
@@ -38,7 +38,7 @@ async function loginWithFacebook() {
   }
 }
 
-export default function FBAuth(props) {
+export default function FBAuth({ title }) {
   const { navigate, dispatch } = useNavigation();
   // Only interested in the part of the context related to SET the state (userInfo) value.
   const { setUserInfo } = getUserInfoContext();
@@ -61,9 +61,12 @@ export default function FBAuth(props) {
       }).catch(e => console.log(e));
   }
   return (
-    <Button
+    <SocialIcon
+      title={title}
       onPress={() => loginAndNavigate()}
-      title={props.title}
+      button
+      type='facebook'
+      style={{padding: 45}}
     />
   );
 }
