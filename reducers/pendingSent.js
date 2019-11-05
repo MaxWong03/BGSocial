@@ -11,7 +11,7 @@ const stateLookup = {
   },
   DELETE_PENDING_REQ: (state, value) =>{
     // console.log("state is ", state);
-    // console.log("value is ", value);
+    console.log("value is ", value);
     let filtered = state.filter(function(el) { return el.id != value.id; });
     // console.log("fileter is ", filtered); 
     return filtered;

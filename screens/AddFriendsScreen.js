@@ -5,7 +5,7 @@ import { Avatar, Button, Icon } from "react-native-elements";
 import { api } from './../api';
 import FriendSearchBar from './../components/FriendSearchBar';
 import { getUserInfo } from './../hooks/sessionContext';
-
+// import component
 import NotFriendUser from '../components/NotFriendUser';
 
 export default function AddFriendsScreen({navigation}) {
@@ -33,14 +33,12 @@ export default function AddFriendsScreen({navigation}) {
   const [search, setSearch] = useState('');
   const updateSearch = (userInput) => setSearch(userInput);
 
-  // const [buttonText, setButtonText] = useState('Add friend');
-  // // const [testingText, setText] = useState('beginning');
-
   const addFriend = function(receiverID) {
     api.post(`/users/request/${receiverID}`)
     .then((res) => {
       const user = res.data.user;
       dispatchRequest({type: ADD_PENDING_REQ, value: user});
+      navigation.goBack();
     });
   };
 
@@ -50,7 +48,11 @@ export default function AddFriendsScreen({navigation}) {
       const user = res.data.user;
       dispatchRequest({type: DELETE_PENDING_REQ, value: user});
     });
+    navigation.goBack();
   };
+
+  // const addFriend = navigation.getParam("addFriend");
+  // const cancelFriendRequest = navigation.getParam("cancelFriendRequest");
 
   return (
     <View>
@@ -58,64 +60,20 @@ export default function AddFriendsScreen({navigation}) {
         updateSearch={updateSearch} // keeping update for the text in the search bar
         search={search}
       />
-
-      {/* <Text>{testingText}</Text> */}
       <ScrollView style={styles.gameListContainer}>
         {
           allUsers.map((user, index) => (
             user['name'].includes(search) && !allFriendsID.includes(user['id']) && (userId !== user['id']) &&
-            // <NotFriendUser
-            //   dispatchRequest = { dispatchRequest }
-            //   ADD_PENDING_REQ = { ADD_PENDING_REQ }
-            //   DELETE_PENDING_REQ = { DELETE_PENDING_REQ }
-            // />
-            
-
-            <View style={styles.flexParent} key= {index}>
-              <View style={styles.imageContainer}>
-                <Avatar
-                  rounded
-                  size="large"
-                  source={{uri: user.avatar}}
-                />
-              </View>
-
-              <View style={styles.textContainer}>
-                <Text style = {styles.nameStyle}>
-                  {user.name}
-                </Text>
-
-                {
-                  !receiverIDs.includes(user['id']) &&
-                  <Button
-                    buttonStyle={
-                      styles.button
-                      // {backgroundColor: button}
-                    }
-                    title={"Add friend "}
-                    type='outline'
-                    // iconRight={true}
-                    onPress={ ()=> {
-                      addFriend(user.id);
-                    }}
-                  />
-                }
-
-                {
-                  receiverIDs.includes(user['id']) &&
-                  <Button
-                    buttonStyle={styles.button}
-                    title={"Cancal request"}
-                    type='outline'
-                    // iconRight={true}
-                    onPress={ ()=> {
-                      cancelFriendRequest(user.id);
-                    }}
-                  />
-                }
-
-              </View>
-            </View>
+            <NotFriendUser
+              key = { index }
+              dispatchRequest = { dispatchRequest }
+              ADD_PENDING_REQ = { ADD_PENDING_REQ }
+              DELETE_PENDING_REQ = { DELETE_PENDING_REQ }
+              user = { user }
+              addFriend = { addFriend }
+              cancelFriendRequest = { cancelFriendRequest }
+              receiverIDs= { receiverIDs }
+            />
           ))
 
         }

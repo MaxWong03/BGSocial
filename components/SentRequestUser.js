@@ -5,7 +5,7 @@ import { Avatar, Button, ListItem } from "react-native-elements";
 import { api } from '../api';
 import { getUserInfo } from '../hooks/sessionContext';
 
-export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ, user, addFriend, cancelFriendRequest, receiverIDs }) {
+export default function SentRequestUser({ dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ, user, addFriend, cancelFriendRequest, receiverIDs }) {
 
   const { userData } = getUserInfo();
   const userId = userData.id;
@@ -19,34 +19,18 @@ export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE
       title={ user.name }
       subtitle = {
         <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
-           {
-            !receiverIDs.includes(user['id']) &&
-            <Button
-              buttonStyle={
-                styles.button
-                // {backgroundColor: button}
-              }
-              title={"Add friend "}
-              type='outline'
-              // iconRight={true}
-              onPress={ ()=> {
-                addFriend(user.id);
-              }}
-            />
-          }
 
-          {
-            receiverIDs.includes(user['id']) &&
-            <Button
-              buttonStyle={styles.button}
-              title={"Cancal request"}
-              type='outline'
-              // iconRight={true}
-              onPress={ ()=> {
-                cancelFriendRequest(user.id);
-              }}
-            />
-          }
+          <Button
+            buttonStyle={
+              styles.button
+            }
+            title={"Cancel Request"}
+            type='outline'
+            onPress={ ()=> {
+              cancelFriendRequest(user.id);
+            }}
+          />
+
         </View>
       }
       bottomDivider

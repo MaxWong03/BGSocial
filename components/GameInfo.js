@@ -1,11 +1,10 @@
-import { Icon, Button, Rating } from 'react-native-elements';
-import React, { useEffect }from 'react';
+import { Icon, Button } from 'react-native-elements';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
 // import { api } from './../api';
 
 
 export default function GameInfo({ game }) {
-  console.log("Entered into GameInfo component page");
   const userID = 1;
 
   const playTimeMin = game.play_time_min;
@@ -20,7 +19,6 @@ export default function GameInfo({ game }) {
   // useEffect(() => {
   //   api.get(`user/games/${game.bgg_id}/win`)
   //   .then((data) => {
-  //     console.log("in the front end page", data.data.winPercentage);
   //     win_percentage = data.data.winPercentage;
   //   });
   // }, []);

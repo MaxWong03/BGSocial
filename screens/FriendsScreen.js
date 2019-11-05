@@ -3,17 +3,17 @@ import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import { Header, Avatar, Button, Icon, ButtonGroup, ListItem } from "react-native-elements";
 import { api } from '../api';
 import useFriendsData from '../hooks/useFriendsData';
-import { getUserInfo } from './../hooks/sessionContext';
 // get all pending request sent by this user
 import PendingRequest from '../hooks/PendingRequest';
-// get all received request
+// get all received requests
 import ReceivedRequest from '../hooks/ReceivedRequest';
+// other components
+import FriendPageItem from './../components/FriendPageItem';
+import FriendRequester from './../components/FriendRequester';
+import NotFriendUser from './../components/NotFriendUser';
+import SentRequestUser from './../components/SentRequestUser';
 
-export default function FriendsScreen({ navigation, screenProps }) {
-
-  const { userData } = getUserInfo();
-
-  const userId = userData.id;
+export default function FriendsScreen({ navigation }) {
 
   const [allUsers, setAllUsers] = useState([]);
 
@@ -30,7 +30,6 @@ export default function FriendsScreen({ navigation, screenProps }) {
   }, []);
 
   const goToAddFriends = function (){
-    console.log("fasfds", sentRequests);
     navigation.navigate('AddFriends', {
       allUsersInDB: allUsers,
       allFriends: friendsList,
@@ -38,10 +37,13 @@ export default function FriendsScreen({ navigation, screenProps }) {
       sentRequests,
       dispatchRequest,
       ADD_PENDING_REQ,
-      DELETE_PENDING_REQ
+      DELETE_PENDING_REQ,
+      // addFriend: addFriend(),
+      // cancelFriendRequest: cancelFriendRequest()
     })
   };
 
+  // all actions after pressing buttons are listed below
   const confirmFriendRequest = function (senderID){
     api.post(`/users/request/${senderID}/confirm`)
     .then((res => {
@@ -68,6 +70,21 @@ export default function FriendsScreen({ navigation, screenProps }) {
     }))
   };
 
+  const addFriend = function(receiverID) {
+    api.post(`/users/request/${receiverID}`)
+    .then((res) => {
+      const user = res.data.user;
+      dispatchRequest({type: ADD_PENDING_REQ, value: user});
+    });
+  };
+
+  const cancelFriendRequest = function(receiverID) {
+    api.post(`/users/request/${receiverID}/delete`)
+    .then((res) => {
+      const user = res.data.user;
+      dispatchRequest({type: DELETE_PENDING_REQ, value: user});
+    });
+  };
 
   // button group attempt
   const [screenState, setButtonGroup] = useState(0);
@@ -76,7 +93,25 @@ export default function FriendsScreen({ navigation, screenProps }) {
     setButtonGroup(currentScreen);
   };
 
-  const buttons = ['My friend', 'Received Request'];
+  const buttons = ['My friend', 'Received Request', 'Sent Request']; // title for different screens
+
+  // set up the title based on the screen state and number
+  let title;
+
+  if (screenState === 0) {
+    if (friendsList.length === 1) title = <Text style={ styles.titleStyle }>1 Friend</Text>;
+    else if ( friendsList.length > 1 ) title = <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>;
+    else title = <Text style={ styles.titleStyle }>You havent added any friend yet</Text>;
+  } else if (screenState === 1) {
+    if (receivedRequests.length === 1) title = <Text style={ styles.titleStyle }>1 Friend Request</Text>;
+    else if ( receivedRequests.length > 1 ) title = <Text style={ styles.titleStyle }>{receivedRequests.length} Friend Requests</Text>;
+    else title = <Text style={ styles.titleStyle }>No Friend Request</Text>
+  } else if (screenState === 2) {
+    if (sentRequests.length === 1) title = <Text style={ styles.titleStyle }>1 Sent Request</Text>;
+    else if ( sentRequests.length > 1 ) title = <Text style={ styles.titleStyle }>{sentRequests.length} Sent Requests</Text>;
+    else
+      title = <Text style={ styles.titleStyle }>No Sent Request</Text>
+  }
 
   return (
     <>
@@ -102,79 +137,45 @@ export default function FriendsScreen({ navigation, screenProps }) {
             selectedIndex={screenState}
             onPress={slider}
           />
-         <Text style={ styles.titleStyle }>Friend request</Text>
-        {
-          screenState === 1 && receivedRequests.length !== 0 ?
-          receivedRequests.map((friend, index) => {
-            <ListItem
-             key={friend.id}
-             leftAvatar={{ size: 60, rounded: true, source: { uri: friend.avatar } }}
-             title={ friend.name }
-             subtitle = {
-              <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
-                <Button
-                  // buttonStyle={styles}
-                  title={"More info "}
-                  type='outline'
-                  iconRight={true}
-                  onPress={ 
-                    () => navigation.navigate('UserMoreInfo', {
-                      user: friend
-                    })
-                  }
-                />
-                <Button
-                  // buttonStyle={ { size: 30 }}
-                  title={"Unfriend"}
-                  type='outline'
-                  iconRight={true}
-                  onPress={()=> ( unfriend(friend.id) )}
-                />
-              </View>
-             }
-             bottomDivider
-           />
-          })
-        : 
-        <Text>No Friend Requests</Text>
-      }
+         <Text style={ styles.titleStyle }>{title}</Text>
 
-       <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>
-      {
-        screenState === 0 && friendsList.length !== 0 ?
-        friendsList.map((friend) => (
-          <ListItem
-            key={friend.id}
-            leftAvatar={{ size: 60, rounded: true, source: { uri: friend.avatar } }}
-            title={ friend.name }
-            subtitle = {
-             <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
-               <Button
-                 // buttonStyle={styles}
-                 title={"More info "}
-                 type='outline'
-                 iconRight={true}
-                 onPress={ 
-                   () => navigation.navigate('UserMoreInfo', {
-                     user: friend
-                   })
-                 }
-               />
-               <Button
-                 // buttonStyle={ { size: 30 }}
-                 title={"Unfriend"}
-                 type='outline'
-                 iconRight={true}
-                 onPress={()=> ( unfriend(friend.id) )}
-               />
-             </View>
-            }
-            bottomDivider
-          />
-        ))
-        : <Text>No friend in your library</Text>
+         {
+          screenState === 0 &&
+          friendsList.map((friend, index) => (
+            <FriendPageItem
+              key = { index }
+              person = { friend }
+              unfriend = { unfriend }
+            />
+          ))
         }
 
+        {
+          screenState === 1 &&
+          receivedRequests.map((friend, index) => (
+            <FriendRequester
+              key = { index }
+              friend = { friend }
+              confirmFriendRequest = { confirmFriendRequest }
+              rejectFriendRequest = { rejectFriendRequest }
+            />
+          ))
+        }
+
+        {
+          screenState === 2 &&
+          sentRequests.map((friend, index) => (
+            <SentRequestUser
+              key = { index }
+              dispatchRequest = { dispatchRequest }
+              ADD_PENDING_REQ = { ADD_PENDING_REQ }
+              DELETE_PENDING_REQ = { DELETE_PENDING_REQ }
+              user = { friend }
+              cancelFriendRequest = { cancelFriendRequest }
+              receiverIDs = { receivedRequests }
+            />
+          ))
+        }
       </ScrollView>
     </>
   );
@@ -185,33 +186,4 @@ const styles = StyleSheet.create({
     textAlign: 'center', // <-- the magic
     fontSize: 40,
   },
-  flexParent: {
-    margin: 10,
-    flexDirection: "row",
-    borderRadius: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-    height: 150,
-    alignItems: 'stretch', // align them to the max width
-    borderColor: '#eee',
-    borderWidth: 1
-  },
-  nameStyle: {
-    marginTop: 10,
-    fontSize: 30,
-    fontFamily: 'Cochin',
-  },
-  imageContainer:{
-    flex: 3,
-    height: '100%',
-    width: '100%',
-    // backgroundColor: 'blue'
-  },
-  textContainer:{
-    flex: 3,
-    // backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
 });
