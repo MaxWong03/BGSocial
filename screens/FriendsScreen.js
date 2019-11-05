@@ -134,7 +134,7 @@ export default function FriendsScreen({ navigation }) {
 
   return (
     <>
-      {/* <Header
+      <Header
         centerComponent={{ text: 'My Friends', style: { color: '#fff', fontSize: 25 } }}
         rightComponent={<Button
           icon={
@@ -147,7 +147,7 @@ export default function FriendsScreen({ navigation }) {
           }
         />}
         containerStyle={{height: 'auto'}}
-      /> */}
+      />
       <ScrollView 
         style={styles.gameListContainer}
         // contentContainerStyle={styles.scrollView}
@@ -208,22 +208,6 @@ export default function FriendsScreen({ navigation }) {
     </>
   );
 }
-
-FriendsScreen.navigationOptions = ( {navigation} ) => {
-  return {
-    title: "Friends",
-    headerRight: (
-      <Icon
-        name="add"
-        // size={30}
-        width='100%'
-        height = '100%'
-        color="black"
-        onPress={ () => navigation.navigate('AddFriends') }
-      />
-    )
-  }
-};
 
 const styles = StyleSheet.create({
   titleStyle:{
