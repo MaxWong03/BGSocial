@@ -106,7 +106,7 @@ export default function SinglePlayScreen({ navigation }) {
             key={player.id}
             leftIcon={{ name: 'star-o', type: 'font-awesome', color: player.is_winner ? 'green' : 'gray' }}
             title={users[player.user_id].name}
-            badge={{ value: `Score: ${player.score}`, badgeStyle: { padding: 10 } }}
+            badge={{ value: `Score: ${player.score}`, badgeStyle: { padding: 2 }, textStyle: { color: 'white', fontSize: 12 } }}
             subtitle={
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
                 <Text>{player.is_winner ? "Winner" : ""}</Text>
