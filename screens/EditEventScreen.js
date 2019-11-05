@@ -40,27 +40,24 @@ export default function EditEventScreen() {
 
   const editEventAction = () => {
 
-    // console.log('timeSlots:', timeSlots);
-    // console.log('gamesSlot', gameSlots);
-    // console.log('friendSlots', friendSlots);
-    // console.log('location', location);
+    const eventDates = timeSlots.map(time => {
+      return {
+        
+      }
+    })
 
-    console.log('eventDates', event_dates);
-    console.log('event_attendants', event_attendants);
-    console.log('event_games', event_games);
+    // const editEvent = {
+    //   id: eventID,
+    //   title: title,
+    //   spots: spots,
+    //   is_open,
+    //   "owner_id": userData.id,
+    //   eventDates: event_dates,
+    //   eventAttendants: event_attendants,
+    //   eventGames: event_games
+    // }
 
-    const editEvent = {
-      id: eventID,
-      title: title,
-      spots: spots,
-      is_open,
-      "owner_id": userData.id,
-      eventDates: event_dates,
-      eventAttendants: event_attendants,
-      eventGames: event_games
-    }
-
-    console.log(editEvent);
+    // console.log(editEvent);
 
     // api.post(`/events/${id}`, editEvent).then((res) => {
     //   refreshEventScreen();

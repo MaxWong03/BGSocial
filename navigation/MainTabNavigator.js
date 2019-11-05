@@ -98,23 +98,6 @@ TestStack.navigationOptions = {
 TestStack.path = '';
 
 
-const CreateEvent = createStackNavigator(
-  {
-    CreateEvents: CreateEventScreen,
-  },
-  config
-)
-
-CreateEvent.navigationOptions = {
-  tabBarLabel: 'Create',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-};
-
-CreateEvent.path = '';
-
-
 const GamesStack = createStackNavigator(
   {
     OwnedGame: OwnedGameScreen,
@@ -138,7 +121,6 @@ const tabNavigator = createBottomTabNavigator({
   EventsStack,
   PlaysStack,
   TestStack,
-  CreateEvent,
   GamesStack
 });
 
