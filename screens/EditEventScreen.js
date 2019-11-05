@@ -189,6 +189,7 @@ export default function EditEventScreen() {
             name='check-circle'
             type='font-awesome'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
         buttonStyle={{ backgroundColor: buttonColor }}
