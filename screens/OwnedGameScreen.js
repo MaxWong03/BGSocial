@@ -1,21 +1,15 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
-// import { useEventsData } from './../hooks/useEventsData';
 import { Header, Button, Icon, Divider } from 'react-native-elements';
-// import { formatDateWithTime } from './../utils'
 import OwnGameListItem from '../components/OwnGameListItem';
 import { api } from './../api';
 import useGameData from '../hooks/useGamesData';
 import { getUserInfo } from './../hooks/sessionContext';
-// import { updateLoading, updateList } from './../reducers/user_games_action';
-// import { initState, initReducer } from './../reducers/user_games_reducer';
+import { SafeAreaView } from "react-navigation";
 
 export default function OwnedGameScreen({ navigation }) {
-  // const [count, setCount] = useState(0);
-  // const [state, dispatch] = useReducer(initReducer, initState);
-  // const [date, setDate] = useState("");
-  // const {list = [], loading} = state
-  // const {list, dispatchState} = useGameData();
+
+  // SafeAreaView.setStatusBarHeight(-0);
 
   const { userData } = getUserInfo();
 
@@ -56,14 +50,9 @@ export default function OwnedGameScreen({ navigation }) {
         />}
         containerStyle={{height: 'auto'}}
       />
-      <Divider style={{ backgroundColor: 'blue', height: 5 }} />
-      <View style={ { justifyContent: 'center',
-                      alignItems: "center"} }>
-      </View>
 
-      <Divider style={{ backgroundColor: 'blue', height: 5 }} />
       <ScrollView style={styles.gameListContainer}>
-        <Text style={ { fontSize: 50 } }>{list.length} games</Text>
+        <Text style={ styles.titleStyle }>{list.length} games</Text>
         {
           list.length !== 0 ?
             list.map((event, index) => {
@@ -96,4 +85,9 @@ export default function OwnedGameScreen({ navigation }) {
 // };
 
 const styles = StyleSheet.create({
+  titleStyle:{
+    textAlign: 'center', // <-- the magic
+    fontSize: 40,
+    marginBottom: 10,
+  },
 });

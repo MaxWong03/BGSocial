@@ -1,59 +1,45 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Avatar, Button, ListItem } from "react-native-elements";
-// import useList from '../hooks/useList';
-import { api } from '../api';
-import { getUserInfo } from '../hooks/sessionContext';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, ListItem } from "react-native-elements";
 
-export default function SentRequestUser({ dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ, user, addFriend, cancelFriendRequest, receiverIDs }) {
-
-  const { userData } = getUserInfo();
-  const userId = userData.id;
-
-  const [buttonText, setButtonText] = useState('Add friend');
-
+// this is the component in the 
+// 'Sent Request' group of 
+// 'Friend Navigator' 
+export default function SentRequestUser({ user, cancelFriendRequest }) {
   return (
     <ListItem
       key={user.id}
       leftAvatar={{ size: 60, rounded: true, source: { uri: user.avatar } }}
       title={ user.name }
       subtitle = {
-        <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
-
+        <View style= { styles.subtitleViewStyle } >
           <Button
-            buttonStyle={
-              styles.button
-            }
+            buttonStyle = { styles.buttonStyle }
             title={"Cancel Request"}
             type='outline'
             onPress={ ()=> {
               cancelFriendRequest(user.id);
             }}
           />
-
         </View>
       }
+      topDivider
       bottomDivider
     />
   );
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    height: '6%',
+  buttonStyle: {
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 200,
+    padding: 10,
+    borderWidth: 1
+  },
+  subtitleViewStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  backIcon: {
-    width: '30%',
-  },
-  headerText: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 20,
-    width: '70%'
-  },
-  gameListContainer: {
-    height: '75%'
+    justifyContent: 'center',
+    paddingVertical: 8
   }
-})
+});

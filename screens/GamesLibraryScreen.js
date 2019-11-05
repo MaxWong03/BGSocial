@@ -22,7 +22,6 @@ export default function GamesLibraryScreen({navigation}) {
 
   const userId = userData.id;
 
-
   const [search, setSearch] = useState('');
 
   const updateSearch = (userInput) => setSearch(userInput);
@@ -44,12 +43,12 @@ export default function GamesLibraryScreen({navigation}) {
   }
 
   return (
-    <View>
-      <GameSearchBar
-        updateSearch={updateSearch} // keeping update for the text in the search bar
-        search={search}
-      />
+    <>
       <ScrollView style={styles.gameListContainer}>
+        <GameSearchBar
+          updateSearch={updateSearch} // keeping update for the text in the search bar
+          search={search}
+        />
         {
           gameSelectList.map((game, index) => (
             game['name'].includes(search) && !ownedGamesID.includes(game['id']) &&
@@ -69,7 +68,7 @@ export default function GamesLibraryScreen({navigation}) {
         onPress={()=> navigation.goBack()}
         title={"back"}
       />
-    </View>
+    </>
   );
 }
 

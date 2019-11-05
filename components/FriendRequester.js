@@ -1,20 +1,20 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button, ListItem } from "react-native-elements";
 
+// this is the component in the 
+// 'Friend Request' group of 
+// 'Friend Navigator'
 export default function FriendRequester({ friend, confirmFriendRequest, rejectFriendRequest }) {
-
-  console.log("in the friend Requester page");
-
   return (
     <ListItem
       key={friend.id}
       leftAvatar={{ size: 60, rounded: true, source: { uri: friend.avatar } }}
       title={ friend.name }
       subtitle = {
-      <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
+      <View style= { styles.subtitleViewStyle } >
         <Button
-          // buttonStyle={styles}
+          buttonStyle = { styles.buttonStyle }
           title={"Confirm"}
           type='outline'
           iconRight={true}
@@ -23,7 +23,7 @@ export default function FriendRequester({ friend, confirmFriendRequest, rejectFr
           }
         />
         <Button
-          // buttonStyle={ { size: 30 }}
+          buttonStyle = { styles.buttonStyle }
           title={"Reject"}
           type='outline'
           iconRight={true}
@@ -31,7 +31,23 @@ export default function FriendRequester({ friend, confirmFriendRequest, rejectFr
         />
       </View>
       }
+      topDivider
       bottomDivider
     />
   );
 }
+
+const styles = StyleSheet.create({
+  buttonStyle: {
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 200,
+    padding: 10,
+    borderWidth: 1
+  },
+  subtitleViewStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 8
+  }
+});

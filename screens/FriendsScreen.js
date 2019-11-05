@@ -12,15 +12,11 @@ import FriendPageItem from './../components/FriendPageItem';
 import FriendRequester from './../components/FriendRequester';
 import NotFriendUser from './../components/NotFriendUser';
 import SentRequestUser from './../components/SentRequestUser';
-
-// import {
-//   ScrollView,
-//   RefreshControl,
-//   SafeAreaView,
-// } from 'react-native';
-import Constants from 'expo-constants';
+import { SafeAreaView } from "react-navigation"; // for removing the white negative spcae at the top
 
 export default function FriendsScreen({ navigation }) {
+
+  // SafeAreaView.setStatusBarHeight(-50); // set the negative space
 
   const [allUsers, setAllUsers] = useState([]);
 
@@ -121,17 +117,10 @@ export default function FriendsScreen({ navigation }) {
   }
 
   // refreshing attempt
-
   const fetchData = async() =>{ // get the data again
     loadRequest();
     loadAllFriends();
     loadPendings();
-  }
-
-  function wait(timeout) {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
-    });
   }
 
   const [refreshing, setRefreshing] = React.useState(false);
@@ -139,15 +128,13 @@ export default function FriendsScreen({ navigation }) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchData().then(()=>{
-      // wait(500).then(() =>
         setRefreshing(false)
-      // );
     })
   }, [refreshing]);
 
   return (
     <>
-      <Header
+      {/* <Header
         centerComponent={{ text: 'My Friends', style: { color: '#fff', fontSize: 25 } }}
         rightComponent={<Button
           icon={
@@ -160,7 +147,7 @@ export default function FriendsScreen({ navigation }) {
           }
         />}
         containerStyle={{height: 'auto'}}
-      />
+      /> */}
       <ScrollView 
         style={styles.gameListContainer}
         // contentContainerStyle={styles.scrollView}
@@ -222,10 +209,26 @@ export default function FriendsScreen({ navigation }) {
   );
 }
 
+FriendsScreen.navigationOptions = ( {navigation} ) => {
+  return {
+    title: "Friends",
+    headerRight: (
+      <Icon
+        name="add"
+        // size={30}
+        width='100%'
+        height = '100%'
+        color="black"
+        onPress={ () => navigation.navigate('AddFriends') }
+      />
+    )
+  }
+};
+
 const styles = StyleSheet.create({
   titleStyle:{
     textAlign: 'center', // <-- the magic
     fontSize: 40,
+    marginBottom: 10,
   },
-
 });

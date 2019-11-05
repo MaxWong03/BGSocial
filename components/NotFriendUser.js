@@ -5,7 +5,7 @@ import { Avatar, Button, ListItem } from "react-native-elements";
 import { api } from '../api';
 import { getUserInfo } from '../hooks/sessionContext';
 
-export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ, user, addFriend, cancelFriendRequest, receiverIDs }) {
+export default function NotFriendUser({ user, addFriend, cancelFriendRequest, receiverIDs }) {
 
   const { userData } = getUserInfo();
   const userId = userData.id;
@@ -18,17 +18,13 @@ export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE
       leftAvatar={{ size: 60, rounded: true, source: { uri: user.avatar } }}
       title={ user.name }
       subtitle = {
-        <View style= { {flexDirection: 'row', justifyContent: 'flex-end', paddingVertical: 8} } >
+        <View style= { styles.subtitleViewStyle } >
            {
             !receiverIDs.includes(user['id']) &&
             <Button
-              buttonStyle={
-                styles.button
-                // {backgroundColor: button}
-              }
+              buttonStyle = { styles.buttonStyle }
               title={"Add friend "}
               type='outline'
-              // iconRight={true}
               onPress={ ()=> {
                 addFriend(user.id);
               }}
@@ -38,10 +34,9 @@ export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE
           {
             receiverIDs.includes(user['id']) &&
             <Button
-              buttonStyle={styles.button}
+              buttonStyle = { styles.buttonStyle }
               title={"Cancal request"}
               type='outline'
-              // iconRight={true}
               onPress={ ()=> {
                 cancelFriendRequest(user.id);
               }}
@@ -55,21 +50,16 @@ export default function NotFriendUser({ dispatchRequest, ADD_PENDING_REQ, DELETE
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    height: '6%',
+  buttonStyle: {
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 200,
+    padding: 10,
+    borderWidth: 1
+  },
+  subtitleViewStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  backIcon: {
-    width: '30%',
-  },
-  headerText: {
-    color: 'black',
-    fontWeight: 'bold',
-    fontSize: 20,
-    width: '70%'
-  },
-  gameListContainer: {
-    height: '75%'
+    justifyContent: 'center',
+    paddingVertical: 8
   }
-})
+});

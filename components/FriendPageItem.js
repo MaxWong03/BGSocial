@@ -2,6 +2,9 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, ListItem } from "react-native-elements";
 
+// this is the component in the 
+// 'My Friend' group of 
+// 'Friend Navigator' 
 export default function FriendPageItem({ person, dispatchFriends, REMOVE_FRIEND, unfriend, navigation }) {
 
   return (
@@ -29,6 +32,7 @@ export default function FriendPageItem({ person, dispatchFriends, REMOVE_FRIEND,
           />
         </View>
       }
+      topDivider
       bottomDivider
     />
   );
