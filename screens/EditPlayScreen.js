@@ -16,6 +16,7 @@ import { ScrollView } from 'react-native';
 
 
 export default function EditPlayScreen() {
+  //presetData and their parsing
   const users = useNavigationParam('users');
   const play = useNavigationParam('play');
   const game = useNavigationParam('game');
@@ -25,8 +26,13 @@ export default function EditPlayScreen() {
   const { hour: presetHour, minute: presetMinute, second: presetSecond } = deformatDuration(duration);
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
+  const presetUserID = playsUsers.map(user => user.user_id);
+  const presetScoreList = 
+  playsUsers.map(playObj => {
+    return {id: playObj.user_id, score: playObj.score}
+  });
 
-  console.log(playsUsers);
+
 
   //states
   const [date, setDate] = useState(new Date(presetDate));
@@ -37,8 +43,8 @@ export default function EditPlayScreen() {
       parsePresetDuration(presetSecond)
     );
   const [gameRecord, setGameRecord] = useState([game.id]);
-  const { friendSlots, changeFriendSlot } = useFriendSlot();
-  const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(id);
+  const { friendSlots, changeFriendSlot } = useFriendSlot(presetUserID);
+  const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(null, presetScoreList);
 
   const editScoreAction = () => {
     console.log('date:', date);
@@ -46,6 +52,8 @@ export default function EditPlayScreen() {
     console.log('minute:', minute);
     console.log('second:', second);
     console.log('gameRecord:', gameRecord);
+    console.log('friendSlots:', friendSlots);
+    console.log('scoreList:', scoreList);
   }
 
   return (
@@ -70,15 +78,14 @@ export default function EditPlayScreen() {
         />
         <RecordPlayer
           userFriends={userFriends}
-          recordFriendList={
-            playsUsers.map(user => user.user_id)
-          }
+          recordFriendList={presetUserID}
           changeFriendSlot={changeFriendSlot}
           creator={{ avatar, id, name }}
           addScoreList={addScoreList}
           updateScoreList={updateScoreList}
           deleteScoreList={deleteScoreList}
           isWinner={isWinner}
+          presetScoreList={presetScoreList}
         />
       </ScrollView>
       <Button
