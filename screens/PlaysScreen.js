@@ -57,20 +57,20 @@ export default function PlaysScreen({ navigation }) {
             />
           ))
         }
-        <View style={styles.iconBox}>
-          <Icon
-            size={20}
-            name='plus-square'
-            type='font-awesome'
-            color='white'
-            onPress={() => navigate('CreatePlay', {
-              userFriends,
-              userGames
-            })}
-            iconStyle={styles.icon}
-          />
-        </View>
       </ScrollView>
+      <View style={styles.iconBox}>
+        <Icon
+          size={20}
+          name='plus-square'
+          type='font-awesome'
+          color='white'
+          onPress={() => navigate('CreatePlay', {
+            userFriends,
+            userGames
+          })}
+          iconStyle={styles.icon}
+        />
+      </View>
     </View>
   )
 }

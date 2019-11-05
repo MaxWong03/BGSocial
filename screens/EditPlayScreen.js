@@ -13,7 +13,7 @@ import { getUserInfo } from './../hooks/sessionContext';
 import useFriendSlot from '../hooks/useFriendSlot';
 import useScore from '../hooks/useScore';
 import { ScrollView } from 'react-native';
-
+import useButtonProps from '../hooks/useButtonProps';
 
 export default function EditPlayScreen() {
   //presetData and their parsing
@@ -27,10 +27,10 @@ export default function EditPlayScreen() {
   const { userData } = getUserInfo();
   const { avatar, id, name } = userData;
   const presetUserID = playsUsers.map(user => user.user_id);
-  const presetScoreList = 
-  playsUsers.map(playObj => {
-    return {id: playObj.user_id, score: playObj.score}
-  });
+  const presetScoreList =
+    playsUsers.map(playObj => {
+      return { id: playObj.user_id, score: playObj.score }
+    });
 
 
 
@@ -45,15 +45,25 @@ export default function EditPlayScreen() {
   const [gameRecord, setGameRecord] = useState([game.id]);
   const { friendSlots, changeFriendSlot } = useFriendSlot(presetUserID);
   const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(null, presetScoreList);
+  const { buttonTitle, setButtonTitle, buttonColor, setButtonColor }
+    = useButtonProps('Create Score!', '#2089dc');
 
   const editScoreAction = () => {
-    console.log('date:', date);
-    console.log('hour:', hour);
-    console.log('minute:', minute);
-    console.log('second:', second);
-    console.log('gameRecord:', gameRecord);
-    console.log('friendSlots:', friendSlots);
-    console.log('scoreList:', scoreList);
+    if (!hour && !minute && !second) {
+      setButtonTitle('Input Hour, Minute, or Second');
+      setButtonColor('red');
+    } else if (!gameRecord.length) {
+      setButtonTitle('Select A Game');
+      setButtonColor('red');
+    } else {
+      console.log('date:', date);
+      console.log('hour:', hour);
+      console.log('minute:', minute);
+      console.log('second:', second);
+      console.log('gameRecord:', gameRecord);
+      console.log('friendSlots:', friendSlots);
+      console.log('scoreList:', scoreList);
+    }
   }
 
   return (
@@ -89,7 +99,7 @@ export default function EditPlayScreen() {
         />
       </ScrollView>
       <Button
-        title={'Edit Score!'}
+        title={buttonTitle}
         icon={
           <Icon
             name='check-circle'
@@ -97,6 +107,7 @@ export default function EditPlayScreen() {
             color='white'
           />
         }
+        buttonStyle={{ backgroundColor: buttonColor }}
         onPress={editScoreAction}
       />
     </>
