@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, RefreshControl } from 'react-native';
 import { Header, Avatar, Button, Icon, ButtonGroup, ListItem } from "react-native-elements";
 import { api } from '../api';
 import useFriendsData from '../hooks/useFriendsData';
@@ -13,15 +13,22 @@ import FriendRequester from './../components/FriendRequester';
 import NotFriendUser from './../components/NotFriendUser';
 import SentRequestUser from './../components/SentRequestUser';
 
+// import {
+//   ScrollView,
+//   RefreshControl,
+//   SafeAreaView,
+// } from 'react-native';
+import Constants from 'expo-constants';
+
 export default function FriendsScreen({ navigation }) {
 
   const [allUsers, setAllUsers] = useState([]);
 
-  const { state: friendsList, dispatchFriends, ADD_FRIEND, REMOVE_FRIEND } = useFriendsData();
+  const { state: friendsList, dispatchFriends, ADD_FRIEND, REMOVE_FRIEND, loadAllFriends } = useFriendsData();
 
-  const { state: receivedRequests, dispatchReceivedRequest, REJECT_REQUEST } = ReceivedRequest();
+  const { state: receivedRequests, dispatchReceivedRequest, REJECT_REQUEST, loadRequest } = ReceivedRequest();
 
-  const {state: sentRequests, dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ} = PendingRequest();
+  const {state: sentRequests, dispatchRequest, ADD_PENDING_REQ, DELETE_PENDING_REQ, loadPendings } = PendingRequest();
 
   useEffect(() => {
     api.get("/users").then((res) => {
@@ -113,6 +120,31 @@ export default function FriendsScreen({ navigation }) {
       title = <Text style={ styles.titleStyle }>No Sent Request</Text>
   }
 
+  // refreshing attempt
+
+  const fetchData = async() =>{
+    loadRequest();
+    loadAllFriends();
+    loadPendings();
+  }
+
+  function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData().then(()=>{
+      wait(500).then(() => setRefreshing(false));
+    })
+   
+  }, [refreshing]);
+
+
   return (
     <>
       <Header
@@ -129,7 +161,13 @@ export default function FriendsScreen({ navigation }) {
         />}
         containerStyle={{height: 'auto'}}
       />
-      <ScrollView style={styles.gameListContainer}>
+      <ScrollView 
+        style={styles.gameListContainer}
+        // contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }  
+      >
 
         <ButtonGroup
             buttons={buttons}

@@ -5,13 +5,13 @@ import reducer, { SET_PENDING_REQ, ADD_PENDING_REQ, DELETE_PENDING_REQ } from '.
 export default function useGamesData() {
   const [state, dispatchRequest] = useReducer(reducer, [])
   
-  async function loadGames() {
+  async function loadPendings() {
     const requests = await api.get(`/users/request/sent`);
     dispatchRequest({ type: SET_PENDING_REQ, value: requests.data.sentRequest })
   };
 
   useEffect(() => {
-    loadGames()
+    loadPendings()
   }, [])
 
   return {
@@ -20,6 +20,6 @@ export default function useGamesData() {
     SET_PENDING_REQ,
     ADD_PENDING_REQ,
     DELETE_PENDING_REQ,
-    loadGames
+    loadPendings
   }
 }
