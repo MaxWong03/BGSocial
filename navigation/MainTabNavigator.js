@@ -127,7 +127,7 @@ const GamesStack = createStackNavigator(
 GamesStack.navigationOptions = {
   tabBarLabel: 'Games',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-logo-snapchat' : 'logo-snapchat'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'logo-snapchat' : 'logo-snapchat'} />
   ),
 };
 
