@@ -36,7 +36,7 @@ const getEventChosenEventDate = function (event) {
 }
 
 function getConfirmedAttendants(event) {
-  return event.event_attendants.filter(attendant => attendant.is_confirmed)
+  return event.event_attendants.filter(attendant => attendant.is_confirmed === true && attendant.is_not_assisting === false)
 };
 
 export {

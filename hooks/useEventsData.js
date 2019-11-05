@@ -74,13 +74,11 @@ export function useEventsData() {
 
   function goingToEvent(eventId, userId) {
     // Assistance confirmation
-    console.log('goingToEvent')
     refreshEventScreen()
   }
 
   function setConfirmEvent(eventId, eventDateId) {
     // This is when the owner chooses a date (NOT FOR ASSISTANCE CONFIRMATION)
-    console.log('setConfirmEvent')
     return api
       .post(`/events/${eventId}/dates/${eventDateId}`)
       .then((res) => refreshEventScreen());
