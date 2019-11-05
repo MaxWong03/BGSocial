@@ -6,11 +6,25 @@ import useVisibility from '../hooks/useVisibility';
 import RecordGameModal from '../components/RecordGameModal';
 import useList from '../hooks/useList';
 
-export default function RecordGame({ userGames, setGameRecord }) {
+export default function RecordGame({ userGames, setGameRecord, presetGame }) {
   const { visible, showModal, closeModal } = useVisibility(false);
+
+  console.log(presetGame);
+
   userGames = userGames.map(game => {
     return { ...game, 'selected': false }
   })
+
+  if (presetGame) {
+    userGames = userGames.map(game => {
+      if (game.id === presetGame)
+        return { ...game, 'selected': true };
+      else return game;
+    })
+  }
+
+  console.log(userGames);
+
   const { list: gameSelectList, onSelectRecordGame: onSelect } = useList(userGames);
 
   const filterSelectedGames = () => {

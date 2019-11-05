@@ -15,14 +15,9 @@ export default function EditPlayScreen() {
   const users = useNavigationParam('users');
   const play = useNavigationParam('play');
   const game = useNavigationParam('game');
+  const userGames = useNavigationParam('userGames');
   const { date: presetDate, duration, game_id, id: playID, playsUsers } = play;
   const { hour: presetHour, minute: presetMinute, second: presetSecond } = deformatDuration(duration);
-
-
-  console.log('presetHour:', presetHour);
-  console.log('presetMinute:', presetMinute);
-  console.log('presetSecond:', presetSecond);
-
 
   //states
   const [date, setDate] = useState(new Date(presetDate));
@@ -32,12 +27,14 @@ export default function EditPlayScreen() {
     parsePresetDuration(presetMinute),
     parsePresetDuration(presetSecond)
   );
+  const [gameRecord, setGameRecord] = useState([game.id]);
 
   const editScoreAction = () => {
     console.log('date:', date);
     console.log('hour:', hour);
     console.log('minute:', minute);
     console.log('second:', second);
+    console.log('gameRecord:', gameRecord);
   }
 
   return (
@@ -53,6 +50,11 @@ export default function EditPlayScreen() {
         changeHour={changeHour}
         changeMinute={changeMinute}
         changeSecond={changeSecond}
+      />
+      <RecordGame 
+        userGames={userGames}
+        setGameRecord={setGameRecord}
+        presetGame={game.id}
       />
       <Button
         title={'Edit Score!'}
