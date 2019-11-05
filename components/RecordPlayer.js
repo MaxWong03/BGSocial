@@ -73,7 +73,9 @@ export default function RecordPlayer({ userFriends, recordFriendList, changeFrie
           updateScoreList={updateScoreList}
           isWinner={isWinner}
           presetScore={
+            presetScoreList ? 
             presetScoreList.find(scoreObj => scoreObj.id === creator.id).score 
+            : null
           }
         />
       }
@@ -89,7 +91,9 @@ export default function RecordPlayer({ userFriends, recordFriendList, changeFrie
             updateScoreList={updateScoreList}
             isWinner={isWinner}
             presetScore={
+              presetScoreList ? 
               presetScoreList.find(scoreObj => scoreObj.id === friend.id).score
+              : null
             }
           />
         ))
