@@ -12,6 +12,7 @@ export default function SinglePlayScreen({ navigation }) {
   const users = navigation.getParam('users');
   const { navigate } = useNavigation();
   const userGames = useNavigationParam('userGames');
+  const userFriends = useNavigationParam('userFriends');
 
   const iconBarItems = [
     {
@@ -20,7 +21,8 @@ export default function SinglePlayScreen({ navigation }) {
         play,
         game,
         users,
-        userGames
+        userGames,
+        userFriends
       })
     },
     {

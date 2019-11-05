@@ -50,7 +50,8 @@ export default function PlaysScreen({ navigation }) {
                 play: play,
                 game: state.games[play.game_id],
                 users: state.users,
-                userGames
+                userGames,
+                userFriends
               })}
               bottomDivider
             />
