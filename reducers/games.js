@@ -7,7 +7,6 @@ const stateLookup = {
     return value;
   },
   ADD_GAMES: (state, value) =>{
-    
     return [...state, value];
   },
   DELETE_GAMES: (state, value) =>{

@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { getUserInfo } from './../hooks/sessionContext';
-import { formatDateWithTime, formatTime } from '../utils';
-import { ListItem, Icon } from 'react-native-elements';
+import { formatDateWithTime } from '../utils';
+import { ListItem} from 'react-native-elements';
 
 export default function GameInfo({ game, playTimes }) {
   const { userData } = getUserInfo();

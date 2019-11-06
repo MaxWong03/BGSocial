@@ -6,15 +6,11 @@ import {
   getEventChosenEventDate,
   getConfirmedAttendants
 } from './../utils';
-import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
-import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { Overlay, Button, Text, ListItem} from 'react-native-elements';
-
-
 
 export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
@@ -23,7 +19,6 @@ export default function SingleEventScreen({ navigation }) {
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
   const refreshEventScreen = useNavigationParam('refreshEventScreen')
-
   function deleteModal() {
     Alert.alert(
       'Delete Event',
@@ -39,7 +34,6 @@ export default function SingleEventScreen({ navigation }) {
       { cancelable: false },
     );
   }
-
   function cancelOpenModal() {
     Alert.alert(
       'Open Event Cancellation',
@@ -55,7 +49,6 @@ export default function SingleEventScreen({ navigation }) {
       { cancelable: false },
     );
   }
-
   function notGoingModal() {
     Alert.alert(
       'Reject Event assistance',
@@ -71,56 +64,45 @@ export default function SingleEventScreen({ navigation }) {
       { cancelable: false },
     );
   }
-
   useEffect(() => {
     loadSingleEvent(navigation.getParam('eventID'));
   }, [navigation.state.params.eventID]);
-
   const deleteEventCallback = navigation.getParam('removeEvent');
   const goingEventCallback = navigation.getParam('goingToEvent');
   const notGoingEventCallback = navigation.getParam('notGoingToEvent');
   const confirmEventCallback = navigation.getParam('setConfirmEvent');
-
   function isLoading() {
     return !state.event || state.event.id != navigation.getParam('eventID');
   }
-
   async function loadSingleEvent(id) {
     const event = await api.get(`/events/${id}`);
     setState({ ...state, event: event.data });
   };
-
   function deleteEvent(eventId) {
     deleteEventCallback(eventId);
     navigation.navigate('Events');
   }
-
   async function goingToEvent(eventId) {
     await api.post(`/events/${eventId}/going`);
     await goingEventCallback(eventId);
     loadSingleEvent(eventId);
   }
-
   async function notGoing(eventId) {
     await notGoingEventCallback(eventId);
     navigation.navigate('Events');
   }
-
   async function confirmEvent(eventId, eventDateId) {
     await confirmEventCallback(eventId, eventDateId);
     loadSingleEvent(eventId);
   }
-
   async function voteEventDate(eventId, eventDateId) {
     await api.post(`/events/${eventId}/dates/${eventDateId}/vote`);
     loadSingleEvent(eventId);
   }
-
   async function cancelvoteEventDate(eventId, eventDateId) {
     await api.post(`/events/${eventId}/dates/${eventDateId}/vote-delete`);
     loadSingleEvent(eventId);
   }
-
   async function setOpenEvent(eventId, isOpen) {
     try {
       console.log('setOpenEvent(eventId)', eventId);
@@ -131,13 +113,10 @@ export default function SingleEventScreen({ navigation }) {
       console.log(e)
     }
   }
-
   const userId = getUserInfo().userData.id;
-
   if (isLoading()) {
     return (<ActivityIndicator size='large' color="#0000ff" style={{ marginTop: 200 }} />) // display loading...
   }
-
   function renderChosenDateInfo(chosenDate, confirmedAttendants) {
     const chosenDateViewData = [
       {
@@ -160,9 +139,7 @@ export default function SingleEventScreen({ navigation }) {
       <IconBar iconsData={chosenDateViewData} horizontal={false} padding={2} />
     )
   }
-
   function renderOwnerEventBody(event) {
-
     return (
       <View style={styles.boxShadow}>
         {event.event_dates.map((eventDate) => {
@@ -183,7 +160,6 @@ export default function SingleEventScreen({ navigation }) {
               iconColor: '#BBB'
             }
           ];
-
           return (
             <ListItem
               key={eventDate.id}
@@ -206,7 +182,6 @@ export default function SingleEventScreen({ navigation }) {
       </View>
     );
   }
-
   function renderVotesEventBody(event) {
     return (
       <View style={styles.boxShadow}>
@@ -248,7 +223,6 @@ export default function SingleEventScreen({ navigation }) {
       </View>
     );
   }
-
   function renderConfirmAttendances(confirmedAttendants) {
     return (
       <View style={styles.boxShadow}>
@@ -269,7 +243,6 @@ export default function SingleEventScreen({ navigation }) {
       </View>
     )
   }
-
   function renderGames(games) {
     return (
       <View style={styles.boxShadow}>
@@ -290,7 +263,6 @@ export default function SingleEventScreen({ navigation }) {
       </View>
     )
   }
-
   function getOwnerButtons() {
     const buttons = [
       {
@@ -322,7 +294,6 @@ export default function SingleEventScreen({ navigation }) {
     buttons.push({ iconName: 'trash-o', textInfo: 'Delete', onPress: deleteModal });
     return buttons;
   }
-
   function getAttendantButtons(eventAttendants) {
     const attendantButtons = [];
     if (eventAttendants.find(attendant => userId === attendant.attendant_id)) {
@@ -347,27 +318,19 @@ export default function SingleEventScreen({ navigation }) {
     }
     return attendantButtons;
   }
-
   function getVotesByDateId(eventVotes, eventDateId) {
     return eventVotes.filter(eventDate => eventDate.event_date_id === eventDateId)
-
   }
-
   function checkVoteOfUserByDateId(userId, eventDateId, eventVotes) {
     return getVotesByDateId(eventVotes, eventDateId).find(vote => vote.user_id === userId)
   }
-
   function checkIfUserIsGoing(eventAttendants, userId) {
     return !!eventAttendants.find(attendant => userId === attendant.attendant_id && attendant.is_confirmed === true)
   }
-
   const isOwner = userId === state.event.owner_id;
   const chosenDate = getEventChosenEventDate(state.event);
   const confirmedAttendants = getConfirmedAttendants(state.event);
-
   const iconBarItems = isOwner ? getOwnerButtons() : getAttendantButtons(state.event.event_attendants);
-
-
   //Here start the component rendered
   return (
     <ScrollView style={styles.mainContainer}>
@@ -406,7 +369,6 @@ export default function SingleEventScreen({ navigation }) {
       >
         <View style={{paddingHorizontal: 14, paddingVertical: 8}}>
           <Text h4 style={{ marginBottom: 10 }}>Open Event to friends</Text>
-
           <Text>You are about to open your event to all your friends.
            How many extra spots you want to leave available? So far your confirm attendants are {confirmedAttendants.length}
           </Text>
@@ -440,11 +402,6 @@ export default function SingleEventScreen({ navigation }) {
     </ScrollView>
   );
 }
-
-
-
-
-
 const styles = StyleSheet.create({
   eventDateChooseDateContainer: {
     flexDirection: 'row',
