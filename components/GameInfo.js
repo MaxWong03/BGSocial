@@ -24,16 +24,16 @@ export default function GameInfo({ game, playTimes }) {
           subtitle={
             <View style ={ {paddingLeft: 8, paddingBottom: 10, color:'#777' }}>
               {!!playTimes && <Text>Times played: {playTimes}</Text>}
-              <Text>Last Played: {formatDateWithTime(game.last_play)}</Text>
+              <Text style={{marginTop: 7}}>Last Played: {formatDateWithTime(game.last_play)}</Text>
               {playTimeMin === playTimeMax &&
-                <Text>Play time: {playTimeMin} mins</Text>
+                <Text style={{marginTop: 7}}>Play time: {playTimeMin} mins</Text>
               }
 
               {playTimeMin !== playTimeMax &&
-                <Text>Play time: {playTimeMin} to {playTimeMax} mins</Text>
+                <Text style={{marginTop: 7}}>Play time: {playTimeMin} to {playTimeMax} mins</Text>
               }
-              <Text>Average Rating in Bgg: {Math.round(game.average_bgg_rating * 100) / 100}</Text>
-              <Text>Category: {game.category}</Text>
+              <Text style={{marginTop: 7}}>Average Rating in Bgg: {Math.round(game.average_bgg_rating * 100) / 100}</Text>
+              <Text style={{marginTop: 7}}>Category: {game.category}</Text>
             </View>
           }
           bottomDivider
