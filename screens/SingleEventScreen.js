@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Image, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -12,7 +12,7 @@ import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 import { useNavigationParam } from 'react-navigation-hooks';
-import { Overlay, Button, Text, ListItem, CheckBox } from 'react-native-elements';
+import { Overlay, Button, Text, ListItem} from 'react-native-elements';
 
 
 
