@@ -40,15 +40,15 @@ export default function EventItem({ eventTitle, chosenDate, attendants, isOwner,
           type='outline'
           iconRight={false}
           onPress={onPress}
-          titleStyle={{ fontSize: 12 }}
-          buttonStyle={{ paddingVertical: 4, minWidth: 120 }}
+          titleStyle={{ fontSize: 11 }}
+          buttonStyle={{ paddingVertical: 4 }}
           icon={
             <Icon
-              size={15}
+              size={14}
               name={icon}
               type='font-awesome'
               color='#bdbdbd'
-              iconStyle={{ marginRight: 10 }}
+              iconStyle={{ marginRight: 1 }}
             />
           } />
         {isOwner &&
@@ -57,7 +57,7 @@ export default function EventItem({ eventTitle, chosenDate, attendants, isOwner,
             type='outline'
             iconRight={false}
             onPress={onPress}
-            titleStyle={{ fontSize: 12, color: "white" }}
+            titleStyle={{ fontSize: 11, color: "white" }}
             buttonStyle={{ paddingVertical: 4, backgroundColor: '#F38989' }}
             type="solid"
           />
