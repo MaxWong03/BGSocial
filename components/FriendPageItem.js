@@ -26,6 +26,7 @@ export default function FriendPageItem({ person, dispatchFriends, REMOVE_FRIEND,
           <Button
             buttonStyle = { [styles.buttonStyle, {borderColor: 'red'}] }
             title={ "Unfriend"}
+            titleStyle={{color: 'red'}}
             type='outline'
             iconRight={true}
             onPress={()=> ( unfriend(person.id) )}
