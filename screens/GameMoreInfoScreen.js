@@ -39,7 +39,6 @@ export default function GameMoreInfoScreen({ navigation }) {
   }
 
   function getData(statisticsItem) {
-    console.log('getData', statisticsItem);
     if (Object.keys(statisticsItem).length > 0) {
       return [
         statisticsItem.max_score,
@@ -61,7 +60,7 @@ export default function GameMoreInfoScreen({ navigation }) {
       {
         iconName: 'clock-o',
         iconColor: '#bdbdbd',
-        textInfo: `Average Duration: ${duration.hours}h: ${duration.minutes}m`,
+        textInfo: `Average Duration: ${duration.hours}h: ${(duration.minutes !== undefined) ? duration.minutes: '00'}m`,
       }
     ];
     return (
@@ -73,12 +72,9 @@ export default function GameMoreInfoScreen({ navigation }) {
   if (isDataReady()) {
     const CUT_OFF = Math.max(...[...friendsData, ...userData, ...globalData]) / 3 * 2
     Labels = ({ x, y, bandwidth, data }) => {
-      // console.log('Labels', x, y, bandwidth, data);
       const arrayOfArrays = data.map((value, index) => {
-        // console.log('value', value);
         return value.data.map((valueItem, index2) => {
           const xDistance = x(index2) + bandwidth / 3 * (index - 1);
-          // console.log('valueItem', valueItem, 'xDistance', xDistance, value.data.length * index + index2, 'bandwidth', bandwidth);
           return (<SVGText
             key={value.data.length * index + index2}
             x={xDistance + (bandwidth / 2)}

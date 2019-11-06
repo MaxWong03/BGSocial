@@ -21,7 +21,6 @@ export default function EventsScreen({ navigation }) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
-    // console.log("in the onrefresh function");
     setRefreshing(true);
     fetchData().then(()=>{
         setRefreshing(false)
@@ -67,7 +66,6 @@ export default function EventsScreen({ navigation }) {
     eventsToShow = openEvents(state, userId);
   }
 
-  console.log(state.events.spots)
   return (
     <View style={{ height: "100%" }}>
       <NavigationEvents onWillFocus={onWillFocus} />
