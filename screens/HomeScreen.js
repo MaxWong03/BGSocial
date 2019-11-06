@@ -19,6 +19,8 @@ import { useEventsData } from './../hooks/useEventsData';
 import EventItem from './../components/EventItem';
 import { getConfirmedAttendants } from './../utils';
 import {useNavigation} from 'react-navigation-hooks';
+import useFriendsData from '../hooks/useFriendsData';
+import useGamesData from '../hooks/useGamesData';
 
 export default function HomeScreen() {
 
@@ -26,8 +28,13 @@ export default function HomeScreen() {
   const { userData, profilePicture, name } = getUserInfo();
   const userId = userData.id;
 
+  const { state: userGames, loadGames } = useGamesData();
+  const { state: userFriends, loadAllFriends } = useFriendsData();
+
   // Refreshing attempt
   const fetchData = async() =>{ // get the data again
+    loadGames();
+    loadAllFriends();
     loadEvents();
   }
 
@@ -63,9 +70,6 @@ export default function HomeScreen() {
   useEffect( ()=>{
     loadEvents();
   }, [])
-
-  // const eventDates = eventToShow.map(event => event.chosen_event_date.date);
-
 
   if(eventToShow) {
     const mostRecentDate = new Date(Math.min.apply(null, eventToShow.map(event => new Date(event.chosen_event_date.date))));
@@ -116,8 +120,8 @@ export default function HomeScreen() {
             goingToEvent,
             setConfirmEvent,
             notGoingToEvent,
-            // userGames,
-            // userFriends
+            userGames,
+            userFriends
           })}
         />}
 
