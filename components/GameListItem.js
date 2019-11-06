@@ -6,7 +6,7 @@ export default function GameListItem({ game, onSelect }) {
     <ListItem
       leftAvatar={{ source: { uri: game['thumbnail'] } }}
       title={game['name']}
-      subtitle={`Rating: ${game['average_bgg_rating']}`}
+      subtitle={`Rating: ${Math.round(game['average_bgg_rating'] * 100) / 100}`}
       bottomDivider
       rightElement={
         <CheckBox 

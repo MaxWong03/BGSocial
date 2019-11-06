@@ -13,6 +13,7 @@ import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import { getUserInfo } from './../hooks/sessionContext';
 import { api } from './../api';
+import useButtonProps from '../hooks/useButtonProps';
 
 export default function createEventScreen() {
   const { timeSlots, addTimeSlot, changeTimeSlot, deleteTimeSlot } = useTimeSlot();
@@ -25,56 +26,68 @@ export default function createEventScreen() {
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
   const { userData } = getUserInfo();
+  const {buttonTitle, setButtonTitle, buttonColor, setButtonColor} 
+  = useButtonProps('Create Event!', '#2089dc');
+  
   const createEventAction = () => {
+    if (!gameSlots.length) {
+      setButtonColor('red');
+      setButtonTitle('Select At Least One Game');
+    } else if (!friendSlots.length) {
+      setButtonColor('red')
+      setButtonTitle('Invite At Least One Friend');
+    } else {
+      const eventDates = timeSlots.map(time => {
+        setButtonColor('#2089dc');
+        setButtonTitle('Create Event!');
+        return {
+          "date": JSON.stringify(time["date"]),
+          "is_chosen": false,
+          "is_open": true,
+          "location": location
+        }
+      });
 
-    const eventDates = timeSlots.map(time => {
-      return {
-        "date": JSON.stringify(time["date"]),
-        "is_chosen": false,
-        "is_open": true,
-        "location": location
-      }
-    });
+      const eventAttendants = friendSlots.map(friend => {
+        return {
+          "is_confirmed": false,
+          "is_not_assisting": false,
+          "attendant_id": friend
+        }
+      });
 
-    const eventAttendants = friendSlots.map(friend => {
-      return {
-        "is_confirmed": false,
+      eventAttendants.push({
+        "is_confirmed": true,
         "is_not_assisting": false,
-        "attendant_id": friend
-      }
-    });
+        "attendant_id": userData.id
+      })
 
-    eventAttendants.push({
-      "is_confirmed": true,
-      "is_not_assisting": false,
-      "attendant_id": userData.id
-    })
-
-    const eventGames = gameSlots.map(game => {
-      return {
-        "game_id": game
-      }
-    })
+      const eventGames = gameSlots.map(game => {
+        return {
+          "game_id": game
+        }
+      })
 
 
-    const newEvent = {
-      "owner_id": userData.id,
-      title: eventTitle,
-      spots: eventAttendants.length,
-      eventDates,
-      eventAttendants,
-      eventGames
-    };
-
-    api.post(`/events/`, newEvent).then((res) => {
-      const { data: createdEvent } = res;
-      createdEvent['chosen_event_date'] = {
-        date: null,
-        location: null
+      const newEvent = {
+        "owner_id": userData.id,
+        title: eventTitle,
+        spots: eventAttendants.length,
+        eventDates,
+        eventAttendants,
+        eventGames
       };
-      refreshEventScreen();
-      navigate('Events');
-    })
+
+      api.post(`/events/`, newEvent).then((res) => {
+        const { data: createdEvent } = res;
+        createdEvent['chosen_event_date'] = {
+          date: null,
+          location: null
+        };
+        refreshEventScreen();
+        navigate('Events');
+      })
+    }
   };
 
   return (
@@ -129,15 +142,17 @@ export default function createEventScreen() {
         />
       </ScrollView>
       <Button
-        title='Create Event!'
+        title={buttonTitle}
         icon={
           <Icon
             name='check-circle'
             type='font-awesome'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
         onPress={createEventAction}
+        buttonStyle={{backgroundColor: buttonColor}}
       />
     </>
   );

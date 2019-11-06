@@ -6,10 +6,18 @@ import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
 import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner }) {
+export default function RecordPlayer({ userFriends, recordFriendList, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner, presetScoreList }) {
+
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
   })
+
+  if (recordFriendList) {
+    userFriends = userFriends.map(friend => {
+      if (recordFriendList.includes(friend.id)) return { ...friend, 'selected': true }
+      else return friend;
+    })
+  }
 
   const { visible, showModal, closeModal } = useVisibility(false);
   const { list: friendSelectList, onSelectRecord: onSelect } = useList(userFriends);
@@ -39,6 +47,7 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
             name='group-add'
             type='material-icons'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
       />
@@ -64,6 +73,11 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
           canDelete={false}
           updateScoreList={updateScoreList}
           isWinner={isWinner}
+          presetScore={
+            presetScoreList ? 
+            presetScoreList.find(scoreObj => scoreObj.id === creator.id).score 
+            : null
+          }
         />
       }
       {
@@ -77,6 +91,11 @@ export default function RecordPlayer({ userFriends, changeFriendSlot, creator, a
             canDelete={true}
             updateScoreList={updateScoreList}
             isWinner={isWinner}
+            presetScore={
+              presetScoreList ? 
+              presetScoreList.find(scoreObj => scoreObj.id === friend.id).score
+              : null
+            }
           />
         ))
       }

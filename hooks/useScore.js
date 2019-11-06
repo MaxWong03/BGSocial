@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 
-export default function useScore(id) {
-  const [scoreList, setScoreList] = useState([{ id, score: 0 }])
+export default function useScore(id, presetScore) {
+
+  const [scoreList, setScoreList] = useState(!id ? presetScore : [{ id, score: 0 }]);
 
   const addScoreList = (id) => {
     if (!scoreList.find(playerScore => playerScore.id === id)) {// if i cant find the player 

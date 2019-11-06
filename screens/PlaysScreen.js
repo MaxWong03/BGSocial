@@ -6,13 +6,13 @@ import { NavigationEvents } from 'react-navigation';
 import { formatDateWithTime, formatTime } from '../utils';
 import { useNavigation } from 'react-navigation-hooks';
 import useFriendsData from '../hooks/useFriendsData';
-import useGamesData from '../hooks/useGamesData';
+import useGamesLib from '../hooks/useGamesLib';
 
 export default function PlaysScreen({ navigation }) {
   const [state, setPlay] = useState({ plays: [], games: {} });
   const { navigate } = useNavigation();
   const { state: userFriends } = useFriendsData();
-  const { state: userGames } = useGamesData();
+  const { gameLib: userGames } = useGamesLib();
 
   async function loadPlays() {
     const plays = await api.get(`/plays/`);
@@ -50,25 +50,27 @@ export default function PlaysScreen({ navigation }) {
                 play: play,
                 game: state.games[play.game_id],
                 users: state.users,
+                userGames,
+                userFriends
               })}
               bottomDivider
             />
           ))
         }
-        <View style={styles.iconBox}>
-          <Icon
-            size={20}
-            name='plus-square'
-            type='font-awesome'
-            color='white'
-            onPress={() => navigate('CreatePlay', {
-              userFriends,
-              userGames
-            })}
-            iconStyle={styles.icon}
-          />
-        </View>
       </ScrollView>
+      <View style={styles.iconBox}>
+        <Icon
+          size={20}
+          name='plus-square'
+          type='font-awesome'
+          color='white'
+          onPress={() => navigate('CreatePlay', {
+            userFriends,
+            userGames
+          })}
+          iconStyle={styles.icon}
+        />
+      </View>
     </View>
   )
 }

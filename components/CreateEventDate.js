@@ -12,6 +12,7 @@ export default function CreateEventDate({ buttonText,timeSlots, addTimeSlot, cha
             name='calendar-plus-o'
             type='font-awesome'
             color='white'
+            iconStyle={{marginRight: 5}}
           />
         }
         onPress={addTimeSlot}

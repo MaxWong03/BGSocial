@@ -4,16 +4,26 @@ import { formatDateWithTime, formatTime } from './../utils';
 import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { Text, ListItem } from 'react-native-elements';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 
 export default function SinglePlayScreen({ navigation }) {
   const play = navigation.getParam('play');
   const game = navigation.getParam('game');
   const users = navigation.getParam('users');
+  const { navigate } = useNavigation();
+  const userGames = useNavigationParam('userGames');
+  const userFriends = useNavigationParam('userFriends');
 
   const iconBarItems = [
     {
       iconName: 'edit', textInfo: 'Edit Play',
-      onPress: () => console.lgog('Edit')
+      onPress: () => navigate('EditPlay', {
+        play,
+        game,
+        users,
+        userGames,
+        userFriends
+      })
     },
     {
       iconName: 'trash-o',
