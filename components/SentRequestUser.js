@@ -11,11 +11,13 @@ export default function SentRequestUser({ user, cancelFriendRequest }) {
       key={user.id}
       leftAvatar={{ size: 60, rounded: true, source: { uri: user.avatar } }}
       title={ user.name }
+      titleStyle={{fontWeight: '600', color: '#485152'}}
       subtitle = {
         <View style= { styles.subtitleViewStyle } >
           <Button
             buttonStyle = { styles.buttonStyle }
             title={"Cancel Request"}
+            titleStyle={{fontWeight: '600'}}
             type='outline'
             onPress={ ()=> {
               cancelFriendRequest(user.id);
