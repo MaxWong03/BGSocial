@@ -25,23 +25,22 @@ export default function HomeScreen() {
   const {navigate} = useNavigation();
   const { userData, profilePicture, name } = getUserInfo();
   const userId = userData.id;
-    // Refreshing attempt
 
-    const fetchData = async() =>{ // get the data again
-      loadEvents();
-    }
-  
-    const [refreshing, setRefreshing] = React.useState(false);
-  
-    const onRefresh = React.useCallback(() => {
-      // console.log("in the onrefresh function");
-      setRefreshing(true);
-      fetchData().then(()=>{
-          setRefreshing(false)
-      })
-    }, [refreshing]);
-  
-    // end of reffreshign attempt code
+  // Refreshing attempt
+  const fetchData = async() =>{ // get the data again
+    loadEvents();
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData().then(()=>{
+        setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of reffreshign attempt code
 
   const {
     state,
@@ -57,11 +56,9 @@ export default function HomeScreen() {
     loadEvents
   } = useEventsData();
 
-
   let eventToShow = [];
   eventToShow = confirmEvents(state, userId)
   let event = null;
-
 
   useEffect( ()=>{
     loadEvents();
@@ -71,12 +68,9 @@ export default function HomeScreen() {
 
 
   if(eventToShow) {
-    const mostRecentDate = new Date(Math.max.apply(null, eventToShow.map(event => new Date(event.chosen_event_date.date))));
+    const mostRecentDate = new Date(Math.min.apply(null, eventToShow.map(event => new Date(event.chosen_event_date.date))));
     event = eventToShow.find(event => new Date(event.chosen_event_date.date).toString() === mostRecentDate.toString());
   }
-
-  console.log(event);
-
 
 
   return (
