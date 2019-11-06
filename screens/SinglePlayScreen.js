@@ -13,7 +13,7 @@ export default function SinglePlayScreen({ navigation }) {
   const iconBarItems = [
     {
       iconName: 'edit', textInfo: 'Edit Play',
-      onPress: () => console.lgog('Edit')
+      onPress: () => console.log('Edit')
     },
     {
       iconName: 'trash-o',
