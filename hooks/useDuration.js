@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-export default function useDuration() {
-  const [hour, setHour] = useState('');
-  const [minute, setMinute] = useState('');
-  const [second, setSecond] = useState('');
+export default function useDuration(initHour, initMinute, initSecond) {
+  const [hour, setHour] = useState(initHour || '');
+  const [minute, setMinute] = useState(initMinute || '');
+  const [second, setSecond] = useState(initSecond || '');
 
   const changeHour = (newHour) => {
     (/^\d+$/.test(newHour) || !newHour) && setHour(newHour);

@@ -19,6 +19,7 @@ import FriendsScreen from '../screens/FriendsScreen';
 import AddFriendsScreen from '../screens/AddFriendsScreen'
 import FriendMoreInfoScreen from '../screens/FriendMoreInfo';
 import CreatePlayScreen from '../screens/CreatePlayScreen'
+import EditPlayScreen from '../screens/EditPlayScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -71,7 +72,8 @@ const PlaysStack = createStackNavigator(
   {
     Plays: PlaysScreen,
     SinglePlay: SinglePlayScreen,
-    CreatePlay: CreatePlayScreen
+    CreatePlay: CreatePlayScreen,
+    EditPlay: EditPlayScreen
   },
   config
 );
