@@ -1,13 +1,13 @@
 import { Icon, Button } from 'react-native-elements';
-import React, { useEffect }from 'react';
-import { StyleSheet, View, Image, Text, ScrollView } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, Image, Text, ScrollView, Linking } from 'react-native';
 
 export default function FriendMoreInfoScreen({navigation}) {
   const individualUser = navigation.getParam("user");
   
   return (
     <View>
-      <ScrollView>
+      <ScrollView style = {{height: '100%'}}>
           <View 
             style={styles.imageContainer}
           >
@@ -23,26 +23,13 @@ export default function FriendMoreInfoScreen({navigation}) {
             <Text style={styles.titleStyle} >{individualUser.name}</Text>
 
             <View
-              style={{ paddingVertical: 15 }}
+              style={{ paddingVertical: 15, textAlign: 'center', }}
             >
               <Text>NickName: {individualUser.nickname}</Text>
               <Text>User Email: {individualUser.email}</Text>
+              <Button onPress={() => Linking.openURL('mailto:support@example.com') }
+      title="support@example.com" />
             </View>
-            <Button
-              buttonStyle={styles.button}
-              title= ' back'
-              type='outline'
-              iconLeft={true}
-              onPress={ () => navigation.goBack() }
-              icon={
-                <Icon
-                  size={20}
-                  name='arrow-circle-left'
-                  type='font-awesome'
-                  color='#bdbdbd'
-                  title='Go back previous page'
-                />
-              } />
           </View>
       </ScrollView>
     </View>
@@ -60,6 +47,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     fontSize: 30,
+    textAlign: 'center', // <-- the magics
   },
   titleStyle: {
     fontSize: 50,
