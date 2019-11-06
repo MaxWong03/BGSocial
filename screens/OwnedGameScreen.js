@@ -22,7 +22,6 @@ export default function OwnedGameScreen({ navigation }) {
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
-    // console.log("in the onrefresh function");
     setRefreshing(true);
     fetchData().then(()=>{
         setRefreshing(false)

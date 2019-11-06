@@ -32,7 +32,6 @@ export function useEventsData() {
         || (!userConfirmed(event, userId) && isUserGoing(event, userId)))
   };
   function openEvents(state, userId) {
-    console.log('from openEvents function', state.openEvents)
     return Object.values(state.openEvents);
   };
   async function loadEvents() {

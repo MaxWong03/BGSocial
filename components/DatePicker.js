@@ -8,7 +8,6 @@ export default function DatePicker({ date, onChangeDate }) {
   const { visible, showModal, closeModal } = useVisbility();
 
   const getPickedDate = (date) => {
-    console.log("A date has been picked: ", date);
     onChangeDate(date)
     closeModal();
   }
