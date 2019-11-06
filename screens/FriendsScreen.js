@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, RefreshControl } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
 import { Header, Avatar, Button, Icon, ButtonGroup, ListItem } from "react-native-elements";
 import { api } from '../api';
 import useFriendsData from '../hooks/useFriendsData';
@@ -31,6 +31,11 @@ export default function FriendsScreen({ navigation }) {
       setAllUsers(res.data.users);
     });
   }, []);
+
+  useEffect(() => {
+    navigation.setParams({ numberOfFriends: friendsList.length, goToAddFriends });
+  }, [friendsList.length, allUsers.length]);
+
 
   const goToAddFriends = function (){
     navigation.navigate('AddFriends', {
@@ -102,9 +107,9 @@ export default function FriendsScreen({ navigation }) {
   let title;
 
   if (screenState === 0) {
-    if (friendsList.length === 1) title = <Text style={ styles.titleStyle }>1 Friend</Text>;
-    else if ( friendsList.length > 1 ) title = <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>;
-    else title = <Text style={ styles.titleStyle }>You havent added any friend yet</Text>;
+  //   if (friendsList.length === 1) title = <Text style={ styles.titleStyle }>1 Friend</Text>;
+  //   else if ( friendsList.length > 1 ) title = <Text style={ styles.titleStyle }>{friendsList.length} Friends</Text>;
+    if (friendsList.length === 0) title = <Text style={ styles.titleStyle }>You havent added any friend yet</Text>;
   } else if (screenState === 1) {
     if (receivedRequests.length === 1) title = <Text style={ styles.titleStyle }>1 Friend Request</Text>;
     else if ( receivedRequests.length > 1 ) title = <Text style={ styles.titleStyle }>{receivedRequests.length} Friend Requests</Text>;
@@ -134,7 +139,7 @@ export default function FriendsScreen({ navigation }) {
 
   return (
     <>
-      <Header
+      {/* <Header
         centerComponent={{ text: 'Friends', style: { color: '#fff', fontSize: 25 } }}
         rightComponent={<Button
           icon={
@@ -147,7 +152,7 @@ export default function FriendsScreen({ navigation }) {
           }
         />}
         containerStyle={{height: 'auto'}}
-      />
+      /> */}
       <ScrollView 
         style={styles.gameListContainer}
         // contentContainerStyle={styles.scrollView}
@@ -164,8 +169,7 @@ export default function FriendsScreen({ navigation }) {
           onPress={slider}
         />
         
-        <Text style={ styles.titleStyle }>{title}</Text>
-
+        {/* <Text style={ styles.titleStyle }>{title}</Text> */}
         {
           screenState === 0 &&
           friendsList.map((friend, index) => (
@@ -204,10 +208,33 @@ export default function FriendsScreen({ navigation }) {
             />
           ))
         }
+        {
+          friendsList.length === 0 &&
+          <ActivityIndicator size='large' color="#0000ff" />
+        }
       </ScrollView>
     </>
   );
 }
+
+
+FriendsScreen.navigationOptions = ({navigation}) => { // title at the top
+  const numberOfFriends = navigation.getParam('numberOfFriends') || 0;
+  const options = {
+    title: `My Friends (${numberOfFriends})`
+  }
+
+  if (navigation.getParam('goToAddFriends')) {
+    options.headerRight = (
+      <Button
+        onPress={navigation.getParam('goToAddFriends')}
+        title="+ Add Friend"
+        color="#fff"
+      />
+    );
+  }
+  return options;
+};
 
 const styles = StyleSheet.create({
   titleStyle:{

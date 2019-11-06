@@ -1,6 +1,6 @@
 
 import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -9,21 +9,83 @@ import {
   Text,
   TouchableOpacity,
   View,
+  RefreshControl
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import { getUserInfo } from './../hooks/sessionContext';
 import { Avatar } from 'react-native-elements';
-
+import { useEventsData } from './../hooks/useEventsData';
+import EventItem from './../components/EventItem';
+import { getConfirmedAttendants } from './../utils';
+import {useNavigation} from 'react-navigation-hooks';
+import useFriendsData from '../hooks/useFriendsData';
+import useGamesData from '../hooks/useGamesData';
 
 export default function HomeScreen() {
+
+  const {navigate} = useNavigation();
   const { userData, profilePicture, name } = getUserInfo();
-  // console.log('@HomeScreen:', userData.id, profilePicture);
+  const userId = userData.id;
+
+  const { state: userGames, loadGames } = useGamesData();
+  const { state: userFriends, loadAllFriends } = useFriendsData();
+
+  // Refreshing attempt
+  const fetchData = async() =>{ // get the data again
+    loadGames();
+    loadAllFriends();
+    loadEvents();
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    fetchData().then(()=>{
+        setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of reffreshign attempt code
+
+  const {
+    state,
+    confirmEvents,
+    pendingEvents,
+    userConfirmed,
+    removeEvent,
+    goingToEvent,
+    setConfirmEvent,
+    refreshEventScreen,
+    notGoingToEvent,
+    openEvents,
+    loadEvents
+  } = useEventsData();
+
+  let eventToShow = [];
+  eventToShow = confirmEvents(state, userId)
+  let event = null;
+
+  useEffect( ()=>{
+    loadEvents();
+  }, [])
+
+  if(eventToShow) {
+    const mostRecentDate = new Date(Math.min.apply(null, eventToShow.map(event => new Date(event.chosen_event_date.date))));
+    event = eventToShow.find(event => new Date(event.chosen_event_date.date).toString() === mostRecentDate.toString());
+  }
+
+
   return (
     <View style={styles.container}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
+        contentContainerStyle={styles.contentContainer}
+        refreshControl={
+          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+        }
+      >
         <View style={styles.welcomeContainer}>
           <Avatar
             rounded
@@ -32,7 +94,6 @@ export default function HomeScreen() {
           />
         </View>
         <View style={styles.getStartedContainer}>
-
           <Text style={styles.getStartedText}>{name}</Text>
         </View>
 
@@ -43,20 +104,29 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
         </View>
+
+        {event &&
+        <EventItem
+          // key={event.id}
+          chosenDate={event.chosen_event_date.date}
+          imageUrl={event.event_games[0].image}
+          eventTitle={event.title || event.event_games[0].name}
+          isOwner={userId === event.owner_id}
+          confirmedAssistance={userConfirmed(event, userId)}
+          attendants={getConfirmedAttendants(event).length}
+          onPress={() => navigate('SingleEvent', {
+            eventID: event.id,
+            removeEvent,
+            goingToEvent,
+            setConfirmEvent,
+            notGoingToEvent,
+            userGames,
+            userFriends
+          })}
+        />}
+
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
     </View>
   );
 }
@@ -68,7 +138,7 @@ HomeScreen.navigationOptions = {
 
 function handleHelpPress() {
   WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
+    'https://github.com/MaxWong03/BGSocial'
   );
 }
 
