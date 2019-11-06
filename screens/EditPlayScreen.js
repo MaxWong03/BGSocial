@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Icon } from 'react-native-elements';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
 import RecordPlayer from '../components/RecordPlayer';
 import RecordGame from '../components/RecordGame';
 import RecordTime from '../components/RecordTime';
@@ -23,6 +23,7 @@ export default function EditPlayScreen() {
   const game = useNavigationParam('game');
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
+  const { navigate } = useNavigation();
   const { date: presetDate, duration, game_id, id: playID, playsUsers } = play;
   const { hour: presetHour, minute: presetMinute, second: presetSecond } = deformatDuration(duration);
   const { userData } = getUserInfo();
@@ -57,44 +58,27 @@ export default function EditPlayScreen() {
       setButtonTitle('Select A Game');
       setButtonColor('red');
     } else {
-      // console.log('date:', date);
-      // console.log('hour:', hour);
-      // console.log('minute:', minute);
-      // console.log('second:', second);
-      // console.log('gameRecord:', gameRecord);
-      // console.log('friendSlots:', friendSlots);
-      // console.log('scoreList:', scoreList);
-
-      console.log(presetScoreList);
-
+      setButtonColor('#2089dc');
+      setButtonTitle('Edit Score!');
       const editPlay = {
         id: playID,
         date,
         duration: formatDuration(hour, minute, second),
-        game_id: gameRecord,
+        game_id: Number(gameRecord[0]),
         event_id: null,
+        playsUsers: playsUsers.map((player, index) => {
+          return {
+            ...player,
+            score: Number(scoreList[index].score),
+            is_winner: getWinners().includes(scoreList[index].id)
+          }
+        })
       }
 
-      // {
-      //   "id": 2,
-      //   "date": "2019-11-09T00:00:00.000Z",
-      //   "duration": "3:10:00",
-      //   "game_id": 10,
-      //   "event_id": 2,
-      //   "playsUsers": [{
-      //     "id": 3,
-      //     "score": 200,
-      //     "is_winner": true,
-      //     "user_id": 23,
-      //     "play_id": 2
-      //   }, {
-      //     "id": 5,
-      //     "score": 199,
-      //     "is_winner": true,
-      //     "user_id": 22,
-      //     "play_id": 2
-      //   }]
-      // }
+      api.post(`/plays/${playID}/edit`, editPlay)
+        .then(() => navigate('Plays'))
+        .catch(err => console.log(err));
+
     }
   }
 
@@ -138,7 +122,7 @@ export default function EditPlayScreen() {
             name='check-circle'
             type='font-awesome'
             color='white'
-            iconStyle={{marginRight: 5}}
+            iconStyle={{ marginRight: 5 }}
           />
         }
         buttonStyle={{ backgroundColor: buttonColor }}
