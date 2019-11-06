@@ -6,34 +6,20 @@ import { Header, Button, Icon, Divider, Text } from 'react-native-elements';
 import OwnGameListItem from '../components/OwnGameListItem';
 import { api } from './../api';
 import useGameData from '../hooks/useGamesData';
-// import { updateLoading, updateList } from './../reducers/user_games_action';
-import { initState, initReducer } from './../reducers/user_games_reducer';
+import { getUserInfo } from './../hooks/sessionContext';
+import { SafeAreaView } from "react-navigation";
 
 export default function OwnedGameScreen({ navigation }) {
 
-  const userID = 1;
+  // SafeAreaView.setStatusBarHeight(-0);
 
-  // const [count, setCount] = useState(0);
+  const { userData } = getUserInfo();
 
-  // const [state, dispatch] = useReducer(initReducer, initState);
-  
-    // const [date, setDate] = useState("");
-    // const {list = [], loading} = state
-    
-    // const {list, dispatchState} = useGameData();
-
-  const [allGames, setAllGames] = useState([]);
+  const userId = userData.id;
 
   const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES} = useGameData();
 
-  const goToGameLibrary = function () {
-    navigation.navigate('GameLibrary', {
-      games: allGames,
-      ownedGames: list,
-      dispatchState,
-      ADD_GAMES,
-    })
-  };
+  const [allGames, setAllGames] = useState([]);
 
   useEffect(() => {
     api.get("/games/library").then((res) => {
@@ -46,6 +32,15 @@ export default function OwnedGameScreen({ navigation }) {
   }, [list.length, allGames.length]);
 
 
+
+  const goToGameLibrary = function (){
+    navigation.navigate('GameLibrary', {
+      games: allGames, // all the games from DB
+      ownedGames: list, // all the games from user_games
+      dispatchState, // the dispatcher for list
+      ADD_GAMES, // action for list
+    })
+  };
 
   return (
     <>

@@ -8,17 +8,14 @@ import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
 import useGamesData from '../hooks/useGamesData';
 import useFriendsData from '../hooks/useFriendsData';
-
 export default function EventsScreen({ navigation }) {
   const [screenState, setButtonGroup] = useState(0);
   const { state: userGames, loadGames } = useGamesData();
   const { state: userFriends } = useFriendsData();
-
   function onWillFocus(payload) {
     loadGames();
     refreshEventScreen();
   }
-
   const {
     state,
     confirmEvents,
@@ -31,17 +28,12 @@ export default function EventsScreen({ navigation }) {
     notGoingToEvent,
     openEvents
   } = useEventsData();
-
   const slider = function (currentScreen) {
     setButtonGroup(currentScreen);
   };
-
   const buttons = ['My Events', 'Pending Events', 'Explore']
-
   const { userData } = getUserInfo();
-
   const userId = userData.id;
-
   let eventsToShow = [];
   if (screenState === 0) {
     eventsToShow = confirmEvents(state, userId);
@@ -104,11 +96,9 @@ export default function EventsScreen({ navigation }) {
     </View>
   );
 };
-
 EventsScreen.navigationOptions = {
   title: 'Events',
 };
-
 const styles = StyleSheet.create({
   buttonGroup: {
     backgroundColor: '#fafafa',
@@ -127,7 +117,5 @@ const styles = StyleSheet.create({
     width: 40,
     justifyContent: 'center',
     alignContent: 'center'
-
   }
-
 });
