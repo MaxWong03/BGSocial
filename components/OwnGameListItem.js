@@ -3,9 +3,13 @@ import React from 'react';
 import { Button, Icon } from 'react-native-elements';
 import { formatDateWithTime } from './../utils'
 import { api } from './../api';
+import { getUserInfo } from './../hooks/sessionContext';
 
 export default function OwnGameListItem({ imageURL, date, title, game, dispatchState, DELETE_GAMES, last_play, onPress }) {
-  const userID = 1;
+ 
+  const { userData } = getUserInfo();
+
+  const userId = userData.id;
 
   const removeEvent = function (game) {
     api.post(`games/user/${game.bgg_id}/delete`)
@@ -18,14 +22,10 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
 
   return (
     <View style={styles.flexParent}> 
-      <View style={styles.imamgContainer}>
+      <View style={styles.imageContainer}>
         <Image
-          style={{flex: 1,
-            width: null,
-            height: null,
-            // resizeMode: 'contain'
-          }}
-          source={{uri: imageURL}}
+          style={ styles.imageStyle }
+          source={ {uri: imageURL} }
         />
       </View>
 
@@ -90,11 +90,16 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     paddingVertical: 5
   },
-  imamgContainer:{
+  imageContainer:{
     flex: 3,
     height: '100%',
     width: '100%',
     // backgroundColor: 'blue'
+  },
+  imageStyle:{
+    flex: 1,
+    width: null,
+    height: null,
   },
   textContainer:{
     paddingLeft: 16,
@@ -103,11 +108,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'stretch'
   },
-  // iconContainer: {
-  //   backgroundColor: 'yellow',
-  //   flex: 1,
-  //   padding: 'auto',
-  //   justifyContent: 'center',
-  //   alignItems: 'center'
-  // }
+  titleStyle: {
+    marginTop: 10,
+    fontSize: 20,
+  }
 });

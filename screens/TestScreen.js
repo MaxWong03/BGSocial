@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
-
-
-export default function TestScreen() {
+export default function TestScreen({ navigation }) {
   return (
-    <Text>Test Screen</Text>
+    <View>
+      <Text>fasdfsdaf test scerfsda</Text>
+    </View>
   )
 }

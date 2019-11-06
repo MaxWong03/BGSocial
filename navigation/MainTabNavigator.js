@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -14,6 +15,9 @@ import GamesLibraryScreen from '../screens/GamesLibraryScreen';
 import SingleEventScreen from '../screens/SingleEventScreen';
 import GameMoreInfoScreen from '../screens/GameMoreInfoScreen';
 import EditEventScreen from '../screens/EditEventScreen';
+import FriendsScreen from '../screens/FriendsScreen';
+import AddFriendsScreen from '../screens/AddFriendsScreen'
+import FriendMoreInfoScreen from '../screens/FriendMoreInfo';
 import CreatePlayScreen from '../screens/CreatePlayScreen'
 
 const config = Platform.select({
@@ -98,6 +102,26 @@ TestStack.navigationOptions = {
 TestStack.path = '';
 
 
+const FriendsStack = createStackNavigator(
+  {
+    ShowFriends: FriendsScreen,
+    AddFriends: AddFriendsScreen,
+    UserMoreInfo: FriendMoreInfoScreen
+  },
+  config
+)
+
+
+FriendsStack.navigationOptions = {
+  tabBarLabel: 'Friends',
+  tabBarIcon: ({ focused }) => (
+      <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+  ),
+};
+
+FriendsStack.path = '';
+
+
 const GamesStack = createStackNavigator(
   {
     OwnedGame: OwnedGameScreen,
@@ -121,6 +145,7 @@ const tabNavigator = createBottomTabNavigator({
   EventsStack,
   PlaysStack,
   TestStack,
+  FriendsStack,
   GamesStack
 });
 

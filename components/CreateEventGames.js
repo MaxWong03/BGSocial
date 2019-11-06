@@ -19,7 +19,7 @@ export default function CreatEventGames({ changeGameSlot, userGames, eventGameLi
     })
   }
 
-  const { list: gameSelectList, onSelectGame: onSelect } = useList(userGames);
+  let { list: gameSelectList, onSelectGame: onSelect } = useList(userGames);
 
   const filterSelectedGames = () => {
     return gameSelectList.filter((game) => game['selected'])
