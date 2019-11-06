@@ -66,6 +66,8 @@ export default function EventsScreen({ navigation }) {
   else if (screenState == 2) {
     eventsToShow = openEvents(state, userId);
   }
+
+  console.log(state.events.spots)
   return (
     <View style={{ height: "100%" }}>
       <NavigationEvents onWillFocus={onWillFocus} />
@@ -91,6 +93,8 @@ export default function EventsScreen({ navigation }) {
                 isOwner={userId === event.owner_id}
                 confirmedAssistance={userConfirmed(event, userId)}
                 attendants={getConfirmedAttendants(event).length}
+                spots={event.spots}
+                isOpen={event.is_open}
                 onPress={() => navigation.navigate('SingleEvent', {
                   eventID: event.id,
                   removeEvent,
