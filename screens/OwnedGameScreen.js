@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, RefreshControl } from 'react-native';
 // import { useEventsData } from './../hooks/useEventsData';
 import { Header, Button, Icon, Divider, Text } from 'react-native-elements';
 // import { formatDateWithTime } from './../utils'
@@ -7,17 +7,35 @@ import OwnGameListItem from '../components/OwnGameListItem';
 import { api } from './../api';
 import useGameData from '../hooks/useGamesData';
 import { getUserInfo } from './../hooks/sessionContext';
-import { SafeAreaView } from "react-navigation";
+
 
 export default function OwnedGameScreen({ navigation }) {
 
-  // SafeAreaView.setStatusBarHeight(-0);
+  // Refreshing attempt
+
+  const fetchData = async() =>{ // get the data again
+    loadGames();
+    // loadAllFriends();
+    // loadEvents();
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    // console.log("in the onrefresh function");
+    setRefreshing(true);
+    fetchData().then(()=>{
+        setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of reffreshign attempt code
 
   const { userData } = getUserInfo();
 
   const userId = userData.id;
 
-  const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES} = useGameData();
+  const {state: list, dispatchState, ADD_GAMES, DELETE_GAMES, loadGames} = useGameData();
 
   const [allGames, setAllGames] = useState([]);
 
@@ -44,7 +62,12 @@ export default function OwnedGameScreen({ navigation }) {
 
   return (
     <>
-      <ScrollView style={styles.gameListContainer}>
+      <ScrollView 
+        style={styles.gameListContainer}
+        refreshControl={
+          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+        }
+      >
         {
           list.length !== 0 ?
             list.map((event, index) => {

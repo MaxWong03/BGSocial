@@ -132,10 +132,15 @@ export default function FriendsScreen({ navigation }) {
     })
   }, [refreshing]);
 
+  const headerTitle = "friend page";
+
   return (
     <>
       <Header
-        centerComponent={{ text: 'My Friends', style: { color: '#fff', fontSize: 25 } }}
+        centerComponent={{ 
+          text: {headerTitle},
+          style: { color: '#fff', fontSize: 25 }
+        }}
         rightComponent={<Button
           icon={
             <Icon
