@@ -2,14 +2,14 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import EventItemDescription from './EventItemDescription';
-import EventItemImage from './EventItemImage';
 import { ListItem } from 'react-native-elements';
 
-export default function EventItem({ eventTitle, imageUrl, chosenDate, attendants, isOwner, confirmedAssistance, onPress }) {
+export default function EventItem({ eventTitle, imageUrl, chosenDate, attendants, isOwner, confirmedAssistance, onPress, isOpen, spots }) {
   return (
     <ListItem
       leftAvatar={{ size: 140, rounded: false, source: { uri: imageUrl } }}
       containerStyle={styles.itemStyle}
+      pad={0}
       title={
         <View style={{ alignSelf: 'stretch', flex: 1 }}>
           <EventItemDescription
@@ -19,15 +19,12 @@ export default function EventItem({ eventTitle, imageUrl, chosenDate, attendants
             attendants={attendants}
             onPress={onPress}
             eventTitle={eventTitle}
+            isOpen={isOpen}
+            spots={spots}
           />
         </View>
       }
-    // onPress={onPress}
     />
-    // <View style={styles.flexParent}>
-    //   <EventItemImage imageUrl={imageUrl} />
-
-    // </View>
   );
 };
 
@@ -49,16 +46,5 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
     overflow: 'hidden'
-  },
-  flexParent: {
-    margin: 10,
-    flexDirection: "row",
-    borderRadius: 10,
-    backgroundColor: '#fafafa',
-    overflow: 'hidden',
-    height: 150,
-    alignItems: 'stretch',
-    borderColor: '#eee',
-    borderWidth: 1
   },
 });

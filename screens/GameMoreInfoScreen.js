@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import GameInfo from './../components/GameInfo';
-import { ListItem, Icon, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { api } from '../api';
 import { Text as SVGText } from 'react-native-svg';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import { AreaChart, XAxis, BarChart, Grid } from 'react-native-svg-charts'
+import { BarChart } from 'react-native-svg-charts'
+import IconBar from './../components/IconBar';
 
 export default function GameMoreInfoScreen({ navigation }) {
   const individualGame = navigation.getParam("game");
@@ -13,47 +14,64 @@ export default function GameMoreInfoScreen({ navigation }) {
   const [state, setStatisticsPlay] = useState({
     playsDataUser: {},
     playsDataGlobal: {},
-    playsDataLocal: {}
+    playsDataLocal: {},
+    loaded: false
   });
 
-  const [dataState, setData] = useState({
-    friendsData: [],
-    userData: [],
-    globalData: []
-  })
-
   async function loadPlaysStatistics() {
-    const playsDataLocal = await api.get(`/plays/${individualGame.id}/games-statistics?users=friends`);
-    const playsDataUser = await api.get(`/plays/${individualGame.id}/games-statistics?`);
-    const playsDataGlobal = await api.get(`/plays/${individualGame.id}/games-statistics?users=global`);
+    const [playsDataLocal, playsDataUser, playsDataGlobal] = await Promise.all([
+      api.get(`/plays/${individualGame.id}/games-statistics?users=friends`),
+      api.get(`/plays/${individualGame.id}/games-statistics?`),
+      api.get(`/plays/${individualGame.id}/games-statistics?users=global`),
+    ])
 
     setStatisticsPlay({
-      ...state,
-      playsDataLocal: playsDataLocal.data[0],
-      playsDataUser: playsDataUser.data[0],
-      playsDataGlobal: playsDataGlobal.data[0],
+      playsDataLocal: playsDataLocal.data[0] || {},
+      playsDataUser: playsDataUser.data[0] || {},
+      playsDataGlobal: playsDataGlobal.data[0] || {},
+      loaded: true
     });
 
-    if (playsDataLocal.data.length > 0 && playsDataUser.data.length > 0 && playsDataGlobal.data.length) {
-      setData({
-        ...dataState, friendsData: [playsDataLocal.data[0].max_score, Math.round(Number(playsDataLocal.data[0].avg_score) * 100) / 100, playsDataLocal.data[0].min_score],
-        userData: [playsDataUser.data[0].max_score, Math.round(Number(playsDataUser.data[0].avg_score) * 100) / 100, playsDataUser.data[0].min_score],
-        globalData: [playsDataGlobal.data[0].max_score, Math.round(Number(playsDataGlobal.data[0].avg_score) * 100) / 100, playsDataGlobal.data[0].min_score]
-      })
-    };
   }
 
+  function isDataReady() {
+    return state.loaded;
+  }
 
-  function getData(state, user) {
-    console.log([user.data[0].max_score, Number(user.data[0].avg_score), user.data[0].min_score])
-    if (!!userData) {
-      return [user.data[0].max_score, Math.round(Number(user.data[0].avg_score) * 100) / 100, user.data[0].min_score]
+  function getData(statisticsItem) {
+    console.log('getData', statisticsItem);
+    if (Object.keys(statisticsItem).length > 0) {
+      return [
+        statisticsItem.max_score,
+        Math.round(Number(statisticsItem.avg_score) * 100) / 100, 
+        statisticsItem.min_score
+      ];
+    }
+    else {
+      return [0, 0, 0];
     }
   }
 
+  const friendsData = getData(state.playsDataLocal);
+  const userData = getData(state.playsDataUser);
+  const globalData = getData(state.playsDataGlobal);
 
-  if (!!dataState) {
-    const CUT_OFF = Math.max(...[...dataState.friendsData, ...dataState.userData, ...dataState.globalData]) / 3 * 2
+  function renderAverageDuration(duration) {
+    const chosenDateViewData = [
+      {
+        iconName: 'clock-o',
+        iconColor: '#bdbdbd',
+        textInfo: `Average Duration: ${duration.hours}h: ${duration.minutes}m`,
+      }
+    ];
+    return (
+      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={5} />
+    )
+  }
+
+
+  if (isDataReady()) {
+    const CUT_OFF = Math.max(...[...friendsData, ...userData, ...globalData]) / 3 * 2
     Labels = ({ x, y, bandwidth, data }) => {
       // console.log('Labels', x, y, bandwidth, data);
       const arrayOfArrays = data.map((value, index) => {
@@ -84,19 +102,19 @@ export default function GameMoreInfoScreen({ navigation }) {
 
   const barData = [
     {
-      data: dataState.userData,
+      data: userData,
       svg: {
         fill: 'rgb(32, 165, 40)',
       },
     },
     {
-      data: dataState.friendsData,
+      data: friendsData,
       svg: {
         fill: 'rgb(134, 65, 244)',
       },
     },
     {
-      data: dataState.globalData,
+      data: globalData,
       svg: {
         fill: 'rgb(134, 165, 244)',
       },
@@ -116,46 +134,51 @@ export default function GameMoreInfoScreen({ navigation }) {
       <ScrollView >
         <GameInfo
           game={individualGame}
-          playTimes={state.playsDataUser ? state.playsDataUser.play_counts : "Haven't played"}
+          playTimes={Object.keys(state.playsDataUser).length > 0 ? state.playsDataUser.play_counts : "Haven't played"}
         />
-        {!!dataState && 
-        <View>
-          <View style={styles.titleChart}>
-            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#485152' }}>Statistics of Plays </Text>
-          </View>
-
-          <View style={styles.boxShadow}>
-            <BarChart
-              horizontal={false}
-              spacingInner={0.1}
-              style={{ flex: 1 }}
-              data={barData}
-              gridMin={0}
-              svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
-              contentInset={{ top: 10, bottom: 10 }}
-            >
-              <Labels />
-            </BarChart>
-          </View>
-          <View style={styles.xLabels}>
-            <Text style={{color: '#485152'}} >Max Score</Text>
-            <Text style={{color: '#485152'}} >Average Score</Text>
-            <Text style={{color: '#485152'}} >Minimun Score</Text>
-          </View>
-          <View style={styles.legend}>
-            <View style={{ borderBottomWidth: 1, color: '#ddd' }}>
-              <Text style={{fontWeight: 'bold', color: '#485152'}}>Legend</Text>
+        {isDataReady() &&
+          <View>
+            {Object.keys(state.playsDataUser).length > 0 && 
+            <View>
+             {renderAverageDuration(state.playsDataUser.avg_duration)}
             </View>
-            {
-              ['User', 'Friends', 'Global'].map((player, index) => (
-                <View key={index} style={{ borderBottomWidth: 1, color: '#ddd', flexDirection: 'row', alignItems: 'center', height: 40, justifyContent: 'space-between' }}>
-                  <Text style={{color: '#485152'}}>{player}</Text>
-                  <View style={{ backgroundColor: `${colorsLegend[index]}`, width: 20, height: 20 }}></View>
-                </View>
-              ))
             }
-          </View>
-        </View>}
+            <View style={styles.titleChart}>
+              <Text style={{ fontSize: 15 }}>Statistics of Plays </Text>
+            </View>
+
+            <View style={styles.boxShadow}>
+              <BarChart
+                horizontal={false}
+                spacingInner={0.1}
+                style={{ flex: 1 }}
+                data={barData}
+                gridMin={0}
+                svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
+                contentInset={{ top: 10, bottom: 10 }}
+              >
+                <Labels />
+              </BarChart>
+            </View>
+            <View style={styles.xLabels}>
+              <Text>Max Score</Text>
+              <Text>Average Score</Text>
+              <Text>Minimun Score</Text>
+            </View>
+            <View style={styles.legend}>
+              <View style={{ borderBottomWidth: 1, borderColor: '#ddd', height: 30 }}>
+                <Text>Legend</Text>
+              </View>
+              {
+                ['User', 'Friends', 'Global'].map((player, index) => (
+                  <View key={index} style={{ borderBottomWidth: 1, borderColor: '#ddd', flexDirection: 'row', alignItems: 'center', height: 40, justifyContent: 'space-between' }}>
+                    <Text >{player}</Text>
+                    <View style={{ backgroundColor: `${colorsLegend[index]}`, width: 20, height: 20 }}></View>
+                  </View>
+                ))
+              }
+            </View>
+          </View>}
       </ScrollView>
 
     </View>

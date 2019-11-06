@@ -1,18 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { getUserInfo } from './../hooks/sessionContext';
 import { formatDateWithTime } from '../utils';
 import { ListItem } from 'react-native-elements';
 
 export default function GameInfo({ game, playTimes }) {
-  const { userData } = getUserInfo();
-  const userID = userData.id;
   const playTimeMin = game.play_time_min;
   const playTimeMax = game.play_time_max;
-
-
-
-
 
   return (
     <View>

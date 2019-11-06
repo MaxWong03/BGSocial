@@ -135,7 +135,7 @@ export default function FriendsScreen({ navigation }) {
   return (
     <>
       <Header
-        centerComponent={{ text: 'My Friends', style: { color: '#fff', fontSize: 25 } }}
+        centerComponent={{ text: 'Friends', style: { color: '#fff', fontSize: 25 } }}
         rightComponent={<Button
           icon={
             <Icon
