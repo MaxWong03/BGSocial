@@ -11,7 +11,7 @@ import useFriendSlot from '../hooks/useFriendSlot';
 import MapView, { Marker } from 'react-native-maps';
 import useLocation from '../hooks/useLocation';
 import { useNavigation, useNavigationParam } from 'react-navigation-hooks';
-
+import { getUserInfo } from './../hooks/sessionContext';
 import { api } from './../api';
 
 export default function createEventScreen() {
@@ -24,7 +24,7 @@ export default function createEventScreen() {
   const { navigate } = useNavigation();
   const userGames = useNavigationParam('userGames')
   const userFriends = useNavigationParam('userFriends')
-  // console.log("userGames:", userGames.length);
+  const { userData } = getUserInfo();
   const createEventAction = () => {
 
     const eventDates = timeSlots.map(time => {
@@ -38,7 +38,7 @@ export default function createEventScreen() {
 
     const eventAttendants = friendSlots.map(friend => {
       return {
-        "is_confirmed": true,
+        "is_confirmed": false,
         "is_not_assisting": false,
         "attendant_id": friend
       }
@@ -47,7 +47,7 @@ export default function createEventScreen() {
     eventAttendants.push({
       "is_confirmed": true,
       "is_not_assisting": false,
-      "attendant_id": 1
+      "attendant_id": userData.id
     })
 
     const eventGames = gameSlots.map(game => {
@@ -58,7 +58,9 @@ export default function createEventScreen() {
 
 
     const newEvent = {
-      "owner_id": 1,
+      "owner_id": userData.id,
+      title: eventTitle,
+      spots: eventAttendants.length,
       eventDates,
       eventAttendants,
       eventGames
@@ -97,10 +99,10 @@ export default function createEventScreen() {
                   <Marker draggable coordinate={{ latitude, longitude }} />
                 }
               />
-              {/* <EventTitle
+              <EventTitle
                 onChangeText={setEventTitle}
                 value={eventTitle}
-              /> */}
+              />
             </>
             :
             <ActivityIndicator size='large' color="#0000ff" />

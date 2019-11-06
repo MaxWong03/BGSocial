@@ -34,6 +34,7 @@ export default function AddFriendsScreen({navigation}) {
   const updateSearch = (userInput) => setSearch(userInput);
 
   const addFriend = function(receiverID) {
+    console.log("addFriend");
     api.post(`/users/request/${receiverID}`)
     .then((res) => {
       const user = res.data.user;
@@ -43,6 +44,7 @@ export default function AddFriendsScreen({navigation}) {
   };
 
   const cancelFriendRequest = function(receiverID) {
+    console.log("cancel");
     api.post(`/users/request/${receiverID}/delete`)
     .then((res) => {
       const user = res.data.user;
@@ -74,7 +76,6 @@ export default function AddFriendsScreen({navigation}) {
             receiverIDs= { receiverIDs }
           />
         ))
-
       }
     </ScrollView>
   );

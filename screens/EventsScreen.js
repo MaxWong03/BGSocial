@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
@@ -8,29 +8,14 @@ import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
 import useGamesData from '../hooks/useGamesData';
 import useFriendsData from '../hooks/useFriendsData';
-
 export default function EventsScreen({ navigation }) {
-
-    // refreshing attempt
-  const fetchData = async() =>{ // get the data again
-    loadGames();
-    loadAllFriends();
-    loadEvents();
-  }
-
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    fetchData().then(()=>{
-        setRefreshing(false)
-    })
-  }, [refreshing]);
-
   const [screenState, setButtonGroup] = useState(0);
   const { state: userGames, loadGames } = useGamesData();
-  const { state: userFriends, loadAllFriends } = useFriendsData();
-
+  const { state: userFriends } = useFriendsData();
+  function onWillFocus(payload) {
+    loadGames();
+    refreshEventScreen();
+  }
   const {
     state,
     confirmEvents,
@@ -41,27 +26,14 @@ export default function EventsScreen({ navigation }) {
     setConfirmEvent,
     refreshEventScreen,
     notGoingToEvent,
-    loadEvents
+    openEvents
   } = useEventsData();
-  
-
-  //third view
-  // useEffect(()={
-  //   if (screenState == 2 ) {
-  //     updateOpenEvents();
-  //   }
-  // }, screenState );
-
   const slider = function (currentScreen) {
     setButtonGroup(currentScreen);
   };
-
   const buttons = ['My Events', 'Pending Events', 'Explore']
-
   const { userData } = getUserInfo();
-
   const userId = userData.id;
-
   let eventsToShow = [];
   if (screenState === 0) {
     eventsToShow = confirmEvents(state, userId);
@@ -69,50 +41,43 @@ export default function EventsScreen({ navigation }) {
   else if (screenState == 1) {
     eventsToShow = pendingEvents(state, userId);
   }
-  //third view
-  // else if (screenState ==2) {
-  //   eventsToShow = state.openEvents;
-  // }
+  else if (screenState == 2) {
+    eventsToShow = openEvents(state, userId);
+  }
   return (
     <View style={{ height: "100%" }}>
-      <NavigationEvents
-      onWillFocus={payload => {
-        loadGames();
-      }}
-      />
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
-        }  
-      >
+      <NavigationEvents onWillFocus={onWillFocus} />
+      <ScrollView>
         <ButtonGroup
           buttons={buttons}
           containerStyle={styles.buttonGroup}
           selectedIndex={screenState}
           onPress={slider}
         />
-        {eventsToShow.map((event) => {
-          return (
-            <EventItem
-              key={event.id}
-              chosenDate={event.chosen_event_date.date}
-              imageUrl={event.event_games[0].image}
-              isOwner={userId === event.owner_id}
-              confirmedAssistance={userConfirmed(event, userId)}
-              attendants={getConfirmedAttendants(event).length}
-              onPress={() => navigation.navigate('SingleEvent', {
-                eventID: event.id,
-                removeEvent,
-                goingToEvent,
-                setConfirmEvent,
-                notGoingToEvent,
-                userGames,
-                userFriends
-              })}
-            />
-          );
-        })}
-
+        <View style={{paddingHorizontal: 14}}>
+          {eventsToShow.map((event) => {
+            return (
+              <EventItem
+                key={event.id}
+                chosenDate={event.chosen_event_date.date}
+                imageUrl={event.event_games[0].image}
+                eventTitle={event.title || event.event_games[0].name}
+                isOwner={userId === event.owner_id}
+                confirmedAssistance={userConfirmed(event, userId)}
+                attendants={getConfirmedAttendants(event).length}
+                onPress={() => navigation.navigate('SingleEvent', {
+                  eventID: event.id,
+                  removeEvent,
+                  goingToEvent,
+                  setConfirmEvent,
+                  notGoingToEvent,
+                  userGames,
+                  userFriends
+                })}
+              />
+            );
+          })}
+        </View>
       </ScrollView>
       <View style={styles.iconBox}>
         <Icon
@@ -131,11 +96,9 @@ export default function EventsScreen({ navigation }) {
     </View>
   );
 };
-
 EventsScreen.navigationOptions = {
   title: 'Events',
 };
-
 const styles = StyleSheet.create({
   buttonGroup: {
     backgroundColor: '#fafafa',
@@ -150,12 +113,9 @@ const styles = StyleSheet.create({
     right: 10,
     backgroundColor: '#0e92cf',
     borderRadius: 1000,
-    // opacity: 0.8,
     height: 40,
     width: 40,
     justifyContent: 'center',
     alignContent: 'center'
-
   }
-
 });

@@ -17,6 +17,8 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
       dispatchState({type: DELETE_GAMES, value: game});
     });
   }
+  const playTimeMin = game.play_time_min;
+  const playTimeMax = game.play_time_max;
 
   return (
     <View style={styles.flexParent}> 
@@ -27,69 +29,40 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
         />
       </View>
 
-      <View style={ styles.textContainer }>
-        <Text style={styles.titleStyle} >{title}</Text>
-
-        { !last_play &&
-          <View style={styles.hostFlag}>
-            <Text style={{ color: 'white', paddingBottom: 6 }}>New Game</Text>
-          </View>
-        
-        }
-
-        { last_play &&
+      <View style={styles.textContainer}>
+        <View style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+          <Text style={{marginTop: 10, fontSize: 20}} >{title}</Text>
           <Text>
-            {formatDateWithTime(date)}
+            Last Played: {date ? formatDateWithTime(date) : 'Never Played'}
           </Text>
-        }
+          
+          { playTimeMin === playTimeMax &&
+            <Text>Play time: {playTimeMin} mins</Text>
+          }
 
-        <Button
-          buttonStyle={styles.button}
-          title={"More Info "}
-          type='outline'
-          iconRight={true}
-          onPress={ onPress }
-          icon={
-            <Icon
-              size={20}
-              name={'info-circle'}
-              type='font-awesome'
-              color='#bdbdbd'
-            />
+          { playTimeMin !== playTimeMax &&
+            <Text>Play time: {playTimeMin} to {playTimeMax} mins</Text>
           }
-        />
-        <Button
-          buttonStyle={styles.button}
-          title={"Delete "}
-          type='outline'
-          iconRight={true}
-          onPress={()=> ( removeEvent(game) )}
-          icon={
-            <Icon
-              name="minus-circle"
-              type="font-awesome"
-              size={20}
-              color='#bdbdbd'
-            />
-          }
-        />
+
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8}}>
+          <Button
+            buttonStyle={styles.button}
+            title={"More info"}
+            type='outline'
+            iconRight={true}
+           onPress={ onPress }
+          />
+          <Button
+            buttonStyle={styles.button}
+            title={"Remove"}
+            type='clear'
+            iconRight={true}
+            onPress={()=> ( removeEvent(game) )}
+          />
+        </View>
       </View>
 
-      {/* <View style={styles.iconContainer}>
-
-
-        <Button
-          icon={
-            <Icon
-              name="arrow-right-thick"
-              type="material-community"
-              size={30}
-              color="white"
-            />
-          }
-        />
-
-      </View> */}
     </View>
   );
 }
@@ -129,10 +102,11 @@ const styles = StyleSheet.create({
     height: null,
   },
   textContainer:{
-    flex: 3,
+    paddingLeft: 16,
+    flex: 5,
     // backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'stretch'
   },
   titleStyle: {
     marginTop: 10,

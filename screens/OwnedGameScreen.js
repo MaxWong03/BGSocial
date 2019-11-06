@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
-import { Header, Button, Icon, Divider } from 'react-native-elements';
+import { StyleSheet, View, ScrollView } from 'react-native';
+// import { useEventsData } from './../hooks/useEventsData';
+import { Header, Button, Icon, Divider, Text } from 'react-native-elements';
+// import { formatDateWithTime } from './../utils'
 import OwnGameListItem from '../components/OwnGameListItem';
 import { api } from './../api';
 import useGameData from '../hooks/useGamesData';
@@ -23,7 +25,13 @@ export default function OwnedGameScreen({ navigation }) {
     api.get("/games/library").then((res) => {
       setAllGames(res.data.games);
     });
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    navigation.setParams({ numberOfGames: list.length, goToGameLibrary });
+  }, [list.length, allGames.length]);
+
+
 
   const goToGameLibrary = function (){
     navigation.navigate('GameLibrary', {
@@ -36,23 +44,7 @@ export default function OwnedGameScreen({ navigation }) {
 
   return (
     <>
-      <Header
-        centerComponent={{ text: 'My Games', style: { color: '#fff', fontSize: 25 } }}
-        rightComponent={<Button
-          icon={
-            <Icon
-              name="add"
-              size={30}
-              color="white"
-              onPress={ () => goToGameLibrary() }
-            />
-          }
-        />}
-        containerStyle={{height: 'auto'}}
-      />
-
       <ScrollView style={styles.gameListContainer}>
-        <Text style={ styles.titleStyle }>{list.length} games</Text>
         {
           list.length !== 0 ?
             list.map((event, index) => {
@@ -80,15 +72,30 @@ export default function OwnedGameScreen({ navigation }) {
   );
 }
 
-// OwnedGameScreen.navigationOptions = { // title at the top
-//   title: 'Test',
-// };
+OwnedGameScreen.navigationOptions = ({navigation}) => { // title at the top
+  const numberOfGames = navigation.getParam('numberOfGames') || 0;
+
+  const options = {
+    title: `My Games (${numberOfGames})`
+  }
+
+  if (navigation.getParam('goToGameLibrary')) {
+    options.headerRight = (
+      <Button
+        onPress={navigation.getParam('goToGameLibrary')}
+        title="+ Add Game"
+        color="#fff"
+      />
+    );
+  }
+  return options;
+};
+
 
 const styles = StyleSheet.create({
-  titleStyle:{
-    textAlign: 'center', // <-- the magic
-    fontSize: 40,
-    marginBottom: 10,
-    marginTop: 10
-  },
+  headerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
 });

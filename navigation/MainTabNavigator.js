@@ -6,7 +6,8 @@ import { Avatar, Badge, Icon, withBadge } from 'react-native-elements'
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import PlaysScreen from '../screens/PlaysScreen';
+import SinglePlayScreen from '../screens/SinglePlayScreen';
 import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
@@ -17,7 +18,7 @@ import EditEventScreen from '../screens/EditEventScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 import AddFriendsScreen from '../screens/AddFriendsScreen'
 import FriendMoreInfoScreen from '../screens/FriendMoreInfo';
-
+import CreatePlayScreen from '../screens/CreatePlayScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -38,8 +39,8 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? 'ios-home'
+          : 'ios-home'
       }
     />
   ),
@@ -53,7 +54,6 @@ const EventsStack = createStackNavigator(
     CreateEvent: CreateEventScreen,
     SingleEvent: SingleEventScreen,
     EditEvent: EditEventScreen
-
   },
   config
 );
@@ -67,21 +67,23 @@ EventsStack.navigationOptions = {
 
 EventsStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const PlaysStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    Plays: PlaysScreen,
+    SinglePlay: SinglePlayScreen,
+    CreatePlay: CreatePlayScreen
   },
   config
 );
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+PlaysStack.navigationOptions = {
+  tabBarLabel: 'Plays',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={'dice'} type={'FontAwesome5'} />
   ),
 };
 
-SettingsStack.path = '';
+PlaysStack.path = '';
 
 const TestStack = createStackNavigator(
   {
@@ -132,7 +134,7 @@ const GamesStack = createStackNavigator(
 GamesStack.navigationOptions = {
   tabBarLabel: 'Games',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'logo-snapchat' : 'logo-snapchat'} />
   ),
 };
 
@@ -141,7 +143,7 @@ GamesStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
-  SettingsStack,
+  PlaysStack,
   TestStack,
   FriendsStack,
   GamesStack

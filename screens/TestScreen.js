@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export default function TestScreen({ navigation }) {
   return (
