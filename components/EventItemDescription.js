@@ -28,7 +28,7 @@ export default function EventItem({ eventTitle, chosenDate, attendants, isOwner,
   return (
     <View style={styles.textContainer}>
       <View>
-        {!!eventTitle && <Text style={{ fontSize: 16 }}>{eventTitle}</Text>}
+        {!!eventTitle && <Text style={{ fontSize: 16, color: '#485152', marginBottom: 5 }}>{eventTitle}</Text>}
         {!!chosenDate && <Text style={styles.subtitle}>Date: {formatDateWithTime(chosenDate)}</Text>}
         {!!attendants && <Text style={styles.subtitle}>Attendants: {attendants}</Text>}
         {!attendants && isOwner && <Text style={styles.subtitle}>Choose a date for your event</Text>}
