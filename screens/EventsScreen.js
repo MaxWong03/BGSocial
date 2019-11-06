@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, View, RefreshControl  } from 'react-native';
+import { StyleSheet, ScrollView, View, RefreshControl } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
@@ -8,8 +8,8 @@ import EventItem from '../components/EventItem';
 import { getUserInfo } from './../hooks/sessionContext';
 import useGamesData from '../hooks/useGamesData';
 import useFriendsData from '../hooks/useFriendsData';
-export default function EventsScreen({ navigation }) {
 
+export default function EventsScreen({ navigation }) {
   // Refreshing attempt
 
   const fetchData = async() =>{ // get the data again
