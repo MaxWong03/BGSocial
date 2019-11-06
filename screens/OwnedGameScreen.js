@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
     textAlign: 'center', // <-- the magic
     fontSize: 40,
     marginBottom: 10,
+    marginTop: 10
   },
 });

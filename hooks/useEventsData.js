@@ -40,7 +40,6 @@ export function useEventsData() {
   async function loadEvents() {
     try {
       const response = await api.get("/events");
-      console.log('loadEvents', response.data);
       const eventsAsObject = arrayToObject(response.data, 'id');
       dispatchState({ value: eventsAsObject, type: "setEvents" });
     } catch (e) {
@@ -90,7 +89,8 @@ export function useEventsData() {
     goingToEvent,
     setConfirmEvent,
     refreshEventScreen,
-    notGoingToEvent
+    notGoingToEvent,
+    loadEvents
   };
 
 };
