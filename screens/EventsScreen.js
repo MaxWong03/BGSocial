@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, RefreshControl  } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import { useEventsData } from './../hooks/useEventsData';
 import { ButtonGroup, Icon } from 'react-native-elements';
@@ -9,9 +9,30 @@ import { getUserInfo } from './../hooks/sessionContext';
 import useGamesData from '../hooks/useGamesData';
 import useFriendsData from '../hooks/useFriendsData';
 export default function EventsScreen({ navigation }) {
+
+  // Refreshing attempt
+
+  const fetchData = async() =>{ // get the data again
+    loadGames();
+    loadAllFriends();
+    loadEvents();
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    // console.log("in the onrefresh function");
+    setRefreshing(true);
+    fetchData().then(()=>{
+        setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of reffreshign attempt code
+
   const [screenState, setButtonGroup] = useState(0);
   const { state: userGames, loadGames } = useGamesData();
-  const { state: userFriends } = useFriendsData();
+  const { state: userFriends, loadAllFriends } = useFriendsData();
   function onWillFocus(payload) {
     loadGames();
     refreshEventScreen();
@@ -26,7 +47,8 @@ export default function EventsScreen({ navigation }) {
     setConfirmEvent,
     refreshEventScreen,
     notGoingToEvent,
-    openEvents
+    openEvents,
+    loadEvents
   } = useEventsData();
   const slider = function (currentScreen) {
     setButtonGroup(currentScreen);
@@ -47,7 +69,11 @@ export default function EventsScreen({ navigation }) {
   return (
     <View style={{ height: "100%" }}>
       <NavigationEvents onWillFocus={onWillFocus} />
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+        }
+      >
         <ButtonGroup
           buttons={buttons}
           containerStyle={styles.buttonGroup}

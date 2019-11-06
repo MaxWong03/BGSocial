@@ -88,6 +88,7 @@ export function useEventsData() {
     refreshEventScreen,
     notGoingToEvent,
     updateOpenEvents,
-    openEvents
+    openEvents,
+    loadEvents
   };
 };
