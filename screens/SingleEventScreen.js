@@ -294,21 +294,23 @@ export default function SingleEventScreen({ navigation }) {
         })
       },
     ];
-    if (state.event.is_open) {
-      const button = {
-        iconName: 'check',
-        textInfo: 'Open Event',
-        iconColor: 'blue',
-        onPress: () => cancelOpenModal()
+    if(!!chosenDate){
+      if (state.event.is_open) {
+        const button = {
+          iconName: 'check',
+          textInfo: 'Open Event',
+          iconColor: 'blue',
+          onPress: () => cancelOpenModal()
+        }
+        buttons.push(button)
+      } else {
+        const button = {
+          iconName: 'check',
+          textInfo: 'Open Event',
+          onPress: () => setOverlay(true)
+        }
+        buttons.push(button)
       }
-      buttons.push(button)
-    } else {
-      const button = {
-        iconName: 'check',
-        textInfo: 'Open Event',
-        onPress: () => setOverlay(true)
-      }
-      buttons.push(button)
     }
     buttons.push({ iconName: 'trash-o', textInfo: 'Delete', onPress: deleteModal });
     return buttons;
