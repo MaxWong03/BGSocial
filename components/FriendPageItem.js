@@ -9,26 +9,29 @@ export default function FriendPageItem({ person, dispatchFriends, REMOVE_FRIEND,
 
   return (
     <ListItem
-      key = {person.id}
-      leftAvatar = {{ size: 80, rounded: true, source: { uri: person.avatar } }}
-      title = { person.name }
-      subtitle = {
-        <View style = { styles.subtitleViewStyle } >
+      key={person.id}
+      leftAvatar={{ size: 80, rounded: true, source: { uri: person.avatar } }}
+      title={person.name}
+      titleStyle={{fontWeight: '600', color: '#485152'}}
+      subtitle={
+        <View style={styles.subtitleViewStyle} >
           <Button
-            buttonStyle = { styles.buttonStyle }
-            title = { "More info" }
-            type = 'outline'
-            iconRight = {true}
-            onPress = { 
+            buttonStyle={styles.buttonStyle}
+            title={'More Info'}
+            titleStyle={{fontWeight: '600'}}
+            type='outline'
+            iconRight={true}
+            onPress={
               () => navigation.navigate('UserMoreInfo', { user: person })
             }
           />
           <Button
-            buttonStyle = { [styles.buttonStyle, {borderColor: 'red'}] }
-            title={ "Unfriend"}
+            buttonStyle={[styles.buttonStyle, { borderColor: 'red' }]}
+            title={`Unfriend`}
+            titleStyle={{ color: 'red', fontWeight: '600' }}
             type='outline'
             iconRight={true}
-            onPress={()=> ( unfriend(person.id) )}
+            onPress={() => (unfriend(person.id))}
           />
         </View>
       }

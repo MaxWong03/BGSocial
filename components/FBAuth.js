@@ -1,9 +1,7 @@
 import * as Facebook from 'expo-facebook';
 import React from 'react';
-import { Button, SocialIcon } from 'react-native-elements'
+import { SocialIcon } from 'react-native-elements'
 import { useNavigation } from 'react-navigation-hooks';
-import { NavigationActions } from 'react-navigation';
-import { API_HOST } from './../settings/app.config';
 import axios from 'axios';
 
 import { facebookLogin } from './../api';

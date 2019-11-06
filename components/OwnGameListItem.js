@@ -31,17 +31,17 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
 
       <View style={styles.textContainer}>
         <View style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start'}}>
-          <Text style={{marginTop: 10, fontSize: 20}} >{title}</Text>
-          <Text>
+          <Text style={{marginTop: 10, fontSize: 20, color: '#485152'}} >{title}</Text>
+          <Text style={{color: '#485152'}}>
             Last Played: {date ? formatDateWithTime(date) : 'Never Played'}
           </Text>
           
           { playTimeMin === playTimeMax &&
-            <Text>Play time: {playTimeMin} mins</Text>
+            <Text style={{color: '#485152'}}>Play time: {playTimeMin} mins</Text>
           }
 
           { playTimeMin !== playTimeMax &&
-            <Text>Play time: {playTimeMin} to {playTimeMax} mins</Text>
+            <Text style={{color: '#485152'}}>Play time: {playTimeMin} to {playTimeMax} mins</Text>
           }
 
         </View>
@@ -56,6 +56,7 @@ export default function OwnGameListItem({ imageURL, date, title, game, dispatchS
           <Button
             buttonStyle={styles.button}
             title={"Remove"}
+            titleStyle={{color: 'red'}}
             type='clear'
             iconRight={true}
             onPress={()=> ( removeEvent(game) )}

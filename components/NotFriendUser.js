@@ -17,6 +17,7 @@ export default function NotFriendUser({ user, addFriend, cancelFriendRequest, re
       key={user.id}
       leftAvatar={{ size: 60, rounded: true, source: { uri: user.avatar } }}
       title={ user.name }
+      titleStyle={{fontWeight: '600', color: '#485152'}}
       subtitle = {
         <View style= { styles.subtitleViewStyle } >
            {
@@ -24,6 +25,7 @@ export default function NotFriendUser({ user, addFriend, cancelFriendRequest, re
             <Button
               buttonStyle = { styles.buttonStyle }
               title={"Add friend "}
+              titleStyle={{fontWeight: '600'}}
               type='outline'
               onPress={ ()=> {
                 addFriend(user.id);
@@ -36,6 +38,7 @@ export default function NotFriendUser({ user, addFriend, cancelFriendRequest, re
             <Button
               buttonStyle = { styles.buttonStyle }
               title={"Cancal request"}
+              titleStyle={{fontWeight: '600'}}
               type='outline'
               onPress={ ()=> {
                 cancelFriendRequest(user.id);
