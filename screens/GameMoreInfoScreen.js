@@ -121,7 +121,7 @@ export default function GameMoreInfoScreen({ navigation }) {
         {!!dataState && 
         <View>
           <View style={styles.titleChart}>
-            <Text style={{ fontSize: 15 }}>Statistics of Plays </Text>
+            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#485152' }}>Statistics of Plays </Text>
           </View>
 
           <View style={styles.boxShadow}>
@@ -138,18 +138,18 @@ export default function GameMoreInfoScreen({ navigation }) {
             </BarChart>
           </View>
           <View style={styles.xLabels}>
-            <Text>Max Score</Text>
-            <Text>Average Score</Text>
-            <Text>Minimun Score</Text>
+            <Text style={{color: '#485152'}} >Max Score</Text>
+            <Text style={{color: '#485152'}} >Average Score</Text>
+            <Text style={{color: '#485152'}} >Minimun Score</Text>
           </View>
           <View style={styles.legend}>
             <View style={{ borderBottomWidth: 1, color: '#ddd' }}>
-              <Text>Legend</Text>
+              <Text style={{fontWeight: 'bold', color: '#485152'}}>Legend</Text>
             </View>
             {
               ['User', 'Friends', 'Global'].map((player, index) => (
                 <View key={index} style={{ borderBottomWidth: 1, color: '#ddd', flexDirection: 'row', alignItems: 'center', height: 40, justifyContent: 'space-between' }}>
-                  <Text >{player}</Text>
+                  <Text style={{color: '#485152'}}>{player}</Text>
                   <View style={{ backgroundColor: `${colorsLegend[index]}`, width: 20, height: 20 }}></View>
                 </View>
               ))
