@@ -6,7 +6,7 @@ import PlayerModal from '../components/PlayerModal'
 import useList from '../hooks/useList';
 import RecordListItem from '../components/RecordListItem';
 
-export default function RecordPlayer({ userFriends, recordFriendList, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner, presetScoreList }) {
+export default function RecordPlayer({ userFriends, recordFriendList, changeFriendSlot, creator, addScoreList, updateScoreList, deleteScoreList, isWinner, presetScoreList, disabled }) {
 
   userFriends = userFriends.map(friend => {
     return { ...friend, 'selected': false }
@@ -40,8 +40,8 @@ export default function RecordPlayer({ userFriends, recordFriendList, changeFrie
   return (
     <>
       <Button
-        title={'Create Player Score'}
-        onPress={showModal}
+        title={disabled ? 'Edit Player Score' : 'Create Player Score'}
+        onPress={disabled ? () => console.log('Not allowed in edit') : showModal}
         icon={
           <Icon
             name='group-add'
@@ -88,7 +88,7 @@ export default function RecordPlayer({ userFriends, recordFriendList, changeFrie
             title={friend.name}
             leftAvatar={{ uri: friend.avatar }}
             deleteRecordFriend={deleteRecordFriend}
-            canDelete={true}
+            canDelete={disabled ? false : true}
             updateScoreList={updateScoreList}
             isWinner={isWinner}
             presetScore={

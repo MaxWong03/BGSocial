@@ -8,27 +8,28 @@ import { useNavigation } from 'react-navigation-hooks';
 import useFriendsData from '../hooks/useFriendsData';
 import useGamesLib from '../hooks/useGamesLib';
 import useGamesData from '../hooks/useGamesData';
+import IconBar from '../components/IconBar';
 
 export default function PlaysScreen({ navigation }) {
 
-    // Refreshing attempt
-    const fetchData = async() =>{ // get the data again
-      loadPlays();
-      loadAllFriends();
-      loadGames();
-    }
-  
-    const [refreshing, setRefreshing] = React.useState(false);
-  
-    const onRefresh = React.useCallback(() => {
-      // console.log("in the onrefresh function");
-      setRefreshing(true);
-      fetchData().then(()=>{
-          setRefreshing(false)
-      })
-    }, [refreshing]);
-  
-    // end of reffreshign attempt code
+  // Refreshing attempt
+  const fetchData = async () => { // get the data again
+    loadPlays();
+    loadAllFriends();
+    loadGames();
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    // console.log("in the onrefresh function");
+    setRefreshing(true);
+    fetchData().then(() => {
+      setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of reffreshign attempt code
 
   const [state, setPlay] = useState({ plays: [], games: {} });
   const { navigate } = useNavigation();
@@ -51,11 +52,34 @@ export default function PlaysScreen({ navigation }) {
     return string;
   }
 
+  const renderPlayInfo = (date, duration, users) => {
+    const chosenDateViewData = [
+      {
+        iconName: 'calendar-o',
+        iconColor: '#bdbdbd',
+        textInfo: date,
+      },
+      {
+        iconName: 'clock-o',
+        iconColor: '#bdbdbd',
+        textInfo: duration,
+      },
+      {
+        iconName: 'group',
+        iconColor: '#bdbdbd',
+        textInfo: users,
+      }
+    ];
+    return (
+      <IconBar iconsData={chosenDateViewData} horizontal={false} padding={2} />
+    )
+  }
+
   return (
     <View style={{ height: "100%" }}>
-      <ScrollView 
+      <ScrollView
         refreshControl={
-          <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
         <NavigationEvents onWillFocus={onWillFocus} />
@@ -65,11 +89,10 @@ export default function PlaysScreen({ navigation }) {
               key={play.id}
               rightAvatar={{ size: 120, rounded: false, source: { uri: state.games[play.game_id].image } }}
               title={state.games[play.game_id].name}
+              titleStyle={{ fontWeight: "600" }}
               subtitle={
-                <View>
-                  <Text>Date: {formatDateWithTime(play.date)}</Text>
-                  <Text>Duration: {formatTime(play.duration)}</Text>
-                  <Text>Players: {usersLine(play)}</Text>
+                <View style={{ marginTop: 5 }}>
+                  {renderPlayInfo(formatDateWithTime(play.date), formatTime(play.duration), usersLine(play))}
                 </View>
               }
               onPress={() => navigation.navigate('SinglePlay', {

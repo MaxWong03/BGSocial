@@ -37,6 +37,8 @@ export default function CreatePlayScreen() {
       setButtonTitle('Select A Game');
       setButtonColor('red');
     } else {
+      setButtonColor('#2089dc');
+      setButtonTitle('Create Score!');
       const duration = formatDuration(hour, minute, second);
       const newPlay = {
         "date": date,
@@ -95,7 +97,7 @@ export default function CreatePlayScreen() {
             name='check-circle'
             type='font-awesome'
             color='white'
-            iconStyle={{marginRight: 5}}
+            iconStyle={{ marginRight: 5 }}
           />
         }
         buttonStyle={{ backgroundColor: buttonColor }}
