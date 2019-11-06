@@ -65,11 +65,12 @@ export default function PlaysScreen({ navigation }) {
               key={play.id}
               rightAvatar={{ size: 120, rounded: false, source: { uri: state.games[play.game_id].image } }}
               title={state.games[play.game_id].name}
+              titleStyle={{fontWeight: "600"}}
               subtitle={
-                <View>
-                  <Text>Date: {formatDateWithTime(play.date)}</Text>
-                  <Text>Duration: {formatTime(play.duration)}</Text>
-                  <Text>Players: {usersLine(play)}</Text>
+                <View style={{marginTop: 5}}>
+                  <Text style={{marginTop: 5}}>🗓 {formatDateWithTime(play.date)}</Text>
+                  <Text style={{marginTop: 5}}>⏳ {formatTime(play.duration)}</Text>
+                  <Text style={{marginTop: 5}}>👥 {usersLine(play)}</Text>
                 </View>
               }
               onPress={() => navigation.navigate('SinglePlay', {
