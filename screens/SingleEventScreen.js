@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert, ActivityIndicator, RefreshControl } from 'react-native';
 import {
   formatDateWithTime,
   getEventMainImage,
@@ -13,12 +13,31 @@ import { useNavigationParam } from 'react-navigation-hooks';
 import { Overlay, Button, Text, ListItem} from 'react-native-elements';
 
 export default function SingleEventScreen({ navigation }) {
+
+  // refreshing attempt
+  const fetchData = async() =>{ // get the data again
+    loadSingleEvent(navigation.getParam('eventID'));
+  }
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    // console.log("in the onrefresh function");
+    setRefreshing(true);
+    fetchData().then(()=>{
+        setRefreshing(false)
+    })
+  }, [refreshing]);
+
+  // end of code
+  
   const [state, setState] = useState({});
   const [overlay, setOverlay] = useState(false);
   const [count, setCount] = useState(state.spots || 0);
   const userGames = useNavigationParam('userGames');
   const userFriends = useNavigationParam('userFriends');
-  const refreshEventScreen = useNavigationParam('refreshEventScreen')
+  const refreshEventScreen = useNavigationParam('refreshEventScreen');
+
   function deleteModal() {
     Alert.alert(
       'Delete Event',
@@ -275,21 +294,23 @@ export default function SingleEventScreen({ navigation }) {
         })
       },
     ];
-    if (state.event.is_open) {
-      const button = {
-        iconName: 'check',
-        textInfo: 'Open Event',
-        iconColor: 'blue',
-        onPress: () => cancelOpenModal()
+    if(!!chosenDate){
+      if (state.event.is_open) {
+        const button = {
+          iconName: 'check',
+          textInfo: 'Open Event',
+          iconColor: 'blue',
+          onPress: () => cancelOpenModal()
+        }
+        buttons.push(button)
+      } else {
+        const button = {
+          iconName: 'check',
+          textInfo: 'Open Event',
+          onPress: () => setOverlay(true)
+        }
+        buttons.push(button)
       }
-      buttons.push(button)
-    } else {
-      const button = {
-        iconName: 'check',
-        textInfo: 'Open Event',
-        onPress: () => setOverlay(true)
-      }
-      buttons.push(button)
     }
     buttons.push({ iconName: 'trash-o', textInfo: 'Delete', onPress: deleteModal });
     return buttons;
@@ -333,7 +354,12 @@ export default function SingleEventScreen({ navigation }) {
   const iconBarItems = isOwner ? getOwnerButtons() : getAttendantButtons(state.event.event_attendants);
   //Here start the component rendered
   return (
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView 
+      style={styles.mainContainer}
+      refreshControl={
+        <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
+      }  
+    >
       <View style={styles.boxShadow}>
         <ListItem
           leftAvatar={{ size: 120, rounded: false, source: { uri: getEventMainImage(state.event) } }}
