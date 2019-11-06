@@ -6,13 +6,12 @@ import {
   getEventChosenEventDate,
   getConfirmedAttendants
 } from './../utils';
-import IconVerticalWithLabel from '../components/IconVerticalWithLabel'
-import AttendanceList from '../components/AttendanceList';
 import IconBar from '../components/IconBar';
 import { api } from './../api';
 import { getUserInfo } from './../hooks/sessionContext';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { Overlay, Button, Text, ListItem} from 'react-native-elements';
+
 export default function SingleEventScreen({ navigation }) {
   const [state, setState] = useState({});
   const [overlay, setOverlay] = useState(false);
