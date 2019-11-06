@@ -46,7 +46,7 @@ export default function EditPlayScreen() {
   const { friendSlots, changeFriendSlot } = useFriendSlot(presetUserID);
   const { scoreList, addScoreList, updateScoreList, deleteScoreList, isWinner, getWinners } = useScore(null, presetScoreList);
   const { buttonTitle, setButtonTitle, buttonColor, setButtonColor }
-    = useButtonProps('Create Score!', '#2089dc');
+    = useButtonProps('Edit Score!', '#2089dc');
 
   const editScoreAction = () => {
     if (!hour && !minute && !second) {
@@ -96,6 +96,7 @@ export default function EditPlayScreen() {
           deleteScoreList={deleteScoreList}
           isWinner={isWinner}
           presetScoreList={presetScoreList}
+          disabled={true}
         />
       </ScrollView>
       <Button
