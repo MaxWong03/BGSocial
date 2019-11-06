@@ -8,7 +8,6 @@ import HomeScreen from '../screens/HomeScreen';
 import EventsScreen from '../screens/EventsScreen';
 import PlaysScreen from '../screens/PlaysScreen';
 import SinglePlayScreen from '../screens/SinglePlayScreen';
-import TestScreen from '../screens/TestScreen';
 import CreateEventScreen from '../screens/CreateEvent';
 import OwnedGameScreen from '../screens/OwnedGameScreen';
 import GamesLibraryScreen from '../screens/GamesLibraryScreen';
@@ -87,22 +86,6 @@ PlaysStack.navigationOptions = {
 
 PlaysStack.path = '';
 
-const TestStack = createStackNavigator(
-  {
-    Tests: TestScreen,
-  },
-  config
-)
-
-TestStack.navigationOptions = {
-  tabBarLabel: 'TEST',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  ),
-};
-
-TestStack.path = '';
-
 
 const FriendsStack = createStackNavigator(
   {
@@ -146,7 +129,6 @@ const tabNavigator = createBottomTabNavigator({
   HomeStack,
   EventsStack,
   PlaysStack,
-  TestStack,
   FriendsStack,
   GamesStack
 });

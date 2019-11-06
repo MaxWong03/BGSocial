@@ -14,6 +14,7 @@ import useFriendSlot from '../hooks/useFriendSlot';
 import useScore from '../hooks/useScore';
 import { ScrollView } from 'react-native';
 import useButtonProps from '../hooks/useButtonProps';
+import { api } from './../api';
 
 export default function EditPlayScreen() {
   //presetData and their parsing
@@ -56,13 +57,44 @@ export default function EditPlayScreen() {
       setButtonTitle('Select A Game');
       setButtonColor('red');
     } else {
-      console.log('date:', date);
-      console.log('hour:', hour);
-      console.log('minute:', minute);
-      console.log('second:', second);
-      console.log('gameRecord:', gameRecord);
-      console.log('friendSlots:', friendSlots);
-      console.log('scoreList:', scoreList);
+      // console.log('date:', date);
+      // console.log('hour:', hour);
+      // console.log('minute:', minute);
+      // console.log('second:', second);
+      // console.log('gameRecord:', gameRecord);
+      // console.log('friendSlots:', friendSlots);
+      // console.log('scoreList:', scoreList);
+
+      console.log(presetScoreList);
+
+      const editPlay = {
+        id: playID,
+        date,
+        duration: formatDuration(hour, minute, second),
+        game_id: gameRecord,
+        event_id: null,
+      }
+
+      // {
+      //   "id": 2,
+      //   "date": "2019-11-09T00:00:00.000Z",
+      //   "duration": "3:10:00",
+      //   "game_id": 10,
+      //   "event_id": 2,
+      //   "playsUsers": [{
+      //     "id": 3,
+      //     "score": 200,
+      //     "is_winner": true,
+      //     "user_id": 23,
+      //     "play_id": 2
+      //   }, {
+      //     "id": 5,
+      //     "score": 199,
+      //     "is_winner": true,
+      //     "user_id": 22,
+      //     "play_id": 2
+      //   }]
+      // }
     }
   }
 
