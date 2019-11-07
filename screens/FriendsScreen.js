@@ -12,11 +12,9 @@ import FriendPageItem from './../components/FriendPageItem';
 import FriendRequester from './../components/FriendRequester';
 import NotFriendUser from './../components/NotFriendUser';
 import SentRequestUser from './../components/SentRequestUser';
-import { SafeAreaView } from "react-navigation"; // for removing the white negative spcae at the top
+
 
 export default function FriendsScreen({ navigation }) {
-
-  // SafeAreaView.setStatusBarHeight(-50); // set the negative space
 
   const [allUsers, setAllUsers] = useState([]);
 
@@ -31,26 +29,29 @@ export default function FriendsScreen({ navigation }) {
       setAllUsers(res.data.users);
     });
   }, []);
-
-  useEffect(() => {
-    navigation.setParams({ numberOfFriends: friendsList.length, goToAddFriends });
-  }, [friendsList.length, allUsers.length]);
-
-
-  const goToAddFriends = function (){
-    navigation.navigate('AddFriends', {
-      allUsersInDB: allUsers,
-      allFriends: friendsList,
-      dispatchFriends,
-      sentRequests,
-      dispatchRequest,
-      ADD_PENDING_REQ,
-      DELETE_PENDING_REQ,
-      // addFriend: addFriend(),
-      // cancelFriendRequest: cancelFriendRequest()
-    })
+  
+  let goToAddFriends = (sentRequests,dispatchRequest, ADD_PENDING_REQ,DELETE_PENDING_REQ) => {
+    const nav = () => {
+      navigation.navigate('AddFriends', {
+        allUsersInDB: allUsers,
+        allFriends: friendsList,
+        dispatchFriends,
+        sentRequests,
+        dispatchRequest,
+        ADD_PENDING_REQ,
+        DELETE_PENDING_REQ,
+        // addFriend: addFriend(),
+        // cancelFriendRequest: cancelFriendRequest()
+      });
+    };
+    return nav;
   };
 
+  useEffect(() => {
+    navigation.setParams({ numberOfFriends: friendsList.length, goToAddFriends: goToAddFriends(sentRequests,dispatchRequest,ADD_PENDING_REQ,DELETE_PENDING_REQ) });
+  }, [friendsList.length, allUsers.length, sentRequests]);
+
+  
   // all actions after pressing buttons are listed below
   const confirmFriendRequest = function (senderID){
     api.post(`/users/request/${senderID}/confirm`)
@@ -217,7 +218,6 @@ export default function FriendsScreen({ navigation }) {
   );
 }
 
-
 FriendsScreen.navigationOptions = ({navigation}) => { // title at the top
   const numberOfFriends = navigation.getParam('numberOfFriends') || 0;
   const options = {
@@ -227,7 +227,7 @@ FriendsScreen.navigationOptions = ({navigation}) => { // title at the top
   if (navigation.getParam('goToAddFriends')) {
     options.headerRight = (
       <Button
-        onPress={navigation.getParam('goToAddFriends')}
+        onPress={ navigation.getParam('goToAddFriends') }
         title="+ Add Friend"
         color="#fff"
       />

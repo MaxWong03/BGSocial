@@ -13,7 +13,6 @@ export default function useGamesData() {
   useEffect(() => {
     loadPendings()
   }, [])
-
   return {
     state,
     dispatchRequest,

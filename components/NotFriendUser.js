@@ -12,6 +12,8 @@ export default function NotFriendUser({ user, addFriend, cancelFriendRequest, re
 
   const [buttonText, setButtonText] = useState('Add friend');
 
+  console.log("receiverIDs in the not friend user is ", receiverIDs);
+
   return (
     <ListItem
       key={user.id}
@@ -37,7 +39,7 @@ export default function NotFriendUser({ user, addFriend, cancelFriendRequest, re
             receiverIDs.includes(user['id']) &&
             <Button
               buttonStyle = { styles.buttonStyle }
-              title={"Cancal request"}
+              title={"Cancel request"}
               titleStyle={{fontWeight: '600'}}
               type='outline'
               onPress={ ()=> {
