@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     backgroundColor: 'red',
     margin: 10,
-    borderRadius: 20,
-    borderWidth: 1,
+    // borderRadius: 20,
+    // borderWidth: 1,
   },
   image: {
     height: 250,
