@@ -71,6 +71,14 @@ export default function EditEventScreen() {
         }
       });
 
+      eventAttendants.push({
+        "is_confirmed": true,
+        is_invited: true,
+        "is_not_assisting": false,
+        "attendant_id": userData.id,
+        event_id: eventID
+      })
+
       const eventDates = timeSlots.map(time => {
         const eventTime = event_dates.find(dateObj => dateObj.date === time.date);
         if (eventTime) return {
