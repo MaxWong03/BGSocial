@@ -4,6 +4,8 @@ import { StyleSheet, View, Image, Text, ScrollView, Linking } from 'react-native
 
 export default function FriendMoreInfoScreen({navigation}) {
   const individualUser = navigation.getParam("user");
+
+  const userEmail = individualUser.email;
   
   return (
     <View>
@@ -25,10 +27,16 @@ export default function FriendMoreInfoScreen({navigation}) {
             <View
               style={{ paddingVertical: 15, textAlign: 'center', }}
             >
-              <Text>NickName: {individualUser.nickname}</Text>
-              <Text>User Email: {individualUser.email}</Text>
-              <Button onPress={() => Linking.openURL('mailto:support@example.com') }
-      title="support@example.com" />
+              <Text style={{textAlign: 'center'}}>NickName:</Text>
+              <Text style={{textAlign: 'center', }}>{individualUser.nickname}</Text>
+
+              <Text style={{ textAlign: 'center', }}>User Email:</Text>
+
+              <Button
+                onPress = {() => Linking.openURL(`mailto: ${individualUser.email}`) }
+                style = {{ }}
+                title= {userEmail}
+              />
             </View>
           </View>
       </ScrollView>
@@ -39,6 +47,9 @@ export default function FriendMoreInfoScreen({navigation}) {
 const styles = StyleSheet.create({
   imageContainer: {
     backgroundColor: 'red',
+    margin: 10,
+    borderRadius: 20,
+    borderWidth: 1,
   },
   image: {
     height: 250,
@@ -53,14 +64,18 @@ const styles = StyleSheet.create({
     fontSize: 50,
     textAlign: 'center', // <-- the magic
   },
-  descriptionStyle: {
-    aspectRatio: 1,
-    backgroundColor: '#E2DBDB',
-    margin: 5,
-    padding: 5,
+  // descriptionStyle: {
+  //   aspectRatio: 1,
+  //   backgroundColor: '#E2DBDB',
+  //   margin: 5,
+  //   padding: 5,
+  //   textAlign: 'center', // <-- the magic
+  //   borderRadius: 10,
+  //   borderWidth: 1,
+  //   borderColor: '#fff'
+  // },
+  infoContainerStyle: {
     textAlign: 'center', // <-- the magic
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff'
-  },
+    alignItems: 'center',
+  }
 });

@@ -21,8 +21,9 @@ export default function AddFriendsScreen({navigation}) {
   const dispatchFriends = navigation.getParam("dispatchFriends");
   const ADD_FRIEND = navigation.getParam("ADD_FRIEND");
 
-  let sentRequests = navigation.getParam("sentRequests");
+  const sentRequests = navigation.getParam("sentRequests");
   const dispatchRequest = navigation.getParam("dispatchRequest");
+
   const ADD_PENDING_REQ = navigation.getParam("ADD_PENDING_REQ");
   const DELETE_PENDING_REQ = navigation.getParam("DELETE_PENDING_REQ");
 
@@ -34,17 +35,15 @@ export default function AddFriendsScreen({navigation}) {
   const updateSearch = (userInput) => setSearch(userInput);
 
   const addFriend = function(receiverID) {
-    console.log("addFriend");
     api.post(`/users/request/${receiverID}`)
     .then((res) => {
       const user = res.data.user;
       dispatchRequest({type: ADD_PENDING_REQ, value: user});
-      navigation.goBack();
     });
+    navigation.goBack();
   };
 
   const cancelFriendRequest = function(receiverID) {
-    console.log("cancel");
     api.post(`/users/request/${receiverID}/delete`)
     .then((res) => {
       const user = res.data.user;
