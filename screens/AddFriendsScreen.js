@@ -52,9 +52,6 @@ export default function AddFriendsScreen({navigation}) {
     navigation.goBack();
   };
 
-  // const addFriend = navigation.getParam("addFriend");
-  // const cancelFriendRequest = navigation.getParam("cancelFriendRequest");
-
   return (
     <ScrollView style={styles.gameListContainer}>
       <FriendSearchBar

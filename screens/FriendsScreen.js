@@ -40,8 +40,6 @@ export default function FriendsScreen({ navigation }) {
         dispatchRequest,
         ADD_PENDING_REQ,
         DELETE_PENDING_REQ,
-        // addFriend: addFriend(),
-        // cancelFriendRequest: cancelFriendRequest()
       });
     };
     return nav;

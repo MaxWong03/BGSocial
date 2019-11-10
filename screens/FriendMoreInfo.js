@@ -48,8 +48,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     backgroundColor: 'red',
     margin: 10,
-    // borderRadius: 20,
-    // borderWidth: 1,
   },
   image: {
     height: 250,
@@ -64,16 +62,6 @@ const styles = StyleSheet.create({
     fontSize: 50,
     textAlign: 'center', // <-- the magic
   },
-  // descriptionStyle: {
-  //   aspectRatio: 1,
-  //   backgroundColor: '#E2DBDB',
-  //   margin: 5,
-  //   padding: 5,
-  //   textAlign: 'center', // <-- the magic
-  //   borderRadius: 10,
-  //   borderWidth: 1,
-  //   borderColor: '#fff'
-  // },
   infoContainerStyle: {
     textAlign: 'center', // <-- the magic
     alignItems: 'center',
