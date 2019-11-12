@@ -15,6 +15,7 @@ const facebookLogin = async function (facebookId) {
 }
 
 const fakeLogin = async function (userId) {
+  console.log('fakeLogin', userId);
   const response = await api.post(`/fake-login/${userId}`);
   const authorizationToken = response.headers['x-auth-token'];
   console.log('fake authorizationToken', authorizationToken);
@@ -27,5 +28,5 @@ export {
   api,
   facebookLogin,
   fakeLogin
-};  
+};
 
