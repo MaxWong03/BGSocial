@@ -89,7 +89,14 @@
 
 ## Getting Started
 
-* Getting started goes here
+1) Fork this repository, then clone your fork of this repository
+2) Fork the [Custom Api Server](https://github.com/MaxWong03/BGSocial-API), then clone your fork of the api
+3) Install dependencies with `npm i`
+4) Install [Expo Cli](https://expo.io/learn)
+5) Install Expo app on your mobile device
+6) Run the [Custom Api Server](https://github.com/MaxWong03/BGSocial-API)
+7) Run `expo start`
+8) Run the Expo app on your app and scan the QR code produced by step 6)
 
 ## Project Team
 
