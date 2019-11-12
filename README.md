@@ -20,7 +20,14 @@
 ### Adding / Removing games from the game library 
 ![AddGames](docs/add-game.gif)
 
-### Creating / Editing / Deleting Event
+### Event Related Features
+|Inviting Friends to Event (Zongxi Account)|Accepting Invitation (Max Account)|
+|---|---|
+|![Inviting](docs/invite-friend.gif)|![Accepting](docs/accept-invite.gif)
+
+|Editing Event| Deleting Event|
+|---|---|
+|![Editing Event] | ![Deleting Event]
 
 ### Voting / Open Event
 
