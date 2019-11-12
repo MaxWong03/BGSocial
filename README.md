@@ -15,7 +15,7 @@
 ### Befriend
 |Befriend Gif 1| Befriend Gif 2|
 |---|---|
-|![Befriend](docs/add-friend.gif)|![Befriend2](docs/add-friend-2.gif)
+|![Befriend](docs/add-friend.gif|![Befriend2](docs/add-friend-2.gif)
 
 ### Adding / Removing games from the game library 
 
