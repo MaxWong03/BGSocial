@@ -7,7 +7,8 @@
 
 ## Final Product
 
-![Final Product](https://github.com/MaxWong03/BGSocial/blob/master/docs/final-product.gif)
+![Final Product](https://github.com/MaxWong03/BGSocial/blob/master/docs/final-product-1.gif)
+![Final Product 2](docs/final-product-2.gif)
 
 ## Features
 
