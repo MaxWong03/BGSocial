@@ -29,13 +29,9 @@
 |---|---|
 |![Choosing Event Date](docs/choose-date.gif) | ![Confirming](docs/confirm-going.gif)
 
-Editing Event (Zongxi Account)|Open Event (Zongxi Account)| Explore Open Event (Max Account)|
-|---|---|
+|Editing Event (Zongxi Account)|Open Event (Zongxi Account)| Explore Open Event (Max Account)|
+|---|---|---|
 |![Edit Event](docs/edit-event.gif)|![Open Event](docs/open-event.gif)|![Explore Event](docs/explore.gif)
-
-|Editing Event| Deleting Event|
-|---|---|
-|![Editing Event] | ![Deleting Event]
 
 
 ### Creating / Editing Play 
