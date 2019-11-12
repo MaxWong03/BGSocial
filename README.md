@@ -31,7 +31,7 @@
 
 Editing Event (Zongxi Account)|Open Event (Zongxi Account)| Explore Open Event (Max Account)|
 |---|---|
-|![Edit Event](docs/edit-event.gif)||![Open Event](docs/open-event.gif)|![Explore Event](docs/explore.gif)
+|![Edit Event](docs/edit-event.gif)|![Open Event](docs/open-event.gif)|![Explore Event](docs/explore.gif)
 
 |Editing Event| Deleting Event|
 |---|---|
