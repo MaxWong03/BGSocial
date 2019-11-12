@@ -2,7 +2,8 @@
 
 
 ## BG Social
-- This app helps board gamers arrange meet ups with their friends. It helps solve the issue in which Users can create, edit, and delete their events, record for each game. Our app also provides a collection of games which users can view the details as well as their own stats for each game, and adding and removing friends feature.
+
+- BG Social offers a Facebook like social platform for board game enthusiasts. It allows users to invite their friends (in-app) to participate in board game events and track participants' scores for each game. Moreover, it aims to solve the issue of coordination by introducing features such as **voting** and **open event**. The app encourages friendly competition by offering game / score related statistics with which users can compare with his / her friends. 
 
 ## Final Product
 
@@ -10,11 +11,21 @@
 
 ## Features
 
-- Features goes here
+### Befriend / Unfriend 
+
+### Adding / Removing games from the game library 
+
+### Creating / Editing / Deleting Event
+
+### Voting / Open Event
+
+### Creating / Editing Play 
+
+### Game Statistics
   
 ## Technical Information / Stack
 - React Native
-- React Native Navigation
+- React Navigation
 - React Native Elements
 - Expo
 - Javascript
