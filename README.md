@@ -7,7 +7,7 @@
 
 ## Final Product
 
-- Gifs goes here
+![Final Product](https://github.com/MaxWong03/BGSocial/blob/master/docs/final-product.gif)
 
 ## Features
 
