@@ -21,15 +21,19 @@
 ![AddGames](docs/add-game.gif)
 
 ### Event Related Features
-|Inviting Friends to Event (Zongxi Account)|Accepting Invitation (Max Account)|
+|Inviting Friends to Event (Zongxi Account)|Accepting Invitation and Voting (Max Account)|
 |---|---|
 |![Inviting](docs/invite-friend.gif)|![Accepting](docs/accept-invite.gif)
+
+|Event Creator Finalize Date (Zongxi Account)|Confirm Going (Max Account)|
+|---|---|
+|![Choosing Event Date](docs/choose-date.gif) | ![Confirming](docs/confirm-going.gif)
+
 
 |Editing Event| Deleting Event|
 |---|---|
 |![Editing Event] | ![Deleting Event]
 
-### Voting / Open Event
 
 ### Creating / Editing Play 
 
