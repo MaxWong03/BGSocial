@@ -34,9 +34,11 @@
 |![Edit Event](docs/edit-event.gif)|![Open Event](docs/open-event.gif)|![Explore Event](docs/explore.gif)
 
 
-### Creating / Editing Play 
+### Creating Play
+![Creating Play](docs/create-play.gif)
 
 ### Game Statistics
+![Game Stat](docs/game-stat.gif)
   
 ## Technical Information / Stack
 - React Native
