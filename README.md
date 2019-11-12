@@ -18,6 +18,7 @@
 |![Befriend](docs/add-friend.gif)|![Befriend2](docs/add-friend-2.gif)
 
 ### Adding / Removing games from the game library 
+![AddGames](docs/add-game.gif)
 
 ### Creating / Editing / Deleting Event
 
