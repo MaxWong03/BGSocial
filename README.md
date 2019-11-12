@@ -1,7 +1,7 @@
 # BG Social - LHL Final Project
 
 
-## BG Social
+## About BG Social
 
 - BG Social offers a Facebook like social platform for board game enthusiasts. It allows users to invite their friends (in-app) to participate in board game events and track participants' scores for each game. Moreover, it aims to solve the issue of coordination by introducing features such as **voting** and **open event**. The app encourages friendly competition by offering game / score related statistics with which users can compare with his / her friends. 
 
@@ -13,9 +13,9 @@
 ## Features
 
 ### Befriend
-|Befriend Gif 1| Befriend Gif 2|
+|Befriend (Zongxi Account)| Befriend (Max Account)|
 |---|---|
-|![Befriend](docs/add-friend.gif|![Befriend2](docs/add-friend-2.gif)
+|![Befriend](docs/add-friend.gif)|![Befriend2](docs/add-friend-2.gif)
 
 ### Adding / Removing games from the game library 
 
