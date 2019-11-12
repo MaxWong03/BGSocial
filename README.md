@@ -6,13 +6,16 @@
 - BG Social offers a Facebook like social platform for board game enthusiasts. It allows users to invite their friends (in-app) to participate in board game events and track participants' scores for each game. Moreover, it aims to solve the issue of coordination by introducing features such as **voting** and **open event**. The app encourages friendly competition by offering game / score related statistics with which users can compare with his / her friends. 
 
 ## Final Product
-
-![Final Product](https://github.com/MaxWong03/BGSocial/blob/master/docs/final-product-1.gif)
-![Final Product 2](docs/final-product-2.gif)
+|Final Product Gif 1| Final Product Gif 2 |
+|---|---|
+|![Final Product](https://github.com/MaxWong03/BGSocial/blob/master/docs/final-product-1.gif)|![Final Product 2](docs/final-product-2.gif)
 
 ## Features
 
-### Befriend / Unfriend 
+### Befriend
+|Befriend Gif 1| Befriend Gif 2|
+|---|---|
+|![Befriend](docs/add-friend.gif)|![Befriend2](docs/add-friend-2.gif)
 
 ### Adding / Removing games from the game library 
 
