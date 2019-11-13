@@ -54,7 +54,7 @@ const mockEvent = {
     },
     {
       "id": 3,
-      "is_confirmed": true,
+      "is_confirmed": false,
       "is_invited": true,
       "is_not_assisting": false,
       "attendant_id": 3,
@@ -267,4 +267,64 @@ describe('getEventChosenEventDate', () => {
   test('does not return event_dates obj that has is_chosen = false', () => {
     expect(chosenEventDate).not.toEqual(isChosenFalse);
   });
+});
+
+describe('getConfirmedAttendants', () => {
+  //need to figure out what is_not_assisting really mean
+  const confirmedAttendants = getConfirmedAttendants(mockEvent);
+  const confirmedArr = [
+    {
+      "id": 1,
+      "is_confirmed": true,
+      "is_invited": true,
+      "is_not_assisting": false,
+      "attendant_id": 1,
+      "event_id": 1,
+      "fb_id": "921623601546635",
+      "name": "Max Wong",
+      "nickname": "Mad Max",
+      "email": "maxwong93@gmail.com",
+      "avatar": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=921623601546635&height=350&width=350&ext=1574626882&hash=AeSZ-ILZTTrn2hrH"
+    },
+    {
+      "id": 2,
+      "is_confirmed": true,
+      "is_invited": true,
+      "is_not_assisting": false,
+      "attendant_id": 2,
+      "event_id": 1,
+      "fb_id": "2184479695188878",
+      "name": "Zongxi Li",
+      "nickname": "Jesse",
+      "email": "zongxi@gmail.com",
+      "avatar": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2184479695188878&height=350&width=350&ext=1574626952&hash=AeS_rrrvqq3FXxd6"
+    }
+  ];
+  const unConfirmedArr = [
+    {
+      "id": 3,
+      "is_confirmed": false,
+      "is_invited": true,
+      "is_not_assisting": false,
+      "attendant_id": 3,
+      "event_id": 1,
+      "fb_id": "10162376645685203",
+      "name": "Camila Rivera",
+      "nickname": "CR",
+      "email": "cr@gmail.com",
+      "avatar": "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=10162376645685203&height=350&width=350&ext=1574633091&hash=AeSTH7BvOEhoPQ07"
+    }
+  ];
+
+  test('returns array of length 2 given event_attendants have two objs with is_confirmed = true', () => {
+    expect(confirmedAttendants.length).toEqual(2);
+  });
+
+  test('returns an array with the correct attnendant obj', () => {
+    expect(confirmedAttendants).toEqual(confirmedArr);
+  });
+
+  test('does not return an array with attendants that have is_confirmed = false', () => {
+    expect(confirmedAttendants).not.toEqual(unConfirmedArr);
+  })
 });
