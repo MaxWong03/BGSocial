@@ -242,3 +242,29 @@ describe('getEventMainImage', () => {
     expect(imageURL).not.toEqual('https://cf.geekdo-images.com/original/img/iA_LlRmPfFILGon-zvbWeEzxvX8=/0x0/pic3013552.jpg');
   });
 });
+
+describe('getEventChosenEventDate', () => {
+  //event owner can only chose one date to finalize, so thats probably why the implementation of getEventChosenEventDate is using .find
+  const chosenEventDate = getEventChosenEventDate(mockEvent);
+  const isChosenTrue = {
+    "id": 1,
+    "is_chosen": true,
+    "date": "2019-12-03T13:23:44.000Z",
+    "location": "401 W Georgia St #600, Vancouver, BC V6B 5A1",
+    "event_id": 1
+  };
+  const isChosenFalse = {
+    "id": 7,
+    "is_chosen": false,
+    "date": "2019-11-28T13:00:44.000Z",
+    "location": "401 W Georgia St #600",
+    "event_id": 1
+  };
+  test('returns the 1st event_dates obj that has is_chosen = true', () => {
+    expect(chosenEventDate).toEqual(isChosenTrue);
+  });
+
+  test('does not return event_dates obj that has is_chosen = false', () => {
+    expect(chosenEventDate).not.toEqual(isChosenFalse);
+  });
+});
